@@ -1,0 +1,238 @@
+.col-9-display {
+
+    color: blue;
+	//position: relative;
+	//margin-left: auto;
+}
+
+.col-3-fade {
+	padding: 0;
+	z-index: 100;
+    position: fixed;
+	display: none;
+
+	& > .siderow {
+		padding: 0px;
+
+		width: 50%;
+		background-color: darken($color: blue, $amount: 5);
+
+		& > .close {
+			padding-top: 20px;
+			padding-right: 20px;
+			width: 100%;
+			display: flex;
+			justify-content: flex-end;
+		}
+		& > .nav-list {
+			padding-top: 0px;
+
+
+		}
+		& > .avatar-block {
+			padding: 40px 20px 0 20px;
+			margin-bottom: 50px;
+			& > div {
+				display: flex;
+				justify-content: center;
+				& > img {
+					background-color: white;
+					padding: 10px;
+					border-radius: 50%;
+					width: 120px;
+				}
+			}
+			& > h5 {
+				margin: 0;
+			}
+			& > p {
+				font-size: .7em;
+				color: #fff;
+				text-align: center;
+				width: 100%;
+				line-height: 10px;
+			}
+		}
+	}
+}
+
+.sign-out {
+	background-color: lighten($color: blue, $amount: 2);
+	margin-top: 80px;
+	padding: 8px;
+	border: 0;
+	width: 100%;
+	color: #fff;
+	font-size: 1em;
+	cursor: pointer;
+	&:focus {
+		outline: none;
+	}
+	& > P {
+		padding: 0px;
+		color: #fff;
+		font-size: .7em;
+		z-index: 100;
+	}
+}
+
+
+//.nav-item {
+//	background-color: lighten($color: blue, $amount: 2);
+//	padding: 0 1px;
+//	color:white;
+//	margin: -15px 0px;
+//}
+//.nav-text {
+//	color:white;
+//	padding: 20px 0px;
+//	font-size: 0.7em;
+//}
+//.nav-it {
+//	background-color: gold;
+//	color: green;
+//}
+.sidebar__icon {
+	padding: 0 20px;
+}
+.animenav {
+	background-color: rgba(36, 34, 34, 0.4);
+	animation: nav 0.5s forwards;
+}
+.closeanime {
+	animation: navs 0.5s forwards;
+}
+.siderownav {
+	animation: siderow 0.5s forwards;
+}
+.closesiderow {
+	animation: siderows 0.5s forwards;
+}
+@keyframes nav {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+@keyframes navs {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+@keyframes siderow {
+	from {
+		width: 0%;
+	}
+	to {
+		width: 50%;
+	}
+}
+@keyframes siderows {
+	from {
+		width: 50%;
+	}
+	to {
+		width: 0%;
+	}
+}
+//.nav {
+//	display: flex;
+//	justify-content: flex-start;
+//	height: 80px;
+//	position: sticky;
+//	padding: 0 30px;
+//	top: 0;
+//	width: 100%;
+//	align-items: center;
+//	background-color: #fff;
+//	box-shadow: 0px 0px 10px 1px rgb(177, 175, 175);
+//	z-index: 1;
+//	& > img {
+//		width: 70px;
+//		margin-right: 20px;
+//		font-weight: bold;
+//	}
+//	& > div {
+//		margin-left: auto;
+//		font-size: 30px;
+//		& > span {
+//			width: 30px;
+//			height: 50px;
+//			border: 1px solid grey;
+//			color: darken($color: grey, $amount: 10);
+//			margin-right: 15px;
+//			padding: 5px 10px;
+//			border-radius: 10px;
+//			cursor: pointer;
+//		}
+//		& > i {
+//			color: blue;
+//		}
+//	}
+//}
+//
+@media screen and (min-width: 768px) {
+	.col-3-fade {
+		& > .siderow {
+			width: 40%;
+		}
+	}
+}
+
+@media screen and (min-width: 992px) {
+	.col-9-display {
+		background-color: white;
+		//position: relative;
+		//margin-left: auto;
+	}
+
+	.col-3-fade {
+		background-color: darken($color: blue, $amount: 5);
+		padding: 0;
+		position: relative;
+		display: block;
+		opacity: 1;
+		& > .siderow {
+			width: 100%;
+			& > .close {
+				display: none;
+			}
+			& > .nav-list {
+				margin-top: 30px;
+				width: 100%;
+				padding-top: 0px;
+				display: block;
+				//& > .nav-item {
+				//	font-size: 0.7em;
+				//	padding: 5px;
+				//}
+			}
+			& > .avatar-block {
+				padding-top: 60px;
+			}
+		}
+	}
+	//.nav {
+	//	height: 70px;
+	//	padding: 0 30px;
+	//	& > div {
+	//		& > i {
+	//			display: none;
+	//		}
+	//	}
+	//}
+	//.nav-list {
+	//	padding-top: 100px;
+	//}
+	//.nav-items {
+	//	background-color: gold;
+	//	width: 100%;
+	//	list-style-type: none;
+	//	padding-left: 50px;
+	//}
+}

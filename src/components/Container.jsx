@@ -8,9 +8,9 @@ const Container = ({ children }) => {
 			<div className="row">
 				<div className="col-6 col-sm align-items-center justify-content">
 					<div>
-						<h1 className="hero">Interact</h1>
+						<h1 className="hero">Intteract</h1>
 						<p className="hero-description">
-							A social media platform
+							A social media platform <br/>
 						</p>
 					</div>
 				</div>

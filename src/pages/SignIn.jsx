@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import Container from "../components/Container";
 import { withFirebase } from "../components/Firebase/index";
 import { Link, withRouter } from "react-router-dom";
+import { withAlert } from "react-alert";
 
 const INITIAL_STATE = {
 	email: "",
@@ -32,12 +33,21 @@ class SignInForm extends Component {
 				this.setState({ ...INITIAL_STATE });
 				this.props.history.push("/dashboard");
 			})
+			.then(() => {
+				// eslint-disable-next-line no-restricted-globals
+				location.reload();
+			})
+			.then(() => {
+				this.setState({ ...INITIAL_STATE });
+				this.props.alert.show("Successfully Signed In!");
+			})
 			.catch((error) => this.setState({ error }));
 		e.preventDefault();
 	}
 
 	render() {
 		const { email, password, error } = this.state;
+		const isInvalid = email === "" || password === "";
 		return (
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
@@ -66,16 +76,20 @@ class SignInForm extends Component {
 						{error && <p>{error.message}</p>}
 					</div>
 					<div className="form-group">
-						<button className="btn btn-primary" type="submit">
+						<button
+							className="btn btn-primary"
+							type="submit"
+							disabled={isInvalid}
+						>
 							SIGN IN
 						</button>
 					</div>
 					<div className="form-group dflex">
 						<Link to="/register">
-							<a>Register</a>
+							<span>Register</span>
 						</Link>
 						<Link to="/forget-pw">
-							<a>Forget Password?</a>
+							<span>Forget Password?</span>
 						</Link>
 					</div>
 				</form>
@@ -84,6 +98,6 @@ class SignInForm extends Component {
 	}
 }
 
-const SignIn = withRouter(withFirebase(SignInForm));
+const SignIn = withRouter(withFirebase(withAlert()(SignInForm)));
 
 export default SignIn;

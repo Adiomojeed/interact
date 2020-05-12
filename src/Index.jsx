@@ -11,12 +11,36 @@ import {
 	auth,
 	db,
 } from "./components/Firebase/index";
+import {
+	transitions,
+	positions,
+	Provider as AlertProvider,
+	types,
+} from "react-alert";
+
+const AlertTemplate = ({ message }) => {
+	return (
+		<div className="alert">
+			<p><i className="fas fa-check-circle"></i>{message}</p>
+		</div>
+	);
+};
+
+const options = {
+	position: positions.TOP_RIGHT,
+	type: types.SUCCESS,
+	transition: transitions.FADE,
+	timeout: 3000,
+	offset: "30px",
+};
 
 const GlobalApp = () => {
 	return (
 		<>
-			<Theme />
-			<App />
+			<AlertProvider template={AlertTemplate} {...options}>
+				<Theme />
+				<App />
+			</AlertProvider>
 		</>
 	);
 };

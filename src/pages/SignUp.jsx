@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import Container from "../components/Container";
 import { withFirebase } from "../components/Firebase/index";
 import { Link, withRouter } from "react-router-dom";
+import { withAlert } from "react-alert";
 
 const INITIAL_STATE = {
 	FullName: "",
@@ -34,12 +35,25 @@ class SignUpForm extends Component {
 				this.setState({ ...INITIAL_STATE });
 				this.props.history.push("/dashboard");
 			})
+			.then(() => {
+				// eslint-disable-next-line no-restricted-globals
+				location.reload();
+			})
+			.then(() => {
+				this.setState({ ...INITIAL_STATE });
+				this.props.alert.show("Successfully Signed Up!");
+			})
 			.catch((error) => this.setState({ error }));
 		e.preventDefault();
 	}
 
 	render() {
 		const { FullName, email, passwordOne, passwordTwo, error } = this.state;
+		const isInvalid =
+			FullName === "" ||
+			email === "" ||
+			passwordOne === "" ||
+			passwordOne !== passwordTwo;
 		return (
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
@@ -86,7 +100,11 @@ class SignUpForm extends Component {
 						{error && <p>{error.message}</p>}
 					</div>
 					<div className="form-group">
-						<button className="btn btn-primary" type="submit">
+						<button
+							className="btn btn-primary"
+							type="submit"
+							disabled={isInvalid}
+						>
 							REGISTER
 						</button>
 					</div>
@@ -101,6 +119,6 @@ class SignUpForm extends Component {
 	}
 }
 
-const SignUp = withRouter(withFirebase(SignUpForm));
+const SignUp = withRouter(withFirebase(withAlert()(SignUpForm)));
 
 export default SignUp;
