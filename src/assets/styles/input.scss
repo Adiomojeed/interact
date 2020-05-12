@@ -1,0 +1,46 @@
+/** @format */
+
+.form-group {
+    margin: 30px 0;
+    & > h3 {
+        text-align: center;
+        font-family: 'Lobster Two', cursive;
+        text-transform: uppercase;
+    }
+}
+
+@keyframes show {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+input {
+	display: block;
+	width: 450px;
+	height: 70px;
+	//color: rgb(54, 10, 83);
+	border: 0;
+	outline: none;
+	font-size: 0.7em;
+	padding-left: 50px;
+    border-radius: 10px;
+    font-style: italic;
+    font-weight: 400;
+}
+
+a {
+	text-decoration: none;
+}
+
+@media screen and (min-width: 992px) {
+	input {
+		width: 550px;
+		height: 70px;
+		font-size: 0.7em;
+		padding-left: 50px;
+		border-radius: 10px;
+	}
+}

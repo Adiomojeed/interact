@@ -1,0 +1,80 @@
+/** @format */
+
+html,
+body {
+	height: 100vh;
+	margin: 0;
+	padding: 0;
+	font-size: 24px;
+	font-family: "Lato", sans-serif;
+	//font-family: 'Lobster', cursive;
+	//font-family: 'Lobster Two', cursive;
+}
+
+.theme--toggler {
+	position: absolute;
+	right: 0;
+
+	padding: 10px 20px;
+	& > span {
+		cursor: pointer;
+		& > .fa-lightbulb {
+			color: gold;
+		}
+		& > .fa-moon {
+			color: #2c2c54;
+		}
+	}
+}
+
+.vh-sm-100 {
+	height: 100vh;
+	max-height: 100%;
+}
+.justify-content {
+	justify-content: center;
+}
+
+.justify-content-end {
+	justify-content: flex-end;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.text-center {
+	text-align: center;
+}
+
+
+.hero {
+    font-family: 'Lobster Two', cursive;
+    font-size: 3.5em;
+    margin-bottom: 0;
+}
+
+.hero-description {
+    font-style: italic;
+    margin-top: 0;
+    text-align: right;
+    font-size: .8em;
+}
+
+
+@media screen and (min-width: 992px) {
+    .hero {
+        font-size: 4em;
+    }
+    .hero-description {
+        font-size: 1em;
+    }
+    
+	.justify-content--lg__none {
+		justify-content: flex-start;
+    }
+    .vh-100 {
+        height: 100vh;
+        max-height: 100%;
+    }
+}

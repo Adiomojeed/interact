@@ -1,0 +1,66 @@
+/** @format */
+
+import React, { Component } from "react";
+import Container from "../components/Container";
+import { withFirebase } from "../components/Firebase/index";
+import { Link } from 'react-router-dom'
+
+const INITIAL_STATE = {
+	email: '',
+	error: null
+}
+
+class ForgetPassword extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {...INITIAL_STATE};
+		this.onHandleChange = this.onHandleChange.bind(this)
+		this.onHandleSubmit = this.onHandleSubmit.bind(this)
+	}
+
+	onHandleChange(e){
+		this.setState({[e.target.name]: e.target.value})
+	}
+
+	onHandleSubmit(e) {
+		const { email } = this.state;
+		this.props.firebase.auth
+			.sendPasswordResetEmail(email)
+			.catch((error) => this.setState({ error }));
+		e.preventDefault();
+	}
+
+	render() {
+		const { email, error } = this.state
+		return (
+			<Container>
+				<form onSubmit={this.onHandleSubmit}>
+					<div className="form-group">
+						<h3>Forgot Password</h3>
+					</div>
+					<div className="form-group">
+						<input
+							type="email"
+							name='email'
+							value={email}
+							onChange={this.onHandleChange}
+							placeholder="Email Address"
+						/>
+					</div>
+					<div className="form-group">
+						{error && <p>{error.message}</p>}
+					</div>
+					<div className="form-group">
+						<button className="btn btn-primary" type='submit'>SEND ME A RESET LINK</button>
+					</div>
+                    <div className="form-group dflex">
+						<Link to='/'><a>Sign In</a></Link>
+					</div>
+				</form>
+			</Container>
+		);
+	}
+}
+
+export default withFirebase(ForgetPassword);

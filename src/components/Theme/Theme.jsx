@@ -13,13 +13,25 @@ const Theme = () => {
 		<ThemeProvider theme={theme === "light" ? LightTheme : DarkTheme}>
 			<>
 				<GlobalStyles />
-				<span onClick={toggleTheme}>
-					{theme === "light" ? (
-						<i className="fas fa-3x fa-moon"></i>
-					) : (
-						<i className="fas fa-3x fa-lightbulb"></i>
-					)}
-				</span>
+				<div className="theme--toggler">
+					<span onClick={toggleTheme}>
+						{theme === "light" ? (
+							<i className="fas fa-moon"></i>
+						) : (
+							<i className="fas fa-lightbulb"></i>
+						)}
+					</span>
+				</div>
+
+				{/**<div className="theme--toggler">
+					<button onClick={toggleTheme}>
+						{theme === "light" ? (
+							"Dark"
+						) : (
+							"Light"
+						)}
+					</button>
+				</div> */}
 			</>
 		</ThemeProvider>
 	);
