@@ -22,7 +22,7 @@ body {
 			color: gold;
 		}
 		& > .fa-moon {
-			color: #2c2c54;
+			color: #000000;
 		}
 	}
 }
@@ -61,7 +61,8 @@ body {
     font-size: .8em;
 }
 .alert {
-    background-color: rgba(22, 22, 22, .9);
+    background-color: gold;
+    z-index: 100;
     width: 100%;
     color: white;
     margin-right: 20px;

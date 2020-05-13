@@ -1,0 +1,33 @@
+/** @format */
+
+.nav {
+	display: flex;
+	padding: 0 70px;
+	justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+    border-bottom: 1px solid ;
+    width: 100%;
+}
+.as {
+    width: inherit;
+}
+.fa-stream {
+	margin-bottom: 0;
+}
+
+.logo {
+	font-family: "Lobster", cursive;
+    font-size: 1.2em;
+    line-height: 0;
+    //margin-bottom: 0;
+}
+
+@media screen and (min-width: 992px) {
+	.fa-stream {
+		display: none;
+    }
+    .logo {
+        font-size: 1.5em;
+    }
+}

@@ -5,9 +5,8 @@ import React from "react";
 const TopNav = () => {
 	return (
 		<nav className="nav">
-			<p className="text-primary">Club Manager</p>
-
-			<span id="open">open</span>
+			<h3 className="logo">Intteract</h3>
+			<i className="fas fa-stream" id="open"></i>
 		</nav>
 	);
 };

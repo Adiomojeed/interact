@@ -1,22 +1,17 @@
-.col-9-display {
+/** @format */
 
-    color: blue;
-	//position: relative;
-	//margin-left: auto;
+.col-9-display {
 }
 
 .col-3-fade {
+	//background-color: #fff;
 	padding: 0;
 	z-index: 100;
-    position: fixed;
+	position: fixed;
 	display: none;
-
 	& > .siderow {
 		padding: 0px;
-
-		width: 50%;
-		background-color: darken($color: blue, $amount: 5);
-
+		width: 60%;
 		& > .close {
 			padding-top: 20px;
 			padding-right: 20px;
@@ -24,74 +19,68 @@
 			display: flex;
 			justify-content: flex-end;
 		}
-		& > .nav-list {
-			padding-top: 0px;
-
-
-		}
 		& > .avatar-block {
-			padding: 40px 20px 0 20px;
+			padding: 00px 20px 0 30px;
 			margin-bottom: 50px;
 			& > div {
 				display: flex;
 				justify-content: center;
-				& > img {
-					background-color: white;
-					padding: 10px;
+				& > .avatar {
+					padding: 2px;
 					border-radius: 50%;
-					width: 120px;
+					width: 80px;
+					height: 80px;
 				}
 			}
 			& > h5 {
-				margin: 0;
+				margin: 10px 0 0 0;
+				font-size: 0.7em;
+				text-align: center;
 			}
 			& > p {
-				font-size: .7em;
-				color: #fff;
-				text-align: center;
+				font-size: 0.6em;
 				width: 100%;
-				line-height: 10px;
+				margin-top: 10px;
+				line-height: 0px;
+				text-align: center;
+			}
+		}
+		& > .nav-list {
+			//padding: 0px 20px;
+			font-size: 0.7em;
+			width: 100%;
+			& > .nav-item {
+				margin: 50px 0;
+				text-align: center;
 			}
 		}
 	}
 }
 
+.nav-text {
+	padding: 15px 70px;
+	border-radius: 10px;
+	transition: 0.3s;
+}
+
+.signout-block {
+	padding: 0px 50px;
+}
+
 .sign-out {
-	background-color: lighten($color: blue, $amount: 2);
 	margin-top: 80px;
-	padding: 8px;
-	border: 0;
 	width: 100%;
-	color: #fff;
+	border-radius: 10px;
+	transition: 0.3s;
 	font-size: 1em;
 	cursor: pointer;
-	&:focus {
-		outline: none;
-	}
+	outline: 0;
 	& > P {
 		padding: 0px;
-		color: #fff;
-		font-size: .7em;
-		z-index: 100;
+		font-size: 0.7em;
 	}
 }
 
-
-//.nav-item {
-//	background-color: lighten($color: blue, $amount: 2);
-//	padding: 0 1px;
-//	color:white;
-//	margin: -15px 0px;
-//}
-//.nav-text {
-//	color:white;
-//	padding: 20px 0px;
-//	font-size: 0.7em;
-//}
-//.nav-it {
-//	background-color: gold;
-//	color: green;
-//}
 .sidebar__icon {
 	padding: 0 20px;
 }
@@ -129,53 +118,18 @@
 		width: 0%;
 	}
 	to {
-		width: 50%;
+		width: 60%;
 	}
 }
 @keyframes siderows {
 	from {
-		width: 50%;
+		width: 60%;
 	}
 	to {
 		width: 0%;
 	}
 }
-//.nav {
-//	display: flex;
-//	justify-content: flex-start;
-//	height: 80px;
-//	position: sticky;
-//	padding: 0 30px;
-//	top: 0;
-//	width: 100%;
-//	align-items: center;
-//	background-color: #fff;
-//	box-shadow: 0px 0px 10px 1px rgb(177, 175, 175);
-//	z-index: 1;
-//	& > img {
-//		width: 70px;
-//		margin-right: 20px;
-//		font-weight: bold;
-//	}
-//	& > div {
-//		margin-left: auto;
-//		font-size: 30px;
-//		& > span {
-//			width: 30px;
-//			height: 50px;
-//			border: 1px solid grey;
-//			color: darken($color: grey, $amount: 10);
-//			margin-right: 15px;
-//			padding: 5px 10px;
-//			border-radius: 10px;
-//			cursor: pointer;
-//		}
-//		& > i {
-//			color: blue;
-//		}
-//	}
-//}
-//
+
 @media screen and (min-width: 768px) {
 	.col-3-fade {
 		& > .siderow {
@@ -186,13 +140,9 @@
 
 @media screen and (min-width: 992px) {
 	.col-9-display {
-		background-color: white;
-		//position: relative;
-		//margin-left: auto;
 	}
 
 	.col-3-fade {
-		background-color: darken($color: blue, $amount: 5);
 		padding: 0;
 		position: relative;
 		display: block;
@@ -203,36 +153,11 @@
 				display: none;
 			}
 			& > .nav-list {
-				margin-top: 30px;
-				width: 100%;
-				padding-top: 0px;
-				display: block;
-				//& > .nav-item {
-				//	font-size: 0.7em;
-				//	padding: 5px;
-				//}
+				font-size: 0.6em;
 			}
 			& > .avatar-block {
 				padding-top: 60px;
 			}
 		}
 	}
-	//.nav {
-	//	height: 70px;
-	//	padding: 0 30px;
-	//	& > div {
-	//		& > i {
-	//			display: none;
-	//		}
-	//	}
-	//}
-	//.nav-list {
-	//	padding-top: 100px;
-	//}
-	//.nav-items {
-	//	background-color: gold;
-	//	width: 100%;
-	//	list-style-type: none;
-	//	padding-left: 50px;
-	//}
 }

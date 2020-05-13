@@ -96,7 +96,7 @@
     .col-9 {
         max-width: 100%;
         flex: 0 0 75%;
-        width: 75%;
+        width: 100%;
         display: flex;
         flex-wrap: wrap;
     }
@@ -104,3 +104,6 @@
         margin-left: 16.667%;
     }
 }
+.test {
+    color: #e4f9fa
+ }
