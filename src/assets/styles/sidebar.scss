@@ -9,62 +9,78 @@
 	z-index: 100;
 	position: fixed;
 	display: none;
-	& > .siderow {
+	.siderow {
 		padding: 0px;
-		width: 60%;
-		& > .close {
+		width: 60%;		
+		.close {
 			padding-top: 20px;
 			padding-right: 20px;
 			width: 100%;
 			display: flex;
 			justify-content: flex-end;
 		}
-		& > .avatar-block {
+		.avatar-block {
 			padding: 00px 20px 0 30px;
 			margin-bottom: 50px;
-			& > div {
+			div {
 				display: flex;
 				justify-content: center;
-				& > .avatar {
+				.avatar {
 					padding: 2px;
 					border-radius: 50%;
 					width: 80px;
 					height: 80px;
 				}
 			}
-			& > h5 {
+			h5 {
 				margin: 10px 0 0 0;
 				font-size: 0.7em;
 				text-align: center;
 			}
-			& > p {
-				font-size: 0.6em;
+			p {
+				font-size: 0.7em;
 				width: 100%;
 				margin-top: 10px;
+				margin-bottom: 25px;
 				line-height: 0px;
 				text-align: center;
+				font-family: "Lobster Two", cursive;
+				font-style: italic;
+				span {
+					margin: 10px;
+					line-height: 0px;
+				}
 			}
 		}
-		& > .nav-list {
-			//padding: 0px 20px;
+		.nav-list {
+			padding: 0px 50px;
 			font-size: 0.7em;
 			width: 100%;
-			& > .nav-item {
-				margin: 50px 0;
+			.nav-item {
+				//padding: 15px 0px;
+				border-width: 1px;
+				margin: 5px 0px;
 				text-align: center;
+				border-radius: 10px;
 			}
 		}
 	}
 }
 
-.nav-text {
-	padding: 15px 70px;
+.nav-text,
+.test {
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding: 15px 60px;
 	border-radius: 10px;
-	transition: 0.3s;
+	border-width: 1px;
+	font-weight: bold;
+	//transition: 0.3s;
 }
 
 .signout-block {
-	padding: 0px 50px;
+	padding: 10px 50px;
 }
 
 .sign-out {
@@ -73,11 +89,13 @@
 	border-radius: 10px;
 	transition: 0.3s;
 	font-size: 1em;
+	font-weight: bold;
 	cursor: pointer;
 	outline: 0;
-	& > P {
-		padding: 0px;
-		font-size: 0.7em;
+	padding: 0;
+	P {
+		padding: 3px;
+		font-size: 0.6em;
 	}
 }
 
@@ -86,16 +104,16 @@
 }
 .animenav {
 	background-color: rgba(36, 34, 34, 0.4);
-	animation: nav 0.5s forwards;
+	animation: nav 0.3s forwards;
 }
 .closeanime {
-	animation: navs 0.5s forwards;
+	animation: navs 0.3s forwards;
 }
 .siderownav {
-	animation: siderow 0.5s forwards;
+	animation: siderow 0.3s forwards;
 }
 .closesiderow {
-	animation: siderows 0.5s forwards;
+	animation: siderows 0.3s forwards;
 }
 @keyframes nav {
 	from {
@@ -132,7 +150,7 @@
 
 @media screen and (min-width: 768px) {
 	.col-3-fade {
-		& > .siderow {
+		.siderow {
 			width: 40%;
 		}
 	}
@@ -140,24 +158,37 @@
 
 @media screen and (min-width: 992px) {
 	.col-9-display {
+		position: relative;
+		left: 30%;
 	}
 
 	.col-3-fade {
 		padding: 0;
-		position: relative;
+		position: fixed;
 		display: block;
 		opacity: 1;
-		& > .siderow {
-			width: 100%;
-			& > .close {
+		.siderow {
+			width: 75%;
+			.close {
 				display: none;
 			}
-			& > .nav-list {
+			.nav-list {
+				padding: 0px 35px;
 				font-size: 0.6em;
 			}
-			& > .avatar-block {
+			.avatar-block {
 				padding-top: 60px;
+				p {
+					font-size: 0.7em;
+					span {
+						margin: 6px;
+						line-height: 0px;
+					}
+				}
 			}
 		}
+	}
+	.signout-block {
+		padding: 10px 30px;
 	}
 }

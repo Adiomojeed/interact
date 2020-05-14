@@ -11,6 +11,9 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({ theme }) => theme.textPrimary};
         transition: all 0.25s linear;
     }
+    .nav {
+        background: ${({ theme }) => theme.body};
+    }
     input {
         background: ${({ theme }) => theme.bodyLight};
         color: ${({ theme }) => theme.textPrimary};
@@ -36,17 +39,11 @@ export const GlobalStyles = createGlobalStyle`
     a {
         color: ${({ theme }) => theme.textPrimary};
     }
-    .avatar {
+    .avatar, .profile--avatar, .post--avatar {
         background: ${({ theme }) => theme.textLight};
-        border: 1px solid ${({ theme }) => theme.textPrimary};
+        border: 1px solid ${({ theme }) => theme.bodySecondary};
     }
-    .nav-text, .sign-out {
-        background: ${({ theme }) => theme.textSecondary};
-        color: ${({ theme }) => theme.textLight};
-        border: 1px solid ${({ theme }) => theme.textLight};
-    }
-    .nav-text:hover, .sign-out:hover {
-        background: ${({ theme }) => theme.light};
+    .nav-text, .sign-out { 
         color: ${({ theme }) => theme.textSecondary};
         border: 1px solid ${({ theme }) => theme.textSecondary};
     }
@@ -56,8 +53,33 @@ export const GlobalStyles = createGlobalStyle`
     .headers {
         color: ${({ theme }) => theme.dark};
     }
-    .nav {
+    .nav, .profile--hero {
         color: ${({ theme }) => theme.textSecondary};
+    }
+    .test, .sign-out, .btn-edit {
+        background: ${({ theme }) => theme.bodyLight};
+        color: ${({ theme }) => theme.textPrimary};
+        transition: .3s;
+        cursor: pointer;
+    }
+    .btn-edit, .profile--card {
+        border-color: ${({ theme }) => theme.textSecondary};
+    }
+    .details {
+        border-bottom: 1px solid ${({ theme }) => theme.textSecondary};
+    }
+    .sign-out:hover, .test:hover, .btn-edit:hover {
+        background: ${({ theme }) => theme.textSecondary};
+        color: ${({ theme }) => theme.textLight};
+        cursor: pointer;
+        transition: .3s;
+    }
+    .card {
+        background: ${({ theme }) => theme.bodySecondary};
+    }
+    .post--card {
+        background: ${({ theme }) => theme.card};
+        border: 1px solid ${({ theme }) => theme.bodySecondary};
     }
     @media screen and (min-width: 992px) {
         .siderow {

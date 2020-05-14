@@ -38,30 +38,31 @@ class SideBar extends React.Component {
 					</div>
 					<h5 className="text-light">Adio Mojeed</h5>
 					<p>@codeLeaf</p>
+					<p><span>100 Followers</span><span>100 Following</span></p>
 				</div>
 				<div className="nav-list">
 					<div className="nav-item">
-						<NavLink to="/dashboard" activeClassName="nav-text">
+						<NavLink to="/dashboard" activeClassName="nav-text" className='test'>
 							<span>HOME</span>
 						</NavLink>
 					</div>
 					<div className="nav-item">
-						<NavLink to="/dashboard/profile" activeClassName="nav-text">
+						<NavLink to="/dashboard/profile" activeClassName="nav-text" className='test'>
 							<span>PROFILE</span>
 						</NavLink>
 					</div>
 					<div className="nav-item">
-						<NavLink to="/dashboard/search" activeClassName="nav-text">
+						<NavLink to="/dashboard/search" activeClassName="nav-text" className='test'>
 							<span>SEARCH</span>
 						</NavLink>
 					</div>
 					<div className="nav-item">
-						<NavLink to="/dashboard/followers" activeClassName="nav-text">
+						<NavLink to="/dashboard/followers" activeClassName="nav-text" className='test'>
 							<span>FOLLOWERS</span>
 						</NavLink>
 					</div>
 					<div className="nav-item">
-						<NavLink to="/dashboard/settings" activeClassName="nav-text">
+						<NavLink to="/dashboard/settings" activeClassName="nav-text" className='test'>
 							<span>SETTINGS</span>
 						</NavLink>
 					</div>
