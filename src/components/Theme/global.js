@@ -14,12 +14,12 @@ export const GlobalStyles = createGlobalStyle`
     .nav {
         background: ${({ theme }) => theme.body};
     }
-    input {
+    input, textarea {
         background: ${({ theme }) => theme.bodyLight};
         color: ${({ theme }) => theme.textPrimary};
         border: 1px solid ${({ theme }) => theme.blank};
     }
-    input:focus {
+    input:focus, textarea:focus {
         border: 1px solid ${({ theme }) => theme.textSecondary};
     }
     .btn-primary, .bodys button {

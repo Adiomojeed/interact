@@ -10,6 +10,7 @@ import { Route } from "react-router-dom";
 import { withAuthorization } from "../components/Session/index";
 import TopNav from "../components/Dashboard/TopNav";
 import SideBar from "../components/Dashboard/SideBar";
+import EditProfile from '../components/Dashboard/EditProfile'
 
 const Dashboard = () => {
 	return (
@@ -34,6 +35,10 @@ const Dashboard = () => {
 								<Route
 									path="/dashboard/profile"
 									component={Profile}
+								/>
+								<Route
+									path="/dashboard/edit"
+									component={EditProfile}
 								/>
 								<Route
 									path="/dashboard/search"
