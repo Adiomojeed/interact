@@ -7,10 +7,10 @@
 	align-items: center;
 	padding-bottom: 0;
 	border-bottom: 1px solid;
-    width: 100%;
-    position: sticky;
-    top: 0px;
-    z-index: 1;
+	width: 100%;
+	position: sticky;
+	top: 0px;
+	z-index: 1;
 }
 .as {
 	width: inherit;
@@ -37,10 +37,10 @@
 	position: relative;
 	top: -50px;
 	//padding-right: 50px;
-	padding: 0 5px 5px 5px;
+	padding: 0 5px 10px 5px;
 	border-bottom: 1px solid;
 	img {
-		padding: 5px;
+		padding: 2px;
 		border-radius: 50%;
 		width: 120px;
 		height: 120px;
@@ -97,17 +97,16 @@
 }
 
 .card-block {
-	padding: 0 20px;
 	width: inherit;
-	margin-top: 0;
+	margin-top: -30px;
 }
 
 .post--card {
 	width: inherit;
 	border: 1px solid;
 	border-radius: 10px;
-    margin-top: 0;
-    margin-bottom: 10px;
+	margin-top: 0;
+	margin-bottom: 20px;
 	padding: 10px;
 	.post--card__header {
 		display: flex;
@@ -115,7 +114,7 @@
 		.post--avatar {
 			width: 60px;
 			height: 60px;
-			padding: 5px;
+			padding: 2px;
 			border-radius: 50%;
 		}
 		div {
@@ -141,15 +140,28 @@
 			font-size: 1.2em;
 			span {
 				margin: 0 10px;
+				font-size: 1.2em;
 			}
 		}
 	}
 }
 
+.successful {
+	color: black;
+	cursor: pointer;
+	transition: 0.5s;
+}
+
+.error {
+	color: red;
+	cursor: pointer;
+	transition: 0.5s;
+}
+
 @media screen and (min-width: 992px) {
-    .nav {
-        position: relative;
-    }
+	.nav {
+		position: relative;
+	}
 	.fa-stream {
 		display: none;
 	}

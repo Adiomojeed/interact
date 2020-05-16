@@ -41,7 +41,6 @@ class SignUpForm extends Component {
 			passwordOne,
 			followers,
 			following,
-			post,
 		} = this.state;
 		this.props.firebase.auth
 			.createUserWithEmailAndPassword(email, passwordOne)
@@ -55,9 +54,9 @@ class SignUpForm extends Component {
 				this.props.firebase.db
 					.ref(`following/${authUser.user.uid}`)
 					.set({ following });
-				this.props.firebase.db
-					.ref(`posts/${authUser.user.uid}`)
-					.set({ post });
+				//this.props.firebase.db
+				//	.ref(`posts/${authUser.user.uid}`)
+				//	.set({ post });
 			})
 			.then(() => {
 				this.setState({ ...INITIAL_STATE });

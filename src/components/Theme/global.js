@@ -19,7 +19,7 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({ theme }) => theme.textPrimary};
         border: 1px solid ${({ theme }) => theme.blank};
     }
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, .upload--avatar {
         border: 1px solid ${({ theme }) => theme.textSecondary};
     }
     .btn-primary, .bodys button {

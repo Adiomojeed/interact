@@ -30,6 +30,31 @@ input {
 	font-weight: 400;
 }
 
+.file {
+	display: none;
+}
+
+.upload--block {
+	margin-top: 0px;
+	margin-bottom: -50px;
+	display: flex;
+	align-items: center;
+	.upload {
+		width: 150px;
+		min-height: 150px;
+		margin-bottom: 0;
+		label {
+			cursor: pointer;
+			.upload--avatar {
+				border-radius: 50%;
+				width: 120px;
+				height: 120px;
+				padding: 2px;
+			}
+		}
+	}
+}
+
 textarea {
 	display: block;
 	width: 450px;
@@ -54,6 +79,10 @@ a {
 		font-size: 0.7em;
 		padding-left: 50px;
 		border-radius: 10px;
+	}
+	.edit {
+		width: 550px;
+		height: 60px;
 	}
 	textarea {
 		width: 550px;

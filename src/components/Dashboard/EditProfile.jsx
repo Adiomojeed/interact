@@ -2,6 +2,8 @@
 
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
+import { withRouter } from "react-router-dom";
+import Avatar from '../../assets/images/male.png'
 
 class EditProfile extends Component {
 	constructor(props) {
@@ -11,10 +13,13 @@ class EditProfile extends Component {
 			FullName: "",
 			UserName: "",
 			status: "",
+			image: ''
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
+		this.onHandleUpload = this.onHandleUpload.bind(this);
+		this.onHandleImageSelect = this.onHandleImageSelect.bind(this);
 	}
 
 	componentDidMount() {
@@ -43,7 +48,29 @@ class EditProfile extends Component {
 				.ref(`users/${authUser.uid}`)
 				.update({ FullName, UserName, status });
 		});
+		this.props.history.push("/dashboard/profile");
+		//setTimeout(() => {
+		//	location.reload();
+		//}, 2000);
 		e.preventDefault;
+	}
+
+	onHandleImageSelect(e) {
+		this.setState({ image: e.target.files[0] });
+	}
+
+	onHandleUpload() {
+		const { image } = this.state;
+		this.props.firebase.auth.onAuthStateChanged((authUser) => {
+			this.props.firebase.storage
+				.ref(`images/${authUser.uid}`)
+				.put(image, {
+					contentType: "image/jpg",
+				});
+		});
+		setTimeout(() => {
+			location.reload();
+		}, 2000);
 	}
 
 	render() {
@@ -57,11 +84,38 @@ class EditProfile extends Component {
 						</div>
 						<div className="form-group">
 							<input
+								type="file"
+								name="avatar"
+								id="avatar"
+								className="file"
+								//value={image}
+								onChange={this.onHandleImageSelect}
+							/>
+							<div className="upload--block">
+								<div className="upload">
+									<label
+										htmlFor="avatar"
+									>
+										<img src={Avatar} className="upload--avatar" />
+									</label>
+								</div>
+								<button
+									className="btn btn-primary btn-upload"
+									onClick={this.onHandleUpload}
+								>
+									Upload Profile Picture
+								</button>{" "}
+								<br />
+							</div>
+						</div>
+						<div className="form-group">
+							<input
 								type="text"
 								name="FullName"
 								value={FullName}
 								onChange={this.onHandleChange}
 								placeholder="Full Name"
+								className="edit"
 							/>
 						</div>
 						<div className="form-group">
@@ -71,6 +125,7 @@ class EditProfile extends Component {
 								value={UserName}
 								onChange={this.onHandleChange}
 								placeholder="User Name"
+								className="edit"
 							/>
 						</div>
 						<div className="form-group">
@@ -83,9 +138,8 @@ class EditProfile extends Component {
 						</div>
 						<div className="form-group">
 							<button
-								className="btn btn-primary"
+								className="btn btn-primary btn-update"
 								type="submit"
-								//disabled={isInvalid}
 							>
 								UPDATE PROFILE
 							</button>
@@ -97,4 +151,4 @@ class EditProfile extends Component {
 	}
 }
 
-export default withFirebase(EditProfile);
+export default withRouter(withFirebase(EditProfile));

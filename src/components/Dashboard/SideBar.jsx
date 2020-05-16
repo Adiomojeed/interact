@@ -11,20 +11,21 @@ class SideBar extends React.Component {
 		super(props);
 		this.state = {
 			user: [],
-			followers: '',
-			following: ''
+			followers: "",
+			following: "",
+			avatar: Avatar,
 		};
 	}
 
 	componentDidMount() {
-		this.props.firebase.auth.onAuthStateChanged((authUser) =>
-			{this.props.firebase.db
+		this.props.firebase.auth.onAuthStateChanged((authUser) => {
+			this.props.firebase.db
 				.ref(`users/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					this.setState({ user: userObject });
-				})
-				this.props.firebase.db
+				});
+			this.props.firebase.db
 				.ref(`followers/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
@@ -35,12 +36,19 @@ class SideBar extends React.Component {
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					this.setState({ following: userObject });
-				});}
-		);
+				});
+			this.props.firebase.storage
+				.ref()
+				.child(`images/${authUser.uid}`)
+				.getDownloadURL()
+				.then((url) => {
+					this.setState({ avatar: url });
+				});
+		});
 	}
 
 	render() {
-		const { user, followers, following } = this.state;
+		const { user, followers, following, avatar } = this.state;
 		return (
 			<div className="siderow vh-sm-100">
 				<div className="close">
@@ -48,7 +56,7 @@ class SideBar extends React.Component {
 				</div>
 				<div className="avatar-block">
 					<div>
-						<img src={Avatar} className="avatar" alt="" />
+						<img src={avatar} className="avatar" alt="" />
 					</div>
 					<h5 className="text-light">{user.FullName}</h5>
 					<p>@{user.UserName}</p>

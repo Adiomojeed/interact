@@ -13,10 +13,18 @@ class Profile extends Component {
 			user: [],
 			followers: "",
 			following: "",
+			posts: null,
+			liked: false,
+			presentPost: null,
+			avatar: Avatar,
+			a: "",
 		};
+
+		this.onHandleClick = this.onHandleClick.bind(this);
 	}
 
 	componentDidMount() {
+		const { avatar } = this.state;
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
 			this.props.firebase.db
 				.ref(`users/${authUser.uid}`)
@@ -36,17 +44,54 @@ class Profile extends Component {
 					const userObject = snapshot.val();
 					this.setState({ following: userObject });
 				});
+			this.props.firebase.db
+				.ref(`posts/${authUser.uid}`)
+				.on("value", (snapshot) => {
+					const postObject = snapshot.val();
+					const test = Object.keys(postObject).map((a) => ({
+						...postObject[a],
+						postID: a,
+					}));
+					this.setState({ posts: test });
+				});
+			this.props.firebase.storage
+				.ref()
+				.child(`images/${authUser.uid}`)
+				.getDownloadURL()
+				.then((url) => {
+					window.localStorage.setItem("image", url);
+					let a = window.localStorage.getItem("image");
+					this.setState({ avatar: a });
+				});
+		});
+	}
+
+	onHandleClick(e) {
+		if (this.state.liked === false) {
+			e.likes = e.likes + 1;
+			this.setState({ liked: true });
+		} else {
+			e.likes = e.likes - 1;
+			this.setState({ liked: false });
+		}
+		this.setState({ presentPost: { ...e, likes: e.likes } });
+		this.setState({ posts: this.state.posts });
+		let a = e.likes;
+		this.props.firebase.auth.onAuthStateChanged((authUser) => {
+			this.props.firebase.db
+				.ref(`posts/${authUser.uid}/${e.postID}`)
+				.update({ likes: a });
 		});
 	}
 
 	render() {
-		const { user, followers, following } = this.state;
+		const { user, followers, following, posts, avatar } = this.state;
 		return (
 			<div className="row">
 				<div className="col-sm px-2 py-3">
 					<div className="card"></div>
 					<div className="profile--card">
-						<img src={Avatar} className="profile--avatar" alt="" />
+						<img src={avatar} className="profile--avatar" alt="" />
 						<div className="profile--header">
 							<div>
 								<h5 className="profile--hero">
@@ -71,118 +116,64 @@ class Profile extends Component {
 							<div>
 								<h5 className="profile--hero">POSTS</h5>
 							</div>
-							<button className="btn-edit">CREATE A POST</button>
+							<NavLink to="/dashboard/create">
+								<button className="btn-edit">
+									CREATE A POST
+								</button>
+							</NavLink>
 						</div>
 					</div>
 					<div className="card-block">
-						<div className="post--card">
-							<div className="post--card__header">
-								<img
-									src={Avatar}
-									className="post--avatar"
-									alt=""
-								/>
-								<div>
-									<h6 className="profile--hero">
-										Adio Mojeed
-									</h6>
-									<p className="profile--hero__desc">
-										@codeLeaf
-									</p>
+						{!posts ? (
+							<h1>No Post Found</h1>
+						) : (
+							posts.map((post) => (
+								<div className="post--card" key={post.postID}>
+									<div className="post--card__header">
+										<img
+											src={avatar}
+											className="post--avatar"
+											alt=""
+										/>
+										<div>
+											<h6 className="profile--hero">
+												Adio Mojeed
+											</h6>
+											<p className="profile--hero__desc">
+												@codeLeaf
+											</p>
+										</div>
+									</div>
+									<div className="post--card__body">
+										<p>{post.post}</p>
+										<p className="details">
+											<span>{post.time}</span>
+											<span>{post.date}</span>
+										</p>
+										<p className="requests">
+											<span>
+												<i className="fas fa-comments"></i>
+											</span>
+											<span
+												onClick={() => {
+													this.onHandleClick(post);
+												}}
+											>
+												{post.likes ? (
+													<i className="fas fa-heart error">
+														{post.likes}
+													</i>
+												) : (
+													<i className="fas fa-heart successful">
+														{post.likes}
+													</i>
+												)}
+											</span>
+										</p>
+									</div>
 								</div>
-							</div>
-							<div className="post--card__body">
-								<p>
-									I am the Lion himself, I am the war, I am
-									the liquid metal, I am the fight, I am the
-									indabosky bahose
-								</p>
-								<p className="details">
-									<span>10:40pm</span>
-									<span>02/05/2020</span>
-								</p>
-								<p className="requests">
-									<span>
-										<i className="fas fa-moon"></i>
-									</span>
-									<span>
-										<i className="fas fa-lightbulb"></i>
-									</span>
-								</p>
-							</div>
-						</div>
-						<div className="post--card">
-							<div className="post--card__header">
-								<img
-									src={Avatar}
-									className="post--avatar"
-									alt=""
-								/>
-								<div>
-									<h6 className="profile--hero">
-										Adio Mojeed
-									</h6>
-									<p className="profile--hero__desc">
-										@codeLeaf
-									</p>
-								</div>
-							</div>
-							<div className="post--card__body">
-								<p>
-									I am the Lion himself, I am the war, I am
-									the liquid metal, I am the fight, I am the
-									indabosky bahose
-								</p>
-								<p className="details">
-									<span>10:40pm</span>
-									<span>02/05/2020</span>
-								</p>
-								<p className="requests">
-									<span>
-										<i className="fas fa-moon"></i>
-									</span>
-									<span>
-										<i className="fas fa-lightbulb"></i>
-									</span>
-								</p>
-							</div>
-						</div>
-						<div className="post--card">
-							<div className="post--card__header">
-								<img
-									src={Avatar}
-									className="post--avatar"
-									alt=""
-								/>
-								<div>
-									<h6 className="profile--hero">
-										Adio Mojeed
-									</h6>
-									<p className="profile--hero__desc">
-										@codeLeaf
-									</p>
-								</div>
-							</div>
-							<div className="post--card__body">
-								<p>
-									I am the Lion himself, I am the war, I am
-									the liquid metal, I am the fight, I am the
-									indabosky bahose
-								</p>
-								<p className="details">
-									<span>10:40pm</span>
-									<span>02/05/2020</span>
-								</p>
-								<p className="requests">
-									<span>
-										<i className="fas fa-moon"></i>
-									</span>
-									<span>
-										<i className="fas fa-lightbulb"></i>
-									</span>
-								</p>
-							</div>
-						</div>
+							))
+						)}
 					</div>
 				</div>
 			</div>

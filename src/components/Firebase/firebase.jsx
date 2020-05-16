@@ -1,6 +1,7 @@
 import app from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import 'firebase/storage'
 
 const config = {
 	apiKey: process.env.REACT_APP_API_KEY,
@@ -15,11 +16,13 @@ app.initializeApp(config)
 
 export const auth = app.auth()
 export const db = app.database()
+export const storage = app.storage()
 
 class Firebase {
-    constructor (auths, dbs) {
+    constructor (auths, dbs, storages) {
         this.auth = auths
-        this.db = dbs
+		this.db = dbs
+		this.storage = storages
     }
 }
 

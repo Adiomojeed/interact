@@ -13,11 +13,23 @@
     cursor: pointer;
 }
 
+.btn-upload {
+    width: 250px;
+    height: 50px;
+}
+
 @media screen and (min-width: 992px) {
     .btn {
         width: 550px;
         height: 70px;
         font-size: 0.8em;
         border-radius: 10px;
+    }
+    .btn-upload {
+        width: 250px;
+        height: 50px;
+    }
+    .btn-update {
+        height: 60px;
     }
 }

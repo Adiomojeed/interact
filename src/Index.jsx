@@ -10,6 +10,7 @@ import {
 	FirebaseContext,
 	auth,
 	db,
+	storage
 } from "./components/Firebase/index";
 import {
 	transitions,
@@ -46,7 +47,7 @@ const GlobalApp = () => {
 };
 
 ReactDOM.render(
-	<FirebaseContext.Provider value={new Firebase(auth, db)}>
+	<FirebaseContext.Provider value={new Firebase(auth, db, storage)}>
 		<GlobalApp />
 	</FirebaseContext.Provider>,
 	document.querySelector("#root")

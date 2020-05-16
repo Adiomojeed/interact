@@ -10,7 +10,8 @@ import { Route } from "react-router-dom";
 import { withAuthorization } from "../components/Session/index";
 import TopNav from "../components/Dashboard/TopNav";
 import SideBar from "../components/Dashboard/SideBar";
-import EditProfile from '../components/Dashboard/EditProfile'
+import EditProfile from "../components/Dashboard/EditProfile";
+import CreatePost from "../components/Dashboard/CreatePost";
 
 const Dashboard = () => {
 	return (
@@ -25,7 +26,7 @@ const Dashboard = () => {
 							<SideBar />
 						</div>
 						<div className="col-sm vh-sm-100 col-9 col-9-display">
-							<div className='as'>
+							<div className="as">
 								<TopNav />
 								<Route
 									exact
@@ -39,6 +40,10 @@ const Dashboard = () => {
 								<Route
 									path="/dashboard/edit"
 									component={EditProfile}
+								/>
+								<Route
+									path="/dashboard/create"
+									component={CreatePost}
 								/>
 								<Route
 									path="/dashboard/search"
