@@ -43,7 +43,7 @@ export const GlobalStyles = createGlobalStyle`
         background: ${({ theme }) => theme.textLight};
         border: 1px solid ${({ theme }) => theme.bodySecondary};
     }
-    .nav-text, .sign-out { 
+    .active, .sign-out { 
         color: ${({ theme }) => theme.textSecondary};
         border: 1px solid ${({ theme }) => theme.textSecondary};
     }
@@ -56,7 +56,7 @@ export const GlobalStyles = createGlobalStyle`
     .nav, .profile--hero {
         color: ${({ theme }) => theme.textSecondary};
     }
-    .test, .sign-out, .btn-edit {
+    .active, .sign-out, .btn-edit {
         background: ${({ theme }) => theme.bodyLight};
         color: ${({ theme }) => theme.textPrimary};
         transition: .3s;

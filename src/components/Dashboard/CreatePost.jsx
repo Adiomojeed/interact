@@ -56,10 +56,10 @@ class CreatePost extends Component {
 		const { post } = this.state;
 		return (
 			<div className="row">
-				<div className="col-sm justify-content">
+				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
 					<form onSubmit={this.onHandleSubmit}>
 						<div className="form-group">
-							<h3>CREATE A POST</h3>
+							<h4>CREATE A POST</h4>
 						</div>
 						<div className="form-group">
 							<textarea
@@ -67,11 +67,12 @@ class CreatePost extends Component {
 								value={post}
 								onChange={this.onHandleChange}
 								placeholder="Your post here..."
+								rows='15'
 							></textarea>
 						</div>
 						<div className="form-group">
 							<button
-								className="btn btn-primary"
+								className="btn btn-primary btn-update"
 								type="submit"
 								//disabled={isInvalid}
 							>

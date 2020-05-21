@@ -52,7 +52,7 @@ class SignInForm extends Component {
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
 					<div className="form-group">
-						<h3>Login</h3>
+						<h2>Login</h2>
 					</div>
 					<div className="form-group">
 						<input
@@ -84,12 +84,12 @@ class SignInForm extends Component {
 							SIGN IN
 						</button>
 					</div>
-					<div className="form-group dflex">
+					<div className="form-group d-flex justify-content-between">
 						<Link to="/register">
-							<span>Register</span>
+							<small>Register</small>
 						</Link>
 						<Link to="/forget-pw">
-							<span>Forget Password?</span>
+							<small>Forget Password?</small>
 						</Link>
 					</div>
 				</form>

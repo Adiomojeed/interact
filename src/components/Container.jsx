@@ -5,21 +5,21 @@ import React from "react";
 const Container = ({ children }) => {
 	return (
 		<div className="container">
-			<div className="row">
-				<div className="col-6 col-sm align-items-center justify-content">
+			<div className="row vh-100 align-items-center">
+				<div className="col col-lg-6 d-flex justify-content-center fixed relative">
 					<div>
 						<h1 className="hero">Intteract</h1>
-						<p className="hero-description">
-							A social media platform <br/>
-						</p>
+						<small className="hero-description text-right">
+							A social media platform <br />
+						</small>
 					</div>
 				</div>
-				<div className="col-6 col-sm justify-content justify-content--lg__none align-items-center vh-100">
-					{ children }
+				<div className="col col-lg-6 justify-content-center px-3 px-md-5 px-lg-2 px-xl-5 z-index">
+					{children}
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default Container;

@@ -3,7 +3,8 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { withRouter } from "react-router-dom";
-import Avatar from '../../assets/images/male.png'
+import Avatar from "../../assets/images/male.png";
+import imageCompression from "browser-image-compression";
 
 class EditProfile extends Component {
 	constructor(props) {
@@ -13,7 +14,7 @@ class EditProfile extends Component {
 			FullName: "",
 			UserName: "",
 			status: "",
-			image: ''
+			image: "",
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
@@ -55,32 +56,51 @@ class EditProfile extends Component {
 		e.preventDefault;
 	}
 
-	onHandleImageSelect(e) {
-		this.setState({ image: e.target.files[0] });
+	onHandleImageSelect(event) {
+		this.setState({ image: event.target.files[0] });
 	}
 
 	onHandleUpload() {
 		const { image } = this.state;
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.storage
-				.ref(`images/${authUser.uid}`)
-				.put(image, {
-					contentType: "image/jpg",
+		var imageFile = image;
+
+		var options = {
+			maxSizeMB: 2,
+			maxWidthOrHeight: 500,
+			useWebWorker: true,
+		};
+		imageCompression(imageFile, options)
+			.then((compressedFile) => {
+				this.props.firebase.auth.onAuthStateChanged((authUser) => {
+					this.props.firebase.storage
+						.ref(`images/${authUser.uid}`)
+						.put(compressedFile)
+						.on("state_changed", function (snapshot) {
+							var progress =
+								(snapshot.bytesTransferred /
+									snapshot.totalBytes) *
+								100;
+							console.log("Upload is " + progress + "% done");
+							if (progress === 100) {
+								window.location.reload()
+							}
+						});
 				});
-		});
-		setTimeout(() => {
-			location.reload();
-		}, 2000);
+			})
+
+			.catch(function (error) {
+				console.log(error.message);
+			});
 	}
 
 	render() {
 		const { FullName, UserName, status } = this.state;
 		return (
 			<div className="row">
-				<div className="col-sm justify-content">
+				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
 					<form onSubmit={this.onHandleSubmit}>
 						<div className="form-group">
-							<h3>EDIT PROFILE</h3>
+							<h4>EDIT PROFILE</h4>
 						</div>
 						<div className="form-group">
 							<input
@@ -93,10 +113,11 @@ class EditProfile extends Component {
 							/>
 							<div className="upload--block">
 								<div className="upload">
-									<label
-										htmlFor="avatar"
-									>
-										<img src={Avatar} className="upload--avatar" />
+									<label htmlFor="avatar">
+										<img
+											src={Avatar}
+											className="upload--avatar"
+										/>
 									</label>
 								</div>
 								<button
@@ -115,7 +136,7 @@ class EditProfile extends Component {
 								value={FullName}
 								onChange={this.onHandleChange}
 								placeholder="Full Name"
-								className="edit"
+								className="edit-control"
 							/>
 						</div>
 						<div className="form-group">
@@ -125,7 +146,7 @@ class EditProfile extends Component {
 								value={UserName}
 								onChange={this.onHandleChange}
 								placeholder="User Name"
-								className="edit"
+								className="edit-control"
 							/>
 						</div>
 						<div className="form-group">
@@ -134,6 +155,7 @@ class EditProfile extends Component {
 								value={status}
 								onChange={this.onHandleChange}
 								placeholder="Your status here..."
+								rows="10"
 							></textarea>
 						</div>
 						<div className="form-group">

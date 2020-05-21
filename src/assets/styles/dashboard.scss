@@ -2,33 +2,28 @@
 
 .nav {
 	display: flex;
-	padding: 0 70px;
+	padding: 5px 50px;
 	justify-content: space-between;
 	align-items: center;
-	padding-bottom: 0;
 	border-bottom: 1px solid;
-	width: 100%;
 	position: sticky;
 	top: 0px;
 	z-index: 1;
 }
-.as {
-	width: inherit;
-}
+
 .fa-stream {
 	margin-bottom: 0;
 }
 
 .logo {
 	font-family: "Lobster", cursive;
-	font-size: 1.2em;
 	line-height: 0;
-	//margin-bottom: 0;
 }
 
 .card {
 	width: inherit;
-	height: 100px;
+	margin-top: 20px;
+	height: 80px;
 	border-radius: 15px 15px 0px 0px;
 }
 
@@ -36,15 +31,14 @@
 	width: inherit;
 	position: relative;
 	top: -50px;
-	//padding-right: 50px;
 	padding: 0 5px 10px 5px;
 	border-bottom: 1px solid;
 	img {
 		padding: 2px;
 		border-radius: 50%;
-		width: 120px;
-		height: 120px;
-		margin-left: 50px;
+		width: 100px;
+		height: 100px;
+		margin-left: 20px;
 	}
 	.profile--header {
 		width: inherit;
@@ -56,12 +50,12 @@
 .profile--hero {
 	line-height: 0;
 	margin-top: 20px;
-	margin-bottom: 25px;
+	margin-bottom: 20px;
 }
 
 .profile--hero__desc {
 	line-height: 0;
-	font-size: 0.7em;
+	font-size: 0.8em;
 	font-family: "Lobster Two", cursive;
 	font-style: italic;
 	margin: 0;
@@ -78,18 +72,16 @@
 }
 
 .status {
-	margin-top: 20px;
+	margin-top: 15px;
 	margin-bottom: 0;
-	font-family: "Lobster Two", cursive;
 	font-style: italic;
-	font-weight: lighter;
-	font-size: 0.7em;
+	font-size: 0.6em;
 }
 
 .followers {
 	line-height: 0;
 	margin-bottom: 15px;
-	font-size: 0.7em;
+	font-size: 0.8em;
 	font-family: "Lobster Two", cursive;
 	span {
 		margin-right: 20px;
@@ -99,6 +91,27 @@
 .card-block {
 	width: inherit;
 	margin-top: -30px;
+}
+
+.users-block {
+	padding-top: 20px;
+	.post--card {
+		.post--card__header {
+			align-items: center;
+			div {
+				margin-top: -10px;
+				.profile--hero__follower {
+					line-height: 0;
+					font-size: 0.7em;
+					margin-top: 25px;
+					margin-bottom: -10px;
+				}
+			}
+			button {
+				margin-left: auto;
+			}
+		}
+	}
 }
 
 .post--card {
@@ -122,22 +135,23 @@
 			margin-bottom: 15px;
 			h6 {
 				margin-bottom: 20px;
+				font-size: 0.8em;
 			}
 		}
 	}
 	.post--card__body {
-		font-size: 0.6em;
+		font-size: 0.8em;
 		.details {
 			display: flex;
 			justify-content: space-between;
 			font-family: "Lobster Two", cursive;
 			padding-bottom: 10px;
+			font-size: 0.6rem;
 		}
 		.requests {
 			display: flex;
 			justify-content: center;
 			margin-bottom: 0;
-			font-size: 1.2em;
 			span {
 				margin: 0 10px;
 				font-size: 1.2em;
@@ -160,12 +174,88 @@
 
 @media screen and (min-width: 992px) {
 	.nav {
-		position: relative;
+		padding: 0 20px;
 	}
 	.fa-stream {
 		display: none;
 	}
-	.logo {
-		font-size: 1.5em;
+	.card {
+		height: 100px;
+	}
+	.profile--card {
+		width: inherit;
+		position: relative;
+		top: -50px;
+		padding: 0 5px 10px 5px;
+		border-bottom: 1px solid;
+		img {
+			margin-left: 30px;
+		}
+		.profile--header {
+			width: inherit;
+			display: flex;
+			justify-content: space-between;
+		}
+	}
+	.users-block {
+		.post--card {
+			.post--card__header {
+				div {
+					.profile--hero__follower {
+						font-size: 0.55em;
+					}
+				}
+				button {
+					margin-left: auto;
+				}
+			}
+		}
+	}
+
+	.profile--hero {
+		margin-bottom: 25px;
+		font-size: 0.8em;
+	}
+
+	.profile--hero__desc {
+		font-size: 0.6em;
+	}
+	.status {
+		font-size: 0.55em;
+	}
+	.followers {
+		font-size: 0.6em;
+	}
+	.post--card {
+		.post--card__header {
+			.post--avatar {
+				width: 80px;
+				height: 80px;
+			}
+			div {
+				h6 {
+					margin-bottom: 23px;
+					font-size: 0.6em;
+				}
+			}
+		}
+		.post--card__body {
+			font-size: 0.65em;
+			.details {
+				font-size: 0.8em;
+			}
+			.requests {
+				display: flex;
+				justify-content: center;
+				margin-bottom: 0;
+				span {
+					margin: 0 10px;
+					font-size: 1.2em;
+				}
+			}
+		}
+	}
+	.btn-edit {
+		font-size: 0.5em;
 	}
 }

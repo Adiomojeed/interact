@@ -86,12 +86,15 @@ class Profile extends Component {
 
 	render() {
 		const { user, followers, following, posts, avatar } = this.state;
+		if (user.length === 0) {
+			return <h1>Loading...</h1>;
+		}
 		return (
 			<div className="row">
-				<div className="col-sm px-2 py-3">
+				<div className="col px">
 					<div className="card"></div>
 					<div className="profile--card">
-						<img src={avatar} className="profile--avatar" alt="" />
+						<a href={avatar}><img src={avatar} className="profile--avatar" alt="" /></a>
 						<div className="profile--header">
 							<div>
 								<h5 className="profile--hero">
@@ -137,10 +140,10 @@ class Profile extends Component {
 										/>
 										<div>
 											<h6 className="profile--hero">
-												Adio Mojeed
+												{user.FullName}
 											</h6>
 											<p className="profile--hero__desc">
-												@codeLeaf
+												@{user.UserName}
 											</p>
 										</div>
 									</div>

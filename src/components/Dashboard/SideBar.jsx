@@ -50,7 +50,7 @@ class SideBar extends React.Component {
 	render() {
 		const { user, followers, following, avatar } = this.state;
 		return (
-			<div className="siderow vh-sm-100">
+			<div className="siderow">
 				<div className="close">
 					<i className="fas fa-times text-light" id="close"></i>
 				</div>
@@ -58,60 +58,52 @@ class SideBar extends React.Component {
 					<div>
 						<img src={avatar} className="avatar" alt="" />
 					</div>
-					<h5 className="text-light">{user.FullName}</h5>
-					<p>@{user.UserName}</p>
-					<p>
+					<h4 className="text-light">{user.FullName}</h4>
+					<small className="name">@{user.UserName}</small>
+					<small>
 						<span>{followers.followers} Followers</span>
 						<span>{following.following} Following</span>
-					</p>
+					</small>
 				</div>
-				<div className="nav-list">
-					<div className="nav-item">
-						<NavLink
-							to="/dashboard"
-							activeClassName="nav-text"
-							className="test"
-						>
-							<span>HOME</span>
+				<ul className="nav-list">
+					<li>
+						<NavLink exact to="/dashboard" activeClassName="active">
+							HOME
 						</NavLink>
-					</div>
-					<div className="nav-item">
+					</li>
+					<li>
 						<NavLink
 							to="/dashboard/profile"
-							activeClassName="nav-text"
-							className="test"
+							activeClassName="active"
 						>
-							<span>PROFILE</span>
+							PROFILE
 						</NavLink>
-					</div>
-					<div className="nav-item">
+					</li>
+					<li>
 						<NavLink
 							to="/dashboard/search"
-							activeClassName="nav-text"
-							className="test"
+							activeClassName="active"
 						>
-							<span>SEARCH</span>
+							SEARCH
 						</NavLink>
-					</div>
-					<div className="nav-item">
+					</li>
+					<li>
 						<NavLink
 							to="/dashboard/followers"
-							activeClassName="nav-text"
-							className="test"
+							activeClassName="active"
 						>
-							<span>FOLLOWERS</span>
+							FOLLOWERS
 						</NavLink>
-					</div>
-					<div className="nav-item">
+					</li>
+					<li>
 						<NavLink
 							to="/dashboard/settings"
-							activeClassName="nav-text"
-							className="test"
+							activeClassName="active"
 						>
-							<span>SETTINGS</span>
+							SETTINGS
 						</NavLink>
-					</div>
-				</div>
+					</li>
+				</ul>
 				<div className="signout-block">
 					<SignOut />
 				</div>

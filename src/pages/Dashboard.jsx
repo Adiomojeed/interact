@@ -17,47 +17,41 @@ const Dashboard = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col-sm col-8 offset-2">
+				<div className="col col-xl-9 offset-xl">
 					<div className="row">
 						<div
-							className="col-sm col-3 vh-sm-100 col-3-fade"
+							className="col col-lg-3 vh-100 sidebar-block"
 							id="nav"
 						>
 							<SideBar />
 						</div>
-						<div className="col-sm vh-sm-100 col-9 col-9-display">
-							<div className="as">
-								<TopNav />
-								<Route
-									exact
-									path="/dashboard"
-									component={Home}
-								/>
-								<Route
-									path="/dashboard/profile"
-									component={Profile}
-								/>
-								<Route
-									path="/dashboard/edit"
-									component={EditProfile}
-								/>
-								<Route
-									path="/dashboard/create"
-									component={CreatePost}
-								/>
-								<Route
-									path="/dashboard/search"
-									component={Search}
-								/>
-								<Route
-									path="/dashboard/followers"
-									component={Followers}
-								/>
-								<Route
-									path="/dashboard/settings"
-									component={Settings}
-								/>
-							</div>
+						<div className="col col-lg-9 vh-100 px-lg">
+							<TopNav />
+							<Route exact path="/dashboard" component={Home} />
+							<Route
+								path="/dashboard/profile"
+								component={Profile}
+							/>
+							<Route
+								path="/dashboard/edit"
+								component={EditProfile}
+							/>
+							<Route
+								path="/dashboard/create"
+								component={CreatePost}
+							/>
+							<Route
+								path="/dashboard/search"
+								component={Search}
+							/>
+							<Route
+								path="/dashboard/followers"
+								component={Followers}
+							/>
+							<Route
+								path="/dashboard/settings"
+								component={Settings}
+							/>
 						</div>
 					</div>
 				</div>

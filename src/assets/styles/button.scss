@@ -2,34 +2,63 @@
 
 .btn {
 	display: block;
-	width: 450px;
-	height: 70px;
+	width: 100%;
+	padding: 20px 20px;
 	border: 0;
 	outline: none;
 	font-size: 0.8em;
-    text-align: center;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
+	text-align: center;
+	border-radius: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.btn-sm {
+	padding: 10px;
+	width: 30%;
 }
 
 .btn-upload {
-    width: 250px;
-    height: 50px;
+	padding: 10px;
+	margin-left: 5px;
+	width: 50%;
+	font-size: 0.7em;
+}
+
+.btn-update {
+	padding: 13px;
+}
+
+@media screen and (min-width: 768px) {
+	.btn {
+		padding: 25px 30px;
+	}
+	.btn-upload {
+		width: 30%;
+		padding: 15px;
+		font-size: 0.6em;
+	}
+	.btn-sm {
+		padding: 10px;
+		width: 20%;
+	}
+	.btn-update {
+		padding: 13px;
+	}
 }
 
 @media screen and (min-width: 992px) {
-    .btn {
-        width: 550px;
-        height: 70px;
-        font-size: 0.8em;
-        border-radius: 10px;
-    }
-    .btn-upload {
-        width: 250px;
-        height: 50px;
-    }
-    .btn-update {
-        height: 60px;
+	.btn {
+		font-size: 0.8em;
+	}
+	.btn-sm {
+		font-size: .5em;
+	}
+	.btn-upload {
+		width: 40%;
+		font-size: 0.5em;
+	}
+	.btn-update {
+		font-size: 0.6em;
     }
 }

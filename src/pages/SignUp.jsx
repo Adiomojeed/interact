@@ -92,7 +92,7 @@ class SignUpForm extends Component {
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
 					<div className="form-group">
-						<h3>Create an account</h3>
+						<h2>Create an account</h2>
 					</div>
 					<div className="form-group">
 						<input
@@ -151,9 +151,9 @@ class SignUpForm extends Component {
 							REGISTER
 						</button>
 					</div>
-					<div className="form-group dflex">
+					<div className="form-group">
 						<Link to="/">
-							<a>Sign In</a>
+							<small>Sign In</small>
 						</Link>
 					</div>
 				</form>

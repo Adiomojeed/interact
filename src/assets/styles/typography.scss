@@ -1,0 +1,9 @@
+.hero {
+    font-size: 5em;
+}
+
+@media screen and (min-width: 992px) {
+    .hero {
+        font-size: 4em;
+    }
+}

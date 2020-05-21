@@ -1,11 +1,20 @@
 /** @format */
 
+form {
+	width: inherit;
+}
+
 .form-group {
 	margin: 30px 0;
-	h3 {
+	width: inherit;
+	h2 {
 		text-align: center;
 		font-family: "Lobster Two", cursive;
 		text-transform: uppercase;
+	}
+	a {
+		margin-top: -40px;
+		line-height: 0;
 	}
 }
 
@@ -19,15 +28,17 @@
 }
 input {
 	display: block;
-	width: 450px;
-	height: 70px;
-	border: 0;
-	outline: none;
-	font-size: 0.7em;
-	padding-left: 50px;
+	width: 100%;
+	padding: 20px 20px;
 	border-radius: 10px;
 	font-style: italic;
-	font-weight: 400;
+	outline: none;
+}
+
+.edit-control {
+	padding: 13px 20px;
+	font-size: 0.7em;
+	outline: none;
 }
 
 .file {
@@ -36,19 +47,17 @@ input {
 
 .upload--block {
 	margin-top: 0px;
-	margin-bottom: -50px;
+	margin-bottom: -20px;
+	justify-content: center;
 	display: flex;
 	align-items: center;
 	.upload {
-		width: 150px;
-		min-height: 150px;
-		margin-bottom: 0;
 		label {
 			cursor: pointer;
 			.upload--avatar {
 				border-radius: 50%;
-				width: 120px;
-				height: 120px;
+				width: 80px;
+				height: 80px;
 				padding: 2px;
 			}
 		}
@@ -57,12 +66,11 @@ input {
 
 textarea {
 	display: block;
-	width: 450px;
-	height: 250px;
+	width: 100%;
 	border: 0;
 	outline: none;
 	font-size: 0.7em;
-	padding: 20px 50px;
+	padding: 13px 20px;
 	border-radius: 10px;
 	font-style: italic;
 	font-weight: 400;
@@ -72,20 +80,21 @@ a {
 	text-decoration: none;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 768px) {
 	input {
-		width: 550px;
-		height: 70px;
-		font-size: 0.7em;
-		padding-left: 50px;
-		border-radius: 10px;
+		padding: 30px 30px;
 	}
-	.edit {
-		width: 550px;
-		height: 60px;
+}
+
+@media screen and (min-width: 992px) {
+	.edit-control {
+		font-size: 0.55em;
 	}
 	textarea {
-		width: 550px;
-		height: 220px;
+		font-size: 0.55em;
+	}
+	.upload--avatar {
+		width: 150px;
+		height: 100px;
 	}
 }
