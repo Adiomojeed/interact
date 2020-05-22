@@ -104,11 +104,11 @@ class Profile extends Component {
 									@{user.UserName}
 								</p>
 							</div>
-							<NavLink to="/dashboard/edit">
+							<a href="/dashboard/edit">
 								<button className="btn-edit">
 									EDIT PROFILE
 								</button>
-							</NavLink>
+							</a>
 						</div>
 						<h6 className="status">{user.status}</h6>
 						<p className="followers">
@@ -119,11 +119,11 @@ class Profile extends Component {
 							<div>
 								<h5 className="profile--hero">POSTS</h5>
 							</div>
-							<NavLink to="/dashboard/create">
+							<a href="/dashboard/create">
 								<button className="btn-edit">
 									CREATE A POST
 								</button>
-							</NavLink>
+							</a>
 						</div>
 					</div>
 					<div className="card-block">

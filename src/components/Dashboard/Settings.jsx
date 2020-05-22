@@ -21,7 +21,7 @@ class Settings extends Component {
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
 			this.props.firebase.db.ref(`users`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				console.log(userObject);
+				//console.log(userObject);
 			});
 		});
 	}
@@ -34,8 +34,8 @@ class Settings extends Component {
 		const { FullName, UserName, status } = this.state;
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
 			this.props.firebase.db.ref("users").on("value", (snapshot) => {
-				const searchResult = snapshot.val();
-				console.log(searchResult);
+				//const searchResult = snapshot.val();
+				//console.log(searchResult);
 			});
 		});
 		//this.props.history.push("/dashboard/profile");

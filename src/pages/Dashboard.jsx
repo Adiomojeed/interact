@@ -7,11 +7,13 @@ import Search from "../components/Dashboard/Search";
 import Followers from "../components/Dashboard/Followers";
 import Settings from "../components/Dashboard/Settings";
 import { Route } from "react-router-dom";
+import {Router} from "@reach/router";
 import { withAuthorization } from "../components/Session/index";
 import TopNav from "../components/Dashboard/TopNav";
 import SideBar from "../components/Dashboard/SideBar";
 import EditProfile from "../components/Dashboard/EditProfile";
 import CreatePost from "../components/Dashboard/CreatePost";
+import UsersProfiles from "../components/Dashboard/UsersProfiles";
 
 const Dashboard = () => {
 	return (
@@ -27,31 +29,16 @@ const Dashboard = () => {
 						</div>
 						<div className="col col-lg-9 vh-100 px-lg">
 							<TopNav />
-							<Route exact path="/dashboard" component={Home} />
-							<Route
-								path="/dashboard/profile"
-								component={Profile}
-							/>
-							<Route
-								path="/dashboard/edit"
-								component={EditProfile}
-							/>
-							<Route
-								path="/dashboard/create"
-								component={CreatePost}
-							/>
-							<Route
-								path="/dashboard/search"
-								component={Search}
-							/>
-							<Route
-								path="/dashboard/followers"
-								component={Followers}
-							/>
-							<Route
-								path="/dashboard/settings"
-								component={Settings}
-							/>
+							<Router>
+								<Home path="/dashboard" />
+								<Profile path="/dashboard/profile" />
+								<EditProfile path="/dashboard/edit" />
+								<CreatePost path="/dashboard/create" />
+								<Search path="/dashboard/search" />
+								<Followers path="/dashboard/followers" />
+								<Settings path="/dashboard/settings" />
+								<UsersProfiles path="/dashboard/users/:id" />
+							</Router>
 						</div>
 					</div>
 				</div>

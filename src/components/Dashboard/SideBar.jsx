@@ -1,10 +1,16 @@
 /** @format */
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "@reach/router";
 import { withFirebase } from "../Firebase/index";
 import SignOut from "./SignOut";
 import Avatar from "../../assets/images/male.png";
+
+const isActive = ({ isCurrent }) => {
+	return isCurrent ? { className: "active" } : {};
+};
+
+const NavLink = (props) => <Link getProps={isActive} {...props} />;
 
 class SideBar extends React.Component {
 	constructor(props) {
@@ -67,41 +73,21 @@ class SideBar extends React.Component {
 				</div>
 				<ul className="nav-list">
 					<li>
-						<NavLink exact to="/dashboard" activeClassName="active">
+						<NavLink to="/dashboard">
 							HOME
 						</NavLink>
 					</li>
 					<li>
-						<NavLink
-							to="/dashboard/profile"
-							activeClassName="active"
-						>
-							PROFILE
-						</NavLink>
+						<NavLink to="/dashboard/profile">PROFILE</NavLink>
 					</li>
 					<li>
-						<NavLink
-							to="/dashboard/search"
-							activeClassName="active"
-						>
-							SEARCH
-						</NavLink>
+						<NavLink to="/dashboard/search">SEARCH</NavLink>
 					</li>
 					<li>
-						<NavLink
-							to="/dashboard/followers"
-							activeClassName="active"
-						>
-							FOLLOWERS
-						</NavLink>
+						<NavLink to="/dashboard/followers">FOLLOWERS</NavLink>
 					</li>
 					<li>
-						<NavLink
-							to="/dashboard/settings"
-							activeClassName="active"
-						>
-							SETTINGS
-						</NavLink>
+						<NavLink to="/dashboard/settings">SETTINGS</NavLink>
 					</li>
 				</ul>
 				<div className="signout-block">
