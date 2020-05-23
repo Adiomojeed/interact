@@ -19,10 +19,12 @@ class Search extends React.Component {
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
 			this.props.firebase.db.ref(`users`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				const user = Object.keys(userObject).map((a) => ({
-					...userObject[a],
-					userID: a,
-				}));
+				const user = Object.keys(userObject)
+					.map((a) => ({
+						...userObject[a],
+						userID: a,
+					}))
+					.filter((a) => a.userID != authUser.uid);
 				this.setState({ users: user });
 				user.map((x) => {
 					this.props.firebase.storage
@@ -34,7 +36,7 @@ class Search extends React.Component {
 						});
 				});
 				this.setState({ usersImages: image });
-				console.log((this.state.usersImages)[0]);
+				console.log(user);
 			});
 		});
 	}
@@ -42,6 +44,9 @@ class Search extends React.Component {
 	componentDidUpdate() {}
 	render() {
 		const { users, usersImages } = this.state;
+		if (users.length === 0) {
+			return <h4>No Friends to follow</h4>
+		}
 		return (
 			<div className="row">
 				<div className="col">
@@ -57,7 +62,7 @@ class Search extends React.Component {
 									<div>
 										<a
 											href={`/dashboard/users/${user.userID}`}
-											id='1'
+											id="1"
 										>
 											<h6 className="profile--hero">
 												{user.FullName}

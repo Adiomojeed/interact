@@ -57,6 +57,11 @@ body {
     display: block;
     margin-top: -10px;
 }
+
+.opacity {
+    opacity: .5;
+}
+
 .alert {
     background-color: gold;
     z-index: 100;
@@ -105,5 +110,8 @@ body {
     }
     .relative {
         position: relative;
+    }
+    .opacity {
+        opacity: 1;
     }
 }

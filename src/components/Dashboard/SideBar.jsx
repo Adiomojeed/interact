@@ -35,13 +35,17 @@ class SideBar extends React.Component {
 				.ref(`followers/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					this.setState({ followers: userObject });
+					let arr = [];
+					Object.keys(userObject).map((a) => arr.push(a));
+					this.setState({ followers: arr });
 				});
 			this.props.firebase.db
 				.ref(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					this.setState({ following: userObject });
+					let arr = [];
+					Object.keys(userObject).map((a) => arr.push(a));
+					this.setState({ following: arr });
 				});
 			this.props.firebase.storage
 				.ref()
@@ -67,15 +71,13 @@ class SideBar extends React.Component {
 					<h4 className="text-light">{user.FullName}</h4>
 					<small className="name">@{user.UserName}</small>
 					<small>
-						<span>{followers.followers} Followers</span>
-						<span>{following.following} Following</span>
+						<span>{followers.length} Followers</span>
+						<span>{following.length} Following</span>
 					</small>
 				</div>
 				<ul className="nav-list">
 					<li>
-						<NavLink to="/dashboard">
-							HOME
-						</NavLink>
+						<NavLink to="/dashboard">HOME</NavLink>
 					</li>
 					<li>
 						<NavLink to="/dashboard/profile">PROFILE</NavLink>

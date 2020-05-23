@@ -1,9 +1,15 @@
+/** @format */
+
 .hero {
-    font-size: 5em;
+	font-size: 5em;
+}
+
+a {
+	-webkit-tap-highlight-color: transparent;
 }
 
 @media screen and (min-width: 992px) {
-    .hero {
-        font-size: 4em;
-    }
+	.hero {
+		font-size: 4em;
+	}
 }

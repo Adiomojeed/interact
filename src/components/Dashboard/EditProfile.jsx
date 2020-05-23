@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
+import { navigate } from '@reach/router'
 import { withRouter } from "react-router-dom";
 import Avatar from "../../assets/images/male.png";
 import imageCompression from "browser-image-compression";
@@ -49,11 +50,8 @@ class EditProfile extends Component {
 				.ref(`users/${authUser.uid}`)
 				.update({ FullName, UserName, status });
 		});
-		this.props.history.push("/dashboard/profile");
-		//setTimeout(() => {
-		//	location.reload();
-		//}, 2000);
-		e.preventDefault;
+		navigate("/dashboard/profile");
+		e.preventDefault();
 	}
 
 	onHandleImageSelect(event) {
@@ -123,6 +121,7 @@ class EditProfile extends Component {
 								<button
 									className="btn btn-primary btn-upload"
 									onClick={this.onHandleUpload}
+									type='submit'
 								>
 									Upload Profile Picture
 								</button>{" "}
@@ -173,4 +172,4 @@ class EditProfile extends Component {
 	}
 }
 
-export default withRouter(withFirebase(EditProfile));
+export default withFirebase(EditProfile);

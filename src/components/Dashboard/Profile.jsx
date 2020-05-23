@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import Avatar from "../../assets/images/male.png";
 import { withFirebase } from "../Firebase";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class Profile extends Component {
 	constructor(props) {
@@ -24,37 +24,48 @@ class Profile extends Component {
 	}
 
 	componentDidMount() {
-		const { avatar } = this.state;
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db
-				.ref(`users/${authUser.uid}`)
-				.on("value", (snapshot) => {
-					const userObject = snapshot.val();
-					this.setState({ user: userObject });
-				});
-			this.props.firebase.db
+		const { firebase } = this.props;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
+				const userObject = snapshot.val();
+				this.setState({ user: userObject });
+			});
+			firebase.db
 				.ref(`followers/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					this.setState({ followers: userObject });
+					let arr = [];
+					Object.keys(userObject).map((a) => arr.push(a));
+					this.setState({ followers: arr });
 				});
-			this.props.firebase.db
+			firebase.db
 				.ref(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					this.setState({ following: userObject });
+					let arr = [];
+					Object.keys(userObject).map((a) => arr.push(a));
+					this.setState({ following: arr });
 				});
-			this.props.firebase.db
-				.ref(`posts/${authUser.uid}`)
-				.on("value", (snapshot) => {
-					const postObject = snapshot.val();
-					const test = Object.keys(postObject).map((a) => ({
-						...postObject[a],
-						postID: a,
-					}));
-					this.setState({ posts: test });
-				});
-			this.props.firebase.storage
+			firebase.db.ref(`posts/${authUser.uid}`).on("value", (snapshot) => {
+				const postObject = snapshot.val();
+				let test = Object.keys(postObject).map((a) => ({
+					...postObject[a],
+					postID: a,
+				}));
+
+				let newTest = Object.keys(test).map((i) => test[i].likes);
+
+				let i = 0;
+				for (i; i < newTest.length; i++) {
+					let b = Object.keys(newTest[i]);
+					test[i].likes = b;
+					if (b.includes(authUser.uid)) {
+						this.setState({ liked: true });
+					}
+				}
+				this.setState({ posts: test });
+			});
+			firebase.storage
 				.ref()
 				.child(`images/${authUser.uid}`)
 				.getDownloadURL()
@@ -67,25 +78,38 @@ class Profile extends Component {
 	}
 
 	onHandleClick(e) {
-		if (this.state.liked === false) {
-			e.likes = e.likes + 1;
-			this.setState({ liked: true });
-		} else {
-			e.likes = e.likes - 1;
-			this.setState({ liked: false });
-		}
-		this.setState({ presentPost: { ...e, likes: e.likes } });
-		this.setState({ posts: this.state.posts });
-		let a = e.likes;
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db
-				.ref(`posts/${authUser.uid}/${e.postID}`)
-				.update({ likes: a });
+		const { firebase, id } = this.props;
+		const { liked } = this.state;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			if (liked) {
+				firebase.db
+					.ref(
+						`posts/${authUser.uid}/${e.postID}/likes/${authUser.uid}`
+					)
+					.remove();
+				firebase.db
+					.ref(`posts/${authUser.uid}/${e.postID}/likes`)
+					.on("value", (snapshot) => {
+						let a = snapshot.val();
+						if (a === null) {
+							firebase.db
+								.ref(`posts/${authUser.uid}/${e.postID}/likes`)
+								.set("");
+						}
+					});
+			} else {
+				firebase.db
+					.ref(
+						`posts/${authUser.uid}/${e.postID}/likes/${authUser.uid}`
+					)
+					.set("liked");
+			}
 		});
+		this.setState({ liked: !this.state.liked });
 	}
 
 	render() {
-		const { user, followers, following, posts, avatar } = this.state;
+		const { user, followers, following, posts, avatar, liked } = this.state;
 		if (user.length === 0) {
 			return <h1>Loading...</h1>;
 		}
@@ -94,7 +118,13 @@ class Profile extends Component {
 				<div className="col px">
 					<div className="card"></div>
 					<div className="profile--card">
-						<a href={avatar}><img src={avatar} className="profile--avatar" alt="" /></a>
+						<a href={avatar}>
+							<img
+								src={avatar}
+								className="profile--avatar"
+								alt=""
+							/>
+						</a>
 						<div className="profile--header">
 							<div>
 								<h5 className="profile--hero">
@@ -112,8 +142,12 @@ class Profile extends Component {
 						</div>
 						<h6 className="status">{user.status}</h6>
 						<p className="followers">
-							<span>{followers.followers} Followers</span>
-							<span>{following.following} Following</span>
+							<a href="/dashboard/followers">
+								<span>{followers.length} Followers</span>
+							</a>
+							<a href="/dashboard/following">
+								<span>{following.length} Following</span>
+							</a>
 						</p>
 						<div className="profile--header">
 							<div>
@@ -162,15 +196,9 @@ class Profile extends Component {
 													this.onHandleClick(post);
 												}}
 											>
-												{post.likes ? (
-													<i className="fas fa-heart error">
-														{post.likes}
-													</i>
-												) : (
-													<i className="fas fa-heart successful">
-														{post.likes}
-													</i>
-												)}
+												<i className="fas fa-heart error">
+													{post.likes.length}
+												</i>
 											</span>
 										</p>
 									</div>

@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { Entropy } from "entropy-string";
 import { withFirebase } from "../Firebase";
-import { withRouter } from "react-router-dom";
+import { navigate } from "@reach/router";
 
 class CreatePost extends Component {
 	constructor(props) {
@@ -17,30 +17,18 @@ class CreatePost extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
-	//componentDidMount() {
-	//	this.props.firebase.auth.onAuthStateChanged((authUser) => {
-	//		this.props.firebase.db
-	//			.ref(`users/${authUser.uid}`)
-	//			.on("value", (snapshot) => {
-	//				const userObject = snapshot.val();
-	//				this.setState({
-	//					FullName: userObject.FullName,
-	//					UserName: userObject.UserName,
-	//					post: userObject.post,
-	//				});
-	//			});
-	//	});
-	//}
-
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
 	onHandleSubmit(e) {
 		const { post } = this.state;
-		let totalDate = new Date()
-		let date = totalDate.toLocaleDateString()
-		let time = totalDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+		let totalDate = new Date();
+		let date = totalDate.toLocaleDateString();
+		let time = totalDate.toLocaleTimeString([], {
+			hour: "2-digit",
+			minute: "2-digit",
+		});
 		const entropy = new Entropy();
 		const postID = entropy.string();
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
@@ -48,8 +36,9 @@ class CreatePost extends Component {
 				.ref(`posts/${authUser.uid}/${postID}`)
 				.set({ post, date, time, likes: 0 });
 		});
-		this.props.history.push("/dashboard/profile");
-		e.preventDefault;
+		navigate("/dashboard/profile");
+
+		e.preventDefault();
 	}
 
 	render() {
@@ -67,14 +56,13 @@ class CreatePost extends Component {
 								value={post}
 								onChange={this.onHandleChange}
 								placeholder="Your post here..."
-								rows='15'
+								rows="15"
 							></textarea>
 						</div>
 						<div className="form-group">
 							<button
 								className="btn btn-primary btn-update"
 								type="submit"
-								//disabled={isInvalid}
 							>
 								POST
 							</button>
@@ -86,4 +74,4 @@ class CreatePost extends Component {
 	}
 }
 
-export default withRouter(withFirebase(CreatePost));
+export default withFirebase(CreatePost);
