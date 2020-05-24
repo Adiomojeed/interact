@@ -71,8 +71,12 @@ class SideBar extends React.Component {
 					<h4 className="text-light">{user.FullName}</h4>
 					<small className="name">@{user.UserName}</small>
 					<small>
-						<span>{followers.length} Followers</span>
-						<span>{following.length} Following</span>
+						<a href="/dashboard/followers">
+							<span>{followers.length} Followers</span>
+						</a>
+						<a href="/dashboard/following">
+							<span>{following.length} Following</span>
+						</a>
 					</small>
 				</div>
 				<ul className="nav-list">
@@ -83,7 +87,7 @@ class SideBar extends React.Component {
 						<NavLink to="/dashboard/profile">PROFILE</NavLink>
 					</li>
 					<li>
-						<NavLink to="/dashboard/search">SEARCH</NavLink>
+						<NavLink to="/dashboard/search">PEOPLE YOU MAY FOLLOW</NavLink>
 					</li>
 					<li>
 						<NavLink to="/dashboard/followers">FOLLOWERS</NavLink>

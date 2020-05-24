@@ -7,13 +7,14 @@ import Search from "../components/Dashboard/Search";
 import Followers from "../components/Dashboard/Followers";
 import Settings from "../components/Dashboard/Settings";
 import { Route } from "react-router-dom";
-import {Router} from "@reach/router";
+import { Router } from "@reach/router";
 import { withAuthorization } from "../components/Session/index";
 import TopNav from "../components/Dashboard/TopNav";
 import SideBar from "../components/Dashboard/SideBar";
 import EditProfile from "../components/Dashboard/EditProfile";
 import CreatePost from "../components/Dashboard/CreatePost";
 import UsersProfiles from "../components/Dashboard/UsersProfiles";
+import Following from "../components/Dashboard/Following";
 
 const Dashboard = () => {
 	return (
@@ -36,6 +37,7 @@ const Dashboard = () => {
 								<CreatePost path="/dashboard/create" />
 								<Search path="/dashboard/search" />
 								<Followers path="/dashboard/followers" />
+								<Following path="/dashboard/following" />
 								<Settings path="/dashboard/settings" />
 								<UsersProfiles path="/dashboard/users/:id" />
 							</Router>

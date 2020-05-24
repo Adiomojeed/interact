@@ -11,13 +11,19 @@ class Search extends React.Component {
 		this.state = {
 			users: [],
 			usersImages: [],
+			followers: [],
+			following: [],
+			followed: false,
 		};
+
+		this.onHandleFollow = this.onHandleFollow.bind(this);
 	}
 
 	componentDidMount() {
-		let image = [];
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db.ref(`users`).on("value", (snapshot) => {
+		const { firebase, id } = this.props;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			// Fixed
+			firebase.db.ref(`users`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
 				const user = Object.keys(userObject)
 					.map((a) => ({
@@ -26,26 +32,67 @@ class Search extends React.Component {
 					}))
 					.filter((a) => a.userID != authUser.uid);
 				this.setState({ users: user });
+				let image = [];
 				user.map((x) => {
-					this.props.firebase.storage
+					firebase.storage
 						.ref()
 						.child(`images/${x.userID}`)
 						.getDownloadURL()
 						.then((url) => {
 							image.push(url);
+							this.setState({ usersImages: image });
 						});
 				});
-				this.setState({ usersImages: image });
-				console.log(user);
+			});
+			// Fixed
+			firebase.db.ref(`followers`).on("value", (snapshot) => {
+				const userObject = snapshot.val();
+				delete userObject[authUser.uid];
+				this.setState({ followers: userObject });
+				let arr = [];
+				arr.push(userObject);
+			});
+			// correct
+			firebase.db.ref(`following`).on("value", (snapshot) => {
+				const userObject = snapshot.val();
+				delete userObject[authUser.uid];
+				this.setState({ following: userObject });
+				let arr = [];
+				arr.push(userObject);
 			});
 		});
 	}
 
-	componentDidUpdate() {}
+	onHandleFollow(e) {
+		const { id, firebase } = this.props;
+		const { followed } = this.state;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			if (followed) {
+				firebase.db.ref(`following/${authUser.uid}/${e}`).remove();
+				firebase.db.ref(`followers/${e}/${authUser.uid}`).remove();
+				window.location.reload();
+			} else {
+				firebase.db
+					.ref(`following/${authUser.uid}/${e}`)
+					.set("followed");
+				firebase.db
+					.ref(`followers/${e}/${authUser.uid}`)
+					.set("following");
+			}
+		});
+		this.setState({ followed: !this.state.followed });
+	}
+
 	render() {
-		const { users, usersImages } = this.state;
-		if (users.length === 0) {
-			return <h4>No Friends to follow</h4>
+		const {
+			users,
+			usersImages,
+			followers,
+			following,
+			followed,
+		} = this.state;
+		if (usersImages.length === 0) {
+			return <h4>No Friends to follow</h4>;
 		}
 		return (
 			<div className="row">
@@ -55,7 +102,11 @@ class Search extends React.Component {
 							<div className="post--card" key={user.userID}>
 								<div className="post--card__header">
 									<img
-										src={usersImages[0]}
+										src={
+											usersImages[idx]
+												? usersImages[idx]
+												: Avatar
+										}
 										className="post--avatar"
 										alt=""
 									/>
@@ -72,12 +123,40 @@ class Search extends React.Component {
 											</p>
 										</a>
 										<p className="profile--hero__follower">
-											<span>10 Followers</span>
-											<span>10 Following</span>
+											<span>
+												{Object.keys(
+													followers
+												).includes(user.userID)
+													? Object.keys(
+															followers[
+																user.userID
+															]
+													  ).length
+													: 0}{" "}
+												Followers
+											</span>
+											<span>
+												{Object.keys(
+													following
+												).includes(user.userID)
+													? Object.keys(
+															following[
+																user.userID
+															]
+													  ).length
+													: 0}{" "}
+												Following
+											</span>
 										</p>
 									</div>
+
 									<button className="btn btn-sm btn-primary">
-										Follow
+										<a
+											href={`/dashboard/users/${user.userID}`}
+											className="white"
+										>
+											PROFILE
+										</a>
 									</button>
 								</div>
 							</div>

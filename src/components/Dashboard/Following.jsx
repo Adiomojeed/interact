@@ -4,7 +4,7 @@ import React from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
 
-class Followers extends React.Component {
+class Following extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,7 +18,7 @@ class Followers extends React.Component {
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
 			firebase.db
-				.ref(`followers/${authUser.uid}`)
+				.ref(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					const arr = Object.keys(userObject);
@@ -55,7 +55,7 @@ class Followers extends React.Component {
 			<div className="row">
 				<div className="col">
 					<div className="px px-lg-4">
-						<h4 className="follow-head">Followers</h4>
+						<h4 className="follow-head">Following</h4>
 					</div>
 					<div className="users-block px px-lg-4">
 						{users.map((user, idx) => (
@@ -88,4 +88,4 @@ class Followers extends React.Component {
 	}
 }
 
-export default withFirebase(Followers);
+export default withFirebase(Following);
