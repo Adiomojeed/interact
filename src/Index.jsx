@@ -10,7 +10,7 @@ import {
 	FirebaseContext,
 	auth,
 	db,
-	storage
+	storage,
 } from "./components/Firebase/index";
 import {
 	transitions,
@@ -22,7 +22,10 @@ import {
 const AlertTemplate = ({ message }) => {
 	return (
 		<div className="alert">
-			<p><i className="fas fa-check-circle"></i>{message}</p>
+			<p>
+				<i className="fas fa-check-circle"></i>
+				{message}
+			</p>
 		</div>
 	);
 };

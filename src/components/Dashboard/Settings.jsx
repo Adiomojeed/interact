@@ -2,28 +2,20 @@
 
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
-import { withRouter } from "react-router-dom";
-//import Avatar from '../../assets/images/male.png'
+import { withAlert } from "react-alert";
 
-class Settings extends Component {
+class Setting extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			FullName: "",
+			Password: "",
+			confirmPassword: "",
+			error: null,
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
-	}
-
-	componentDidMount() {
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db.ref(`users`).on("value", (snapshot) => {
-				const userObject = snapshot.val();
-				//console.log(userObject);
-			});
-		});
 	}
 
 	onHandleChange(e) {
@@ -31,59 +23,68 @@ class Settings extends Component {
 	}
 
 	onHandleSubmit(e) {
-		const { FullName, UserName, status } = this.state;
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db.ref("users").on("value", (snapshot) => {
-				//const searchResult = snapshot.val();
-				//console.log(searchResult);
+		const { Password } = this.state;
+		this.props.firebase.auth.currentUser
+			.updatePassword(Password)
+			.then(() => {
+				this.setState({ Password: "", confirmPassword: "" });
+			})
+			.then(() => {
+				this.props.alert.show("Password changed successfully!");
+			})
+			.catch((error) => {
+				this.setState({ error });
 			});
-		});
-		//this.props.history.push("/dashboard/profile");
-		//setTimeout(() => {
-		//	location.reload();
-		//}, 2000);
-		e.preventDefault;
+		e.preventDefault();
 	}
 
 	render() {
-		const { FullName } = this.state;
+		const { Password, confirmPassword, error } = this.state;
+		const isInvalid = Password === 0 || Password != confirmPassword;
 		return (
 			<div className="row">
-				<div className="col-sm justify-content">
+				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
 					<form onSubmit={this.onHandleSubmit}>
 						<div className="form-group">
-							<h3>SEARCH USERS</h3>
+							<h5>CHANGE PASSWORD</h5>
 						</div>
 						<div className="form-group">
 							<input
-								type="text"
-								name="FullName"
-								value={FullName}
+								type="password"
+								name="Password"
+								value={Password}
 								onChange={this.onHandleChange}
-								placeholder="Full Name"
-								className="edit"
+								placeholder="Password"
+								className="edit-control"
 							/>
+						</div>
+						<div className="form-group">
+							<input
+								type="password"
+								name="confirmPassword"
+								value={confirmPassword}
+								onChange={this.onHandleChange}
+								placeholder="Confirm Password"
+								className="edit-control"
+							/>
+						</div>
+						<div className="form-group">
+							{error && <p className="error">{error.message}</p>}
 						</div>
 						<div className="form-group">
 							<button
 								className="btn btn-primary btn-update"
 								type="submit"
+								disabled={isInvalid}
 							>
-								SEARCH
+								CHANGE PASSWORD
 							</button>
 						</div>
 					</form>
-					<button
-						className="btn btn-primary btn-update"
-                        type="submit"
-                        onClick={this.onHandleSubmit}
-					>
-						SEARCH
-					</button>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default withRouter(withFirebase(Settings));
+export default withFirebase(withAlert()(Setting));

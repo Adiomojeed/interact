@@ -2,8 +2,7 @@
 
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
-import { navigate } from '@reach/router'
-import { withRouter } from "react-router-dom";
+import { navigate } from "@reach/router";
 import Avatar from "../../assets/images/male.png";
 import imageCompression from "browser-image-compression";
 
@@ -16,6 +15,7 @@ class EditProfile extends Component {
 			UserName: "",
 			status: "",
 			image: "",
+			avatar: Avatar,
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
@@ -25,16 +25,24 @@ class EditProfile extends Component {
 	}
 
 	componentDidMount() {
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db
-				.ref(`users/${authUser.uid}`)
-				.on("value", (snapshot) => {
-					const userObject = snapshot.val();
-					this.setState({
-						FullName: userObject.FullName,
-						UserName: userObject.UserName,
-						status: userObject.status,
-					});
+		const { firebase } = this.props;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
+				const userObject = snapshot.val();
+				this.setState({
+					FullName: userObject.FullName,
+					UserName: userObject.UserName,
+					status: userObject.status,
+				});
+			});
+			firebase.storage
+				.ref()
+				.child(`images/${authUser.uid}`)
+				.getDownloadURL()
+				.then((url) => {
+					window.localStorage.setItem("image", url);
+					let a = window.localStorage.getItem("image");
+					this.setState({ avatar: a });
 				});
 		});
 	}
@@ -44,13 +52,14 @@ class EditProfile extends Component {
 	}
 
 	onHandleSubmit(e) {
+		const { firebase } = this.props;
 		const { FullName, UserName, status } = this.state;
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db
+		firebase.auth.onAuthStateChanged((authUser) => {
+			firebase.db
 				.ref(`users/${authUser.uid}`)
 				.update({ FullName, UserName, status });
 		});
-		navigate("/dashboard/profile");
+		navigate("/dashboard");
 		e.preventDefault();
 	}
 
@@ -59,6 +68,7 @@ class EditProfile extends Component {
 	}
 
 	onHandleUpload() {
+		const { firebase } = this.props;
 		const { image } = this.state;
 		var imageFile = image;
 
@@ -69,8 +79,8 @@ class EditProfile extends Component {
 		};
 		imageCompression(imageFile, options)
 			.then((compressedFile) => {
-				this.props.firebase.auth.onAuthStateChanged((authUser) => {
-					this.props.firebase.storage
+				firebase.auth.onAuthStateChanged((authUser) => {
+					firebase.storage
 						.ref(`images/${authUser.uid}`)
 						.put(compressedFile)
 						.on("state_changed", function (snapshot) {
@@ -78,21 +88,18 @@ class EditProfile extends Component {
 								(snapshot.bytesTransferred /
 									snapshot.totalBytes) *
 								100;
-							console.log("Upload is " + progress + "% done");
 							if (progress === 100) {
-								window.location.reload()
+								window.location.reload();
 							}
 						});
 				});
 			})
 
-			.catch(function (error) {
-				console.log(error.message);
-			});
+			.catch(function (error) {});
 	}
 
 	render() {
-		const { FullName, UserName, status } = this.state;
+		const { FullName, UserName, status, avatar } = this.state;
 		return (
 			<div className="row">
 				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
@@ -106,14 +113,14 @@ class EditProfile extends Component {
 								name="avatar"
 								id="avatar"
 								className="file"
-								//value={image}
 								onChange={this.onHandleImageSelect}
 							/>
 							<div className="upload--block">
 								<div className="upload">
 									<label htmlFor="avatar">
+										<p>+</p>
 										<img
-											src={Avatar}
+											src={avatar}
 											className="upload--avatar"
 										/>
 									</label>
@@ -121,7 +128,7 @@ class EditProfile extends Component {
 								<button
 									className="btn btn-primary btn-upload"
 									onClick={this.onHandleUpload}
-									type='submit'
+									type="submit"
 								>
 									Upload Profile Picture
 								</button>{" "}

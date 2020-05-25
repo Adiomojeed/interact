@@ -5,7 +5,6 @@
 	height: 100vh;
 }
 
-
 .row {
 	width: 100%;
 	display: flex;
@@ -21,13 +20,13 @@
 .col-3 {
 	max-width: 100%;
 	flex: 0 0 25%;
-	width: 100
+	width: 100;
 }
 
 .col-4 {
 	max-width: 100%;
 	flex: 0 0 33.333%;
-	width: 100
+	width: 100;
 }
 
 .col-6 {
@@ -37,226 +36,229 @@
 }
 
 .vh-100 {
-    height: 100vh;
+	height: 100vh;
 }
 
 .w-inherit {
-    width: inherit;
+	width: inherit;
 }
 
 .text-right {
-    text-align: right;
+	text-align: right;
 }
 
 .d-flex {
-    display: flex;
+	display: flex;
 }
 
 .px {
-    padding: 0 1rem;
+	padding: 0 1rem;
 }
 
 .px-2 {
-    padding: 0 2rem;
+	padding: 0 2rem;
 }
 
 .px-3 {
-    padding: 0 3rem;
+	padding: 0 3rem;
 }
 
 .px-4 {
-    padding: 0 4rem;
+	padding: 0 4rem;
 }
 .px-5 {
-    padding: 0 5rem
+	padding: 0 5rem;
 }
 
 .justify-content-between {
-    justify-content: space-between;
+	justify-content: space-between;
 }
 
+.pt {
+	padding-top: 50px;
+}
 
 @media screen and (min-width: 768px) {
-    .col-md {
-        max-width: 100%;
-        flex: 0 0 100%;
-        width: 100%;
-    }
-    
-    .col-md-3 {
-        max-width: 100%;
-        flex: 0 0 25%;
-        width: 100%;
-    }
-    
-    .col-md-4 {
-        max-width: 100%;
-        flex: 0 0 33.333%;
-        width: 100%;
-    }
-    
-    .col-md-6 {
-        max-width: 100%;
-        flex: 0 0 50%;
-        width: 100%;
-    }
-    .col-md-8 {
-        max-width: 100%;
-        flex: 0 0 66.667%;
-        width: 100%;
-    }
-    .col-md-9 {
-        max-width: 100%;
-        flex: 0 0 75%;
-        width: 100%;
-    }
-    .px-md {
-        padding: 0 1rem;
-    }
-    
-    .px-md-2 {
-        padding: 0 2rem;
-    }
-    
-    .px-md-3 {
-        padding: 0 3rem;
-    }
-    
-    .px-md-4 {
-        padding: 0 4rem;
-    }
-    .px-md-5 {
-        padding: 0 5rem
-    }
+	.col-md {
+		max-width: 100%;
+		flex: 0 0 100%;
+		width: 100%;
+	}
+
+	.col-md-3 {
+		max-width: 100%;
+		flex: 0 0 25%;
+		width: 100%;
+	}
+
+	.col-md-4 {
+		max-width: 100%;
+		flex: 0 0 33.333%;
+		width: 100%;
+	}
+
+	.col-md-6 {
+		max-width: 100%;
+		flex: 0 0 50%;
+		width: 100%;
+	}
+	.col-md-8 {
+		max-width: 100%;
+		flex: 0 0 66.667%;
+		width: 100%;
+	}
+	.col-md-9 {
+		max-width: 100%;
+		flex: 0 0 75%;
+		width: 100%;
+	}
+	.px-md {
+		padding: 0 1rem;
+	}
+
+	.px-md-2 {
+		padding: 0 2rem;
+	}
+
+	.px-md-3 {
+		padding: 0 3rem;
+	}
+
+	.px-md-4 {
+		padding: 0 4rem;
+	}
+	.px-md-5 {
+		padding: 0 5rem;
+	}
 }
 
 @media screen and (min-width: 992px) {
-    .col-lg {
-        max-width: 100%;
-        flex: 0 0 100%;
-        width: 100%;
-    }
-    
-    .col-lg-3 {
-        max-width: 100%;
-        flex: 0 0 25%;
-        width: 100%;
-    }
-    
-    .col-lg-4 {
-        max-width: 100%;
-        flex: 0 0 33.333%;
-        width: 100%;
-    }
-    
-    .col-lg-6 {
-        max-width: 100%;
-        flex: 0 0 50%;
-        width: 100%;
-    }
-    .col-lg-8 {
-        max-width: 100%;
-        flex: 0 0 66.667%;
-        width: 100%;
-    }
-    .col-lg-9 {
-        max-width: 100%;
-        flex: 0 0 75%;
-        width: 100%;
-    }
-    .col-lg-10 {
-        max-width: 100%;
-        flex: 0 0 83.333%;
-        width: 100%;
-    }
-    .px-lg {
-        padding: 0 1rem;
-    }
-    
-    .px-lg-2 {
-        padding: 0 2rem;
-    }
-    
-    .px-lg-3 {
-        padding: 0 3rem;
-    }
-    
-    .px-lg-4 {
-        padding: 0 4rem;
-    }
-    .px-lg-5 {
-        padding: 0 5rem
-    }
-    .offset-lg-2 {
-        margin-left: 16.667%;
-    }
-    .offset-lg {
-        margin-left: 8.333%;
-    }
-    .offset-lg-3 {
-        margin-left: 25%;
-    }
-    .justify-content-right {
-        justify-content: flex-end;
-    }
-    .pr-lg-5 {
-        padding-right: 50px;
-    }
+	.col-lg {
+		max-width: 100%;
+		flex: 0 0 100%;
+		width: 100%;
+	}
+
+	.col-lg-3 {
+		max-width: 100%;
+		flex: 0 0 25%;
+		width: 100%;
+	}
+
+	.col-lg-4 {
+		max-width: 100%;
+		flex: 0 0 33.333%;
+		width: 100%;
+	}
+
+	.col-lg-6 {
+		max-width: 100%;
+		flex: 0 0 50%;
+		width: 100%;
+	}
+	.col-lg-8 {
+		max-width: 100%;
+		flex: 0 0 66.667%;
+		width: 100%;
+	}
+	.col-lg-9 {
+		max-width: 100%;
+		flex: 0 0 75%;
+		width: 100%;
+	}
+	.col-lg-10 {
+		max-width: 100%;
+		flex: 0 0 83.333%;
+		width: 100%;
+	}
+	.px-lg {
+		padding: 0 1rem;
+	}
+
+	.px-lg-2 {
+		padding: 0 2rem;
+	}
+
+	.px-lg-3 {
+		padding: 0 3rem;
+	}
+
+	.px-lg-4 {
+		padding: 0 4rem;
+	}
+	.px-lg-5 {
+		padding: 0 5rem;
+	}
+	.offset-lg-2 {
+		margin-left: 16.667%;
+	}
+	.offset-lg {
+		margin-left: 8.333%;
+	}
+	.offset-lg-3 {
+		margin-left: 25%;
+	}
+	.justify-content-right {
+		justify-content: flex-end;
+	}
+	.pr-lg-5 {
+		padding-right: 50px;
+	}
 }
 
 @media screen and (min-width: 1025px) {
-    .col-xl {
-        max-width: 100%;
-        flex: 0 0 100%;
-        width: 100%;
-    }
-    
-    .col-xl-3 {
-        max-width: 100%;
-        flex: 0 0 25%;
-        width: 100%;
-    }
-    
-    .col-xl-4 {
-        max-width: 100%;
-        flex: 0 0 33.333%;
-        width: 100%;
-    }
-    
-    .col-xl-6 {
-        max-width: 100%;
-        flex: 0 0 50%;
-        width: 100%;
-    }
-    .col-xl-8 {
-        max-width: 100%;
-        flex: 0 0 66.667%;
-        width: 100%;
-    }
-    .col-xl-9 {
-        max-width: 100%;
-        flex: 0 0 75%;
-        width: 100%;
-    }
-    .offset-xl {
-        margin-left: 8.333%;
-    }
-    .px-xl {
-        padding: 0 1rem;
-    }
-    
-    .px-xl-2 {
-        padding: 0 2rem;
-    }
-    
-    .px-xl-3 {
-        padding: 0 3rem;
-    }
-    
-    .px-xl-4 {
-        padding: 0 4rem;
-    }
-    .px-xl-5 {
-        padding: 0 5rem
-    }
+	.col-xl {
+		max-width: 100%;
+		flex: 0 0 100%;
+		width: 100%;
+	}
+
+	.col-xl-3 {
+		max-width: 100%;
+		flex: 0 0 25%;
+		width: 100%;
+	}
+
+	.col-xl-4 {
+		max-width: 100%;
+		flex: 0 0 33.333%;
+		width: 100%;
+	}
+
+	.col-xl-6 {
+		max-width: 100%;
+		flex: 0 0 50%;
+		width: 100%;
+	}
+	.col-xl-8 {
+		max-width: 100%;
+		flex: 0 0 66.667%;
+		width: 100%;
+	}
+	.col-xl-9 {
+		max-width: 100%;
+		flex: 0 0 75%;
+		width: 100%;
+	}
+	.offset-xl {
+		margin-left: 8.333%;
+	}
+	.px-xl {
+		padding: 0 1rem;
+	}
+
+	.px-xl-2 {
+		padding: 0 2rem;
+	}
+
+	.px-xl-3 {
+		padding: 0 3rem;
+	}
+
+	.px-xl-4 {
+		padding: 0 4rem;
+	}
+	.px-xl-5 {
+		padding: 0 5rem;
+	}
 }

@@ -2,11 +2,9 @@
 
 import React from "react";
 import Profile from "../components/Dashboard/Profile";
-import Home from "../components/Dashboard/Home";
 import Search from "../components/Dashboard/Search";
 import Followers from "../components/Dashboard/Followers";
 import Settings from "../components/Dashboard/Settings";
-import { Route } from "react-router-dom";
 import { Router } from "@reach/router";
 import { withAuthorization } from "../components/Session/index";
 import TopNav from "../components/Dashboard/TopNav";
@@ -31,8 +29,7 @@ const Dashboard = () => {
 						<div className="col col-lg-9 vh-100 px-lg">
 							<TopNav />
 							<Router>
-								<Home path="/dashboard" />
-								<Profile path="/dashboard/profile" />
+								<Profile path="/dashboard" />
 								<EditProfile path="/dashboard/edit" />
 								<CreatePost path="/dashboard/create" />
 								<Search path="/dashboard/search" />

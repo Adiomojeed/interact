@@ -2,7 +2,6 @@
 
 import React from "react";
 import { withFirebase } from "../Firebase";
-import { Link } from "react-router-dom";
 import Avatar from "../../assets/images/male.png";
 
 class Search extends React.Component {
@@ -84,13 +83,7 @@ class Search extends React.Component {
 	}
 
 	render() {
-		const {
-			users,
-			usersImages,
-			followers,
-			following,
-			followed,
-		} = this.state;
+		const { users, usersImages, followers, following } = this.state;
 		if (usersImages.length === 0) {
 			return <h4>No Friends to follow</h4>;
 		}

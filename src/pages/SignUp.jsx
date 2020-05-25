@@ -48,12 +48,10 @@ class SignUpForm extends Component {
 				this.props.firebase.db
 					.ref(`users/${authUser.user.uid}`)
 					.set({ FullName, UserName, email, status });
-				this.props.firebase.db
-					.ref(`followers/${authUser.user.uid}`)
-					//.set({ followers });
-				this.props.firebase.db
-					.ref(`following/${authUser.user.uid}`)
-					//.set({ following });
+				this.props.firebase.db.ref(`followers/${authUser.user.uid}`);
+				//.set({ followers });
+				this.props.firebase.db.ref(`following/${authUser.user.uid}`);
+				//.set({ following });
 				//this.props.firebase.db
 				//	.ref(`posts/${authUser.user.uid}`)
 				//	.set({ post });

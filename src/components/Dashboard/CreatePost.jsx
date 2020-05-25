@@ -36,7 +36,7 @@ class CreatePost extends Component {
 				.ref(`posts/${authUser.uid}/${postID}`)
 				.set({ post, date, time, likes: 0 });
 		});
-		navigate("/dashboard/profile");
+		navigate("/dashboard");
 
 		e.preventDefault();
 	}

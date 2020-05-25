@@ -81,16 +81,18 @@ class SideBar extends React.Component {
 				</div>
 				<ul className="nav-list">
 					<li>
-						<NavLink to="/dashboard">HOME</NavLink>
+						<NavLink to="/dashboard">PROFILE</NavLink>
 					</li>
 					<li>
-						<NavLink to="/dashboard/profile">PROFILE</NavLink>
-					</li>
-					<li>
-						<NavLink to="/dashboard/search">PEOPLE YOU MAY FOLLOW</NavLink>
+						<NavLink to="/dashboard/search">
+							PEOPLE YOU MAY FOLLOW
+						</NavLink>
 					</li>
 					<li>
 						<NavLink to="/dashboard/followers">FOLLOWERS</NavLink>
+					</li>
+					<li>
+						<NavLink to="/dashboard/following">FOLLOWING</NavLink>
 					</li>
 					<li>
 						<NavLink to="/dashboard/settings">SETTINGS</NavLink>

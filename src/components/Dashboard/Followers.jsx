@@ -10,6 +10,7 @@ class Followers extends React.Component {
 		this.state = {
 			users: [],
 			usersImages: [],
+			usersID: [],
 		};
 	}
 
@@ -22,6 +23,7 @@ class Followers extends React.Component {
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					const arr = Object.keys(userObject);
+					this.setState({ usersID: arr });
 					let folArr = [];
 					firebase.db.ref("users").on("value", (snapshot) => {
 						const user = snapshot.val();
@@ -46,16 +48,16 @@ class Followers extends React.Component {
 	}
 
 	render() {
-		const { users, usersImages } = this.state;
+		const { users, usersImages, usersID } = this.state;
 
 		if (users.length === 0) {
-			return <h1>Loading...</h1>;
+			return <h5>No Follower Found</h5>;
 		}
 		return (
 			<div className="row">
 				<div className="col">
 					<div className="px px-lg-4">
-						<h4 className="follow-head">Followers</h4>
+						<h5 className="follow-head">Your followers</h5>
 					</div>
 					<div className="users-block px px-lg-4">
 						{users.map((user, idx) => (
@@ -71,13 +73,26 @@ class Followers extends React.Component {
 										alt=""
 									/>
 									<div>
-										<h6 className="profile--hero">
-											{user.FullName}
-										</h6>
-										<p className="profile--hero__desc">
-											@{user.UserName}
-										</p>
+										<a
+											href={`/dashboard/users/${usersID[idx]}`}
+											id="1"
+										>
+											<h6 className="profile--hero">
+												{user.FullName}
+											</h6>
+											<p className="profile--hero__desc">
+												@{user.UserName}
+											</p>
+										</a>
 									</div>
+									<button className="btn btn-sm btn-primary">
+										<a
+											href={`/dashboard/users/${usersID[idx]}`}
+											className="white"
+										>
+											PROFILE
+										</a>
+									</button>
 								</div>
 							</div>
 						))}

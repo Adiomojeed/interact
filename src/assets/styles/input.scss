@@ -17,7 +17,7 @@ form {
 		line-height: 0;
 	}
 	p {
-		font-size: .6em;
+		font-size: 0.6em;
 	}
 }
 
@@ -49,7 +49,7 @@ input {
 }
 
 .upload--block {
-	margin-top: 0px;
+	margin-top: -20px;
 	margin-bottom: -20px;
 	justify-content: center;
 	display: flex;
@@ -57,11 +57,20 @@ input {
 	.upload {
 		label {
 			cursor: pointer;
+			display: flex;
+			align-items: center;
 			.upload--avatar {
 				border-radius: 50%;
 				width: 80px;
 				height: 80px;
 				padding: 2px;
+				opacity: 0.5;
+			}
+			p {
+				margin-right: -50px;
+				font-size: 2em;
+				font-weight: bolder;
+				z-index: 1;
 			}
 		}
 	}
@@ -94,7 +103,7 @@ a {
 		padding: 25px 40px;
 	}
 	input {
-		font-size: .7em;
+		font-size: 0.7em;
 	}
 	.edit-control {
 		font-size: 0.55em;
@@ -105,5 +114,14 @@ a {
 	.upload--avatar {
 		width: 150px;
 		height: 100px;
+	}
+	.upload--block {
+		.upload {
+			label {
+				p {
+					font-size: 1em;
+				}
+			}
+		}
 	}
 }

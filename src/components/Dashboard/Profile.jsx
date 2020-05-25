@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import Avatar from "../../assets/images/male.png";
 import { withFirebase } from "../Firebase";
-import { Link } from "react-router-dom";
 
 class Profile extends Component {
 	constructor(props) {

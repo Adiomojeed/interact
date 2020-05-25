@@ -81,6 +81,9 @@ export const GlobalStyles = createGlobalStyle`
         background: ${({ theme }) => theme.card};
         border: 1px solid ${({ theme }) => theme.bodySecondary};
     }
+    .alert {
+        background: ${({ theme }) => theme.textSecondary};
+    }
     @media screen and (min-width: 992px) {
         .siderow {
             background: transparent;
