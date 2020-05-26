@@ -18,6 +18,10 @@ class Setting extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
+	componentWillMount() {
+		document.title = "Intteract - Settings";
+	}
+
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}

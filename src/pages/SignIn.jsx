@@ -21,6 +21,10 @@ class SignInForm extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
+	componentWillMount() {
+		document.title = 'Intteract - Sign In'
+	}
+
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}

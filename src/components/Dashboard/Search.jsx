@@ -16,6 +16,11 @@ class Search extends React.Component {
 		};
 
 		this.onHandleFollow = this.onHandleFollow.bind(this);
+		this.onHandleError = this.onHandleError.bind(this);
+	}
+
+	componentWillMount() {
+		document.title = "Intteract - Search";
 	}
 
 	componentDidMount() {
@@ -31,14 +36,14 @@ class Search extends React.Component {
 					}))
 					.filter((a) => a.userID != authUser.uid);
 				this.setState({ users: user });
-				let image = [];
+				let image = new Object();
 				user.map((x) => {
 					firebase.storage
 						.ref()
 						.child(`images/${x.userID}`)
 						.getDownloadURL()
 						.then((url) => {
-							image.push(url);
+							image[x.userID] = url;
 							this.setState({ usersImages: image });
 						});
 				});
@@ -60,6 +65,10 @@ class Search extends React.Component {
 				arr.push(userObject);
 			});
 		});
+	}
+
+	onHandleError(e) {
+		e.target.src = Avatar
 	}
 
 	onHandleFollow(e) {
@@ -96,10 +105,11 @@ class Search extends React.Component {
 								<div className="post--card__header">
 									<img
 										src={
-											usersImages[idx]
-												? usersImages[idx]
+											usersImages[user.userID]
+												? usersImages[user.userID]
 												: Avatar
 										}
+										onError={this.onHandleError}
 										className="post--avatar"
 										alt=""
 									/>

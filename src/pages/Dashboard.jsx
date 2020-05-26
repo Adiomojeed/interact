@@ -6,7 +6,10 @@ import Search from "../components/Dashboard/Search";
 import Followers from "../components/Dashboard/Followers";
 import Settings from "../components/Dashboard/Settings";
 import { Router } from "@reach/router";
-import { withAuthorization } from "../components/Session/index";
+import {
+	withAuthorization,
+	withEmailVerification,
+} from "../components/Session/index";
 import TopNav from "../components/Dashboard/TopNav";
 import SideBar from "../components/Dashboard/SideBar";
 import EditProfile from "../components/Dashboard/EditProfile";
@@ -48,4 +51,4 @@ const Dashboard = () => {
 
 const condition = (authUser) => authUser != null;
 
-export default withAuthorization(condition)(Dashboard);
+export default withEmailVerification(withAuthorization(condition)(Dashboard));

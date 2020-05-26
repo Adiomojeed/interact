@@ -53,7 +53,7 @@ export const GlobalStyles = createGlobalStyle`
     .headers {
         color: ${({ theme }) => theme.dark};
     }
-    .nav, .profile--hero {
+    .nav a, .profile--hero {
         color: ${({ theme }) => theme.textSecondary};
     }
     .active, .sign-out, .btn-edit {

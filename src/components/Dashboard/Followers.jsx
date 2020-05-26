@@ -12,6 +12,12 @@ class Followers extends React.Component {
 			usersImages: [],
 			usersID: [],
 		};
+
+		this.onHandleError = this.onHandleError.bind(this)
+	}
+
+	componentWillMount() {
+		document.title = "Intteract - Followers";
 	}
 
 	componentDidMount() {
@@ -31,20 +37,24 @@ class Followers extends React.Component {
 							folArr.push(user[arr[i]]);
 						}
 						this.setState({ users: folArr });
-						let image = [];
+						let image = new Object();
 						arr.map((x) => {
 							firebase.storage
 								.ref()
 								.child(`images/${x}`)
 								.getDownloadURL()
 								.then((url) => {
-									image.push(url);
+									image[x] = url;
 									this.setState({ usersImages: image });
 								});
 						});
 					});
 				});
 		});
+	}
+
+	onHandleError(e) {
+		e.target.src = Avatar
 	}
 
 	render() {
@@ -65,11 +75,12 @@ class Followers extends React.Component {
 								<div className="post--card__header">
 									<img
 										src={
-											usersImages[idx]
-												? usersImages[idx]
+											usersImages[usersID[idx]]
+												? usersImages[usersID[idx]]
 												: Avatar
 										}
 										className="post--avatar"
+										onError={this.onHandleError}
 										alt=""
 									/>
 									<div>

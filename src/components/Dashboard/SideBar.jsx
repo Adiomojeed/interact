@@ -21,6 +21,8 @@ class SideBar extends React.Component {
 			following: "",
 			avatar: Avatar,
 		};
+
+		this.onHandleError = this.onHandleError.bind(this)
 	}
 
 	componentDidMount() {
@@ -57,6 +59,10 @@ class SideBar extends React.Component {
 		});
 	}
 
+	onHandleError() {
+		this.setState({ avatar: Avatar });
+	}
+
 	render() {
 		const { user, followers, following, avatar } = this.state;
 		return (
@@ -66,7 +72,7 @@ class SideBar extends React.Component {
 				</div>
 				<div className="avatar-block">
 					<div>
-						<img src={avatar} className="avatar" alt="" />
+						<img src={avatar} className="avatar" alt="" onError={this.onHandleError} />
 					</div>
 					<h4 className="text-light">{user.FullName}</h4>
 					<small className="name">@{user.UserName}</small>

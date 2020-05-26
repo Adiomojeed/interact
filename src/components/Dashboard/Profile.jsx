@@ -20,6 +20,11 @@ class Profile extends Component {
 		};
 
 		this.onHandleClick = this.onHandleClick.bind(this);
+		this.onHandleError = this.onHandleError.bind(this);
+	}
+
+	componentWillMount() {
+		document.title = "Intteract - Profile";
 	}
 
 	componentDidMount() {
@@ -76,6 +81,10 @@ class Profile extends Component {
 		});
 	}
 
+	onHandleError() {
+		this.setState({ avatar: Avatar });
+	}
+
 	onHandleClick(e) {
 		const { firebase, id } = this.props;
 		const { liked } = this.state;
@@ -122,6 +131,7 @@ class Profile extends Component {
 								src={avatar}
 								className="profile--avatar"
 								alt=""
+								onError={this.onHandleError}
 							/>
 						</a>
 						<div className="profile--header">

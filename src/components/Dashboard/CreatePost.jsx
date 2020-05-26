@@ -17,6 +17,10 @@ class CreatePost extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
+	componentWillMount() {
+		document.title = "Intteract - Create post";
+	}
+
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}

@@ -19,9 +19,14 @@ class EditProfile extends Component {
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
+		this.onHandleError = this.onHandleError.bind(this)
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 		this.onHandleUpload = this.onHandleUpload.bind(this);
 		this.onHandleImageSelect = this.onHandleImageSelect.bind(this);
+	}
+
+	componentWillMount() {
+		document.title = "Intteract - Edit Profile";
 	}
 
 	componentDidMount() {
@@ -47,6 +52,10 @@ class EditProfile extends Component {
 		});
 	}
 
+	onHandleError() {
+		this.setState({ avatar: Avatar });
+	}
+
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
@@ -65,6 +74,7 @@ class EditProfile extends Component {
 
 	onHandleImageSelect(event) {
 		this.setState({ image: event.target.files[0] });
+		console.log(event.target.files[0]);
 	}
 
 	onHandleUpload() {
@@ -121,6 +131,7 @@ class EditProfile extends Component {
 										<p>+</p>
 										<img
 											src={avatar}
+											onError={this.onHandleError}
 											className="upload--avatar"
 										/>
 									</label>

@@ -21,6 +21,11 @@ class UsersProfiles extends Component {
 
 		this.onHandleClick = this.onHandleClick.bind(this);
 		this.onHandleFollow = this.onHandleFollow.bind(this);
+		this.onHandleError = this.onHandleError.bind(this)
+	}
+
+	componentWillMount() {
+		document.title = "Intteract - Profile";
 	}
 
 	componentDidMount() {
@@ -77,6 +82,10 @@ class UsersProfiles extends Component {
 					this.setState({ avatar: url });
 				});
 		});
+	}
+
+	onHandleError() {
+		this.setState({ avatar: Avatar });
 	}
 
 	onHandleClick(e) {
@@ -146,6 +155,7 @@ class UsersProfiles extends Component {
 								src={avatar}
 								className="profile--avatar"
 								alt=""
+								onError={this.onHandleError}
 							/>
 						</a>
 						<div className="profile--header">
@@ -185,6 +195,7 @@ class UsersProfiles extends Component {
 										<img
 											src={avatar}
 											className="post--avatar"
+											onError={this.onHandleError}
 											alt=""
 										/>
 										<div>

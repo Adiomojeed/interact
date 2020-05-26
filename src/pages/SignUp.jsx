@@ -2,20 +2,21 @@
 
 import React, { Component } from "react";
 import Container from "../components/Container";
+import Avatar from "../assets/images/male.png";
 import { withFirebase } from "../components/Firebase/index";
 import { Link, withRouter } from "react-router-dom";
 import { withAlert } from "react-alert";
+import imageCompression from "browser-image-compression";
 
 const INITIAL_STATE = {
 	FullName: "",
 	UserName: "",
 	email: "",
-	passwordOne: "",
-	passwordTwo: "",
+	password: "",
 	status: "No Status",
-	//followers: 0,
-	//following: 0,
 	post: "No Post Found",
+	eyeStatus: "fas fa-eye",
+	image: "",
 	error: null,
 };
 
@@ -26,10 +27,33 @@ class SignUpForm extends Component {
 		this.state = { ...INITIAL_STATE };
 		this.onHandleChange = this.onHandleChange.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
+		this.onHandleToggle = this.onHandleToggle.bind(this);
+	}
+
+	componentWillMount() {
+		document.title = "Intteract - Sign Up";
+	}
+
+	componentDidMount() {
+		var file = new File(["male"], "../assets/images/male.png", {
+			type: "image/png",
+		});
+		this.setState({ image: file });
+		console.log(file)
 	}
 
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
+	}
+
+	onHandleToggle(e) {
+		if (e.target.previousElementSibling.type === "password") {
+			e.target.previousElementSibling.type = "text";
+			this.setState({ eyeStatus: "fas fa-eye-slash" });
+		} else {
+			e.target.previousElementSibling.type = "password";
+			this.setState({ eyeStatus: "fas fa-eye" });
+		}
 	}
 
 	onHandleSubmit(e) {
@@ -38,37 +62,35 @@ class SignUpForm extends Component {
 			UserName,
 			status,
 			email,
-			passwordOne,
-			//followers,
-			//following,
+			password,
+			image,
 		} = this.state;
-		this.props.firebase.auth
-			.createUserWithEmailAndPassword(email, passwordOne)
+		const { firebase } = this.props;
+		firebase.auth
+			.createUserWithEmailAndPassword(email, password)
 			.then((authUser) => {
-				this.props.firebase.db
+				firebase.db
 					.ref(`users/${authUser.user.uid}`)
 					.set({ FullName, UserName, email, status });
-				this.props.firebase.db.ref(`followers/${authUser.user.uid}`);
-				//.set({ followers });
-				this.props.firebase.db.ref(`following/${authUser.user.uid}`);
-				//.set({ following });
-				//this.props.firebase.db
-				//	.ref(`posts/${authUser.user.uid}`)
-				//	.set({ post });
+			})
+			.then(() => {
+				firebase.auth.onAuthStateChanged((authUser) => {
+					firebase.storage
+						.ref(`images/${authUser.uid}`)
+						.put(image)
+				});
+			})
+			.then(() => {
+				firebase.auth.currentUser
+					.sendEmailVerification()
+					.catch((error) => console.error(error));
 			})
 			.then(() => {
 				this.setState({ ...INITIAL_STATE });
 				this.props.history.push("/dashboard");
 			})
-			.then(() => {
-				// eslint-disable-next-line no-restricted-globals
-				location.reload();
-			})
-			.then(() => {
-				this.setState({ ...INITIAL_STATE });
-				this.props.alert.show("Successfully Signed Up!");
-			})
 			.catch((error) => this.setState({ error }));
+
 		e.preventDefault();
 	}
 
@@ -77,15 +99,12 @@ class SignUpForm extends Component {
 			FullName,
 			email,
 			UserName,
-			passwordOne,
-			passwordTwo,
+			password,
 			error,
+			eyeStatus,
 		} = this.state;
-		const isInvalid =
-			FullName === "" ||
-			email === "" ||
-			passwordOne === "" ||
-			passwordOne !== passwordTwo;
+		const isInvalid = FullName === "" || email === "" || password === "";
+
 		return (
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
@@ -122,20 +141,15 @@ class SignUpForm extends Component {
 					<div className="form-group">
 						<input
 							type="password"
-							name="passwordOne"
-							value={passwordOne}
+							name="password"
+							value={password}
 							onChange={this.onHandleChange}
 							placeholder="Password"
 						/>
-					</div>
-					<div className="form-group">
-						<input
-							type="password"
-							name="passwordTwo"
-							value={passwordTwo}
-							onChange={this.onHandleChange}
-							placeholder="Confirm Password"
-						/>
+						<i
+							className={eyeStatus}
+							onClick={this.onHandleToggle}
+						></i>
 					</div>
 					<div className="form-group">
 						{error && <p>{error.message}</p>}
