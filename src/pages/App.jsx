@@ -1,21 +1,23 @@
 /** @format */
 
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router } from "@reach/router";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ForgetPassword from "./ForgetPassword";
 import Dashboard from "./Dashboard";
 import { withAuthentication } from "../components/Session";
+import CreateProfile from "./CreateProfile";
 
 class App extends Component {
 	render() {
 		return (
 			<Router>
-				<Route exact path="/" component={SignIn} />
-				<Route path="/register" component={SignUp} />
-				<Route path="/forget-pw" component={ForgetPassword} />
-				<Route path="/dashboard" component={Dashboard} />
+				<SignIn path='/' />
+				<SignUp path='/register' />
+				<ForgetPassword path='/forget-pw' />
+				<Dashboard path='/dashboard' />
+				<CreateProfile path='/create' />
 			</Router>
 		);
 	}

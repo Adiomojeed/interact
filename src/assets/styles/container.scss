@@ -6,7 +6,7 @@
 }
 
 .row {
-	width: 100%;
+	max-width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -43,6 +43,10 @@
 	width: inherit;
 }
 
+.w-100 {
+	max-width: 100%;
+}
+
 .text-right {
 	text-align: right;
 }
@@ -68,6 +72,10 @@
 }
 .px-5 {
 	padding: 0 5rem;
+}
+.py {
+	padding-top: 30px;
+	padding-bottom: 50px;
 }
 
 .justify-content-between {

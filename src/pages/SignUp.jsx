@@ -3,17 +3,14 @@
 import React, { Component } from "react";
 import Container from "../components/Container";
 import Avatar from "../assets/images/male.png";
+import { navigate } from "@reach/router";
 import { withFirebase } from "../components/Firebase/index";
-import { Link, withRouter } from "react-router-dom";
 import { withAlert } from "react-alert";
 import imageCompression from "browser-image-compression";
 
 const INITIAL_STATE = {
-	FullName: "",
-	UserName: "",
 	email: "",
 	password: "",
-	status: "No Status",
 	post: "No Post Found",
 	eyeStatus: "fas fa-eye",
 	image: "",
@@ -30,16 +27,13 @@ class SignUpForm extends Component {
 		this.onHandleToggle = this.onHandleToggle.bind(this);
 	}
 
-	componentWillMount() {
-		document.title = "Intteract - Sign Up";
-	}
-
 	componentDidMount() {
+		document.title = "Intteract - Sign Up";
 		var file = new File(["male"], "../assets/images/male.png", {
 			type: "image/png",
 		});
 		this.setState({ image: file });
-		console.log(file)
+		console.log(file);
 	}
 
 	onHandleChange(e) {
@@ -57,77 +51,53 @@ class SignUpForm extends Component {
 	}
 
 	onHandleSubmit(e) {
-		const {
-			FullName,
-			UserName,
-			status,
-			email,
-			password,
-			image,
-		} = this.state;
+		const { email, password } = this.state;
 		const { firebase } = this.props;
-		firebase.auth
-			.createUserWithEmailAndPassword(email, password)
-			.then((authUser) => {
-				firebase.db
-					.ref(`users/${authUser.user.uid}`)
-					.set({ FullName, UserName, email, status });
-			})
-			.then(() => {
-				firebase.auth.onAuthStateChanged((authUser) => {
-					firebase.storage
-						.ref(`images/${authUser.uid}`)
-						.put(image)
-				});
-			})
+		firebase
+			.doCreateUserWithEmailAndPassword(email, password)
 			.then(() => {
 				firebase.auth.currentUser
 					.sendEmailVerification()
 					.catch((error) => console.error(error));
 			})
-			.then(() => {
-				this.setState({ ...INITIAL_STATE });
-				this.props.history.push("/dashboard");
-			})
+			.then(() => navigate("/create"))
 			.catch((error) => this.setState({ error }));
-
 		e.preventDefault();
+		//firebase.auth
+		//	.createUserWithEmailAndPassword(email, password)
+		//	.then((authUser) => {
+		//		firebase.db
+		//			.ref(`users/${authUser.user.uid}`)
+		//			.set({ FullName, UserName, email, status });
+		//	})
+		//	.then(() => {
+		//		firebase.auth.onAuthStateChanged((authUser) => {
+		//			firebase.storage.ref(`images/${authUser.uid}`).put(image);
+		//		});
+		//	})
+		//	.then(() => {
+		//		firebase.auth.currentUser
+		//			.sendEmailVerification()
+		//			.catch((error) => console.error(error));
+		//	})
+		//	.then(() => {
+		//		this.setState({ ...INITIAL_STATE });
+		//		navigate("/dashboard");
+		//	})
+		//	.catch((error) => this.setState({ error }));
+//
+		//e.preventDefault();
 	}
 
 	render() {
-		const {
-			FullName,
-			email,
-			UserName,
-			password,
-			error,
-			eyeStatus,
-		} = this.state;
-		const isInvalid = FullName === "" || email === "" || password === "";
+		const { email, password, error, eyeStatus } = this.state;
+		const isInvalid = email === "" || password === "";
 
 		return (
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
 					<div className="form-group">
 						<h2>Create an account</h2>
-					</div>
-					<div className="form-group">
-						<input
-							type="text"
-							name="FullName"
-							value={FullName}
-							onChange={this.onHandleChange}
-							placeholder="Full Name"
-						/>
-					</div>
-					<div className="form-group">
-						<input
-							type="text"
-							name="UserName"
-							value={UserName}
-							onChange={this.onHandleChange}
-							placeholder="User Name"
-						/>
 					</div>
 					<div className="form-group">
 						<input
@@ -151,6 +121,7 @@ class SignUpForm extends Component {
 							onClick={this.onHandleToggle}
 						></i>
 					</div>
+
 					<div className="form-group">
 						{error && <p>{error.message}</p>}
 					</div>
@@ -163,10 +134,10 @@ class SignUpForm extends Component {
 							REGISTER
 						</button>
 					</div>
-					<div className="form-group">
-						<Link to="/">
+					<div className="form-group d-flex justify-content-between">
+						<a href="/">
 							<small>Sign In</small>
-						</Link>
+						</a>
 					</div>
 				</form>
 			</Container>
@@ -174,6 +145,6 @@ class SignUpForm extends Component {
 	}
 }
 
-const SignUp = withRouter(withFirebase(withAlert()(SignUpForm)));
+const SignUp = withFirebase(withAlert()(SignUpForm));
 
 export default SignUp;

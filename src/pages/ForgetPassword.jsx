@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import Container from "../components/Container";
 import { withFirebase } from "../components/Firebase/index";
-import { Link } from "react-router-dom";
 import { withAlert } from "react-alert";
 
 const INITIAL_STATE = {
@@ -20,7 +19,7 @@ class ForgetPassword extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		document.title = 'Intteract - Forget Password'
 	}
 
@@ -47,7 +46,7 @@ class ForgetPassword extends Component {
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
 					<div className="form-group">
-						<h3>Forgot Password</h3>
+						<h2>Forgot Password</h2>
 					</div>
 					<div className="form-group">
 						<input
@@ -70,10 +69,10 @@ class ForgetPassword extends Component {
 							SEND ME A RESET LINK
 						</button>
 					</div>
-					<div className="form-group dflex">
-						<Link to="/">
-							<a>Sign In</a>
-						</Link>
+					<div className="form-group d-flex justify-content-between">
+						<a href="/">
+							<small>Sign In</small>
+						</a>
 					</div>
 				</form>
 			</Container>

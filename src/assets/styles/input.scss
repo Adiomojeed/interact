@@ -1,31 +1,43 @@
 /** @format */
 
 form {
-	width: inherit;
+	width: 100%;
 }
 
 .form-group {
-	margin: 30px 0;
+	margin: 0px 0 20px 0;
 	width: inherit;
-	//display: flex;
-	i {
-		position: relative;
-		float: right;
-		top: -37px;
-		right: 30px;
-		font-size: 1em;
-	}
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	h2 {
 		text-align: center;
-		font-family: "Lobster Two", cursive;
+		font-size: 1.2em;
+		text-transform: uppercase;
+		margin-bottom: 0;
+	}
+	h5 {
+		text-align: center;
+		margin-bottom: 0;
 		text-transform: uppercase;
 	}
 	a {
 		margin-top: -40px;
 		line-height: 0;
+		color: $text-primary;
 	}
 	p {
-		font-size: 0.6em;
+		font-size: 0.8em;
+		color: $text-red;
+		margin-top: -10px;
+		padding-bottom: 0px;
+	}
+	i {
+		margin-left: auto;
+		color: $text-dark;
+		position: relative;
+		top: -32px;
+		right: 30px;
 	}
 }
 
@@ -40,10 +52,16 @@ form {
 input {
 	display: block;
 	width: inherit;
-	padding: 20px 20px;
+	padding: 15px 30px;
 	border-radius: 10px;
+	border: 1.2px solid rgb(223, 220, 220);
 	font-style: italic;
+	color: $text-dark;
 	outline: none;
+}
+
+input:focus {
+	border: 1.5px solid lighten($color: $text-primary, $amount: 10);
 }
 
 .edit-control {
@@ -56,31 +74,26 @@ input {
 	display: none;
 }
 
-.upload--block {
-	margin-top: -20px;
-	margin-bottom: -20px;
-	justify-content: center;
+label {
+	cursor: pointer;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	.upload {
-		label {
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			.upload--avatar {
-				border-radius: 50%;
-				width: 80px;
-				height: 80px;
-				padding: 2px;
-				opacity: 0.5;
-			}
-			p {
-				margin-right: -50px;
-				font-size: 2em;
-				font-weight: bolder;
-				z-index: 1;
-			}
-		}
+	justify-content: center;
+	font-size: 2em;
+	.upload--avatar {
+		border-radius: 50%;
+		width: 80px;
+		height: 80px;
+		padding: 2px;
+		opacity: 0.5;
+		border: 2px solid $text-primary;
+	}
+	span {
+		margin-right: -55px;
+		font-weight: bolder;
+		z-index: 1;
+		color: $text-dark;
 	}
 }
 
@@ -101,28 +114,35 @@ a {
 }
 
 @media screen and (min-width: 768px) {
+	input {
+		padding: 20px 30px;
+	}
 	.form-group {
 		i {
-			top: -50px;
+			top: -40px;
 		}
-	}
-	input {
-		padding: 30px 30px;
 	}
 }
 
 @media screen and (min-width: 992px) {
 	.form-group {
+		h2 {
+			font-size: 1em;
+		}
+		a {
+			font-size: 0.7em;
+		}
+		p {
+			font-size: 0.5em;
+		}
 		i {
-			top: -50px;
+			top: -42px;
 			font-size: 0.8em;
 		}
 	}
 	input {
-		padding: 25px 40px;
-	}
-	input {
-		font-size: 0.7em;
+		padding: 20px 40px;
+		font-size: 0.6em;
 	}
 	.edit-control {
 		font-size: 0.55em;
@@ -134,13 +154,8 @@ a {
 		width: 150px;
 		height: 100px;
 	}
-	.upload--block {
-		.upload {
-			label {
-				p {
-					font-size: 1em;
-				}
-			}
-		}
+
+	label {
+		font-size: 1.5em;
 	}
 }

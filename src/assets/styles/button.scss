@@ -2,15 +2,27 @@
 
 .btn {
 	display: block;
-	width: 100%;
-	padding: 20px 20px;
+	width: inherit;
+	padding: 15px 20px;
 	border: 0;
 	outline: none;
 	font-size: 0.8em;
 	text-align: center;
 	border-radius: 10px;
-	font-weight: bold;
+	font-weight: bolder;
+	margin-top: -20px;
 	cursor: pointer;
+	background-color: lighten($color: $bg-primary, $amount: 10);
+	color: $text-white;
+	transition: background-color .5s;
+	i {
+		display: inline;
+		color: red;
+	}
+}
+
+.btn:hover {
+	background-color: $bg-primary;
 }
 
 .btn-sm {
@@ -31,7 +43,7 @@
 
 @media screen and (min-width: 768px) {
 	.btn {
-		padding: 25px 30px;
+		padding: 20px 30px;
 	}
 	.btn-upload {
 		width: 30%;
@@ -49,7 +61,7 @@
 
 @media screen and (min-width: 992px) {
 	.btn {
-		font-size: 0.8em;
+		font-size: 0.6em;
 	}
 	.btn-sm {
 		font-size: 0.5em;

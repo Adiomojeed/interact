@@ -2,13 +2,15 @@
 
 import React, { Component } from "react";
 import Container from "../components/Container";
+import { navigate } from "@reach/router";
 import { withFirebase } from "../components/Firebase/index";
-import { Link, withRouter } from "react-router-dom";
 import { withAlert } from "react-alert";
 
 const INITIAL_STATE = {
 	email: "",
 	password: "",
+	eyeStatus: "fas fa-eye",
+	users: [],
 	error: null,
 };
 
@@ -19,38 +21,80 @@ class SignInForm extends Component {
 		this.state = { ...INITIAL_STATE };
 		this.onHandleChange = this.onHandleChange.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
+		this.onHandleToggle = this.onHandleToggle.bind(this);
 	}
 
-	componentWillMount() {
-		document.title = 'Intteract - Sign In'
+	componentDidMount() {
+		document.title = "Intteract - Sign In";
+		this.ref = this.props.firebase.user("users").on("value", (snapshot) => {
+			const usersObject = snapshot.val();
+			let users;
+			if (usersObject === null) {
+				users = [];
+			} else {
+				users = Object.keys(usersObject).map(
+					(user) => usersObject[user].email
+				);
+			}
+			this.setState({ users });
+		});
+	}
+
+	componentWillUnmount() {
+		this.ref().off();
 	}
 
 	onHandleChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 	}
 
+	onHandleToggle(e) {
+		if (e.target.previousElementSibling.type === "password") {
+			e.target.previousElementSibling.type = "text";
+			this.setState({ eyeStatus: "fas fa-eye-slash" });
+		} else {
+			e.target.previousElementSibling.type = "password";
+			this.setState({ eyeStatus: "fas fa-eye" });
+		}
+	}
+
 	onHandleSubmit(e) {
-		const { email, password } = this.state;
-		this.props.firebase.auth
-			.signInWithEmailAndPassword(email, password)
+		const { email, password, users } = this.state;
+		const { firebase } = this.props;
+		firebase
+			.doSignInWithEmailAndPassword(email, password)
 			.then(() => {
-				this.setState({ ...INITIAL_STATE });
-				this.props.history.push("/dashboard");
-			})
-			.then(() => {
-				// eslint-disable-next-line no-restricted-globals
-				location.reload();
-			})
-			.then(() => {
-				this.setState({ ...INITIAL_STATE });
-				this.props.alert.show("Successfully Signed In!");
+				if (users.includes(email)) {
+					navigate("/dashboard");
+					location.reload();
+				} else {
+					navigate("/create");
+					location.reload();
+				}
 			})
 			.catch((error) => this.setState({ error }));
 		e.preventDefault();
+		//const { email, password } = this.state;
+		//this.props.firebase.auth
+		//	.signInWithEmailAndPassword(email, password)
+		//	.then(() => {
+		//		this.setState({ ...INITIAL_STATE });
+		//		navigate("/dashboard");
+		//	})
+		//	.then(() => {
+		//		// eslint-disable-next-line no-restricted-globals
+		//		location.reload();
+		//	})
+		//	.then(() => {
+		//		this.setState({ ...INITIAL_STATE });
+		//		this.props.alert.show("Successfully Signed In!");
+		//	})
+		//	.catch((error) => this.setState({ error }));
+		//e.preventDefault();
 	}
 
 	render() {
-		const { email, password, error } = this.state;
+		const { email, password, eyeStatus, error } = this.state;
 		const isInvalid = email === "" || password === "";
 		return (
 			<Container>
@@ -75,6 +119,10 @@ class SignInForm extends Component {
 							onChange={this.onHandleChange}
 							placeholder="Password"
 						/>
+						<i
+							className={eyeStatus}
+							onClick={this.onHandleToggle}
+						></i>
 					</div>
 					<div className="form-group">
 						{error && <p>{error.message}</p>}
@@ -89,12 +137,12 @@ class SignInForm extends Component {
 						</button>
 					</div>
 					<div className="form-group d-flex justify-content-between">
-						<Link to="/register">
+						<a href="/register">
 							<small>Register</small>
-						</Link>
-						<Link to="/forget-pw">
+						</a>
+						<a href="/forget-pw">
 							<small>Forget Password?</small>
-						</Link>
+						</a>
 					</div>
 				</form>
 			</Container>
@@ -102,6 +150,6 @@ class SignInForm extends Component {
 	}
 }
 
-const SignIn = withRouter(withFirebase(withAlert()(SignInForm)));
+const SignIn = withFirebase(withAlert()(SignInForm));
 
 export default SignIn;

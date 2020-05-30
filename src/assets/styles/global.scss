@@ -1,5 +1,4 @@
 /** @format */
-
 html,
 body {
 	height: 100vh;
@@ -9,6 +8,18 @@ body {
 	font-family: "Lato", sans-serif;
 	//font-family: 'Lobster', cursive;
 	//font-family: 'Lobster Two', cursive;
+}
+
+.bg-grey {
+	background-color: lighten($color: $grey, $amount: 20);
+}
+
+.bg-white {
+	background-color: $bg-white;
+}
+
+.box-shadow {
+	box-shadow: 1px 1px 10px 1px rgb(223, 220, 220);
 }
 
 .theme--toggler {
@@ -48,18 +59,16 @@ body {
 }
 
 .hero {
+	color: $text-primary;
 	font-family: "Lobster Two", cursive;
 	margin-bottom: 0;
 }
 
 .hero-description {
+	color: $text-red;
 	font-style: italic;
 	display: block;
-	margin-top: -10px;
-}
-
-.opacity {
-	opacity: 0.5;
+	margin-top: -5px;
 }
 
 .white {
@@ -114,14 +123,14 @@ body {
 	body {
 		font-size: 28px;
 	}
-
+	.hero-description {
+		font-size: .7em;
+		margin-top: -15px;
+	}
 	.justify-content-start__lg {
 		justify-content: flex-start;
 	}
 	.relative {
 		position: relative;
-	}
-	.opacity {
-		opacity: 1;
 	}
 }

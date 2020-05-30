@@ -2,16 +2,9 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import Theme from "./components/Theme/Theme";
 import "./assets/styles/app.scss";
 import App from "./pages/App";
-import {
-	Firebase,
-	FirebaseContext,
-	auth,
-	db,
-	storage,
-} from "./components/Firebase/index";
+import { Firebase, FirebaseContext } from "./components/Firebase/index";
 import {
 	transitions,
 	positions,
@@ -42,15 +35,16 @@ const GlobalApp = () => {
 	return (
 		<>
 			<AlertProvider template={AlertTemplate} {...options}>
-				<Theme />
 				<App />
 			</AlertProvider>
 		</>
 	);
 };
 
+const firebase = new Firebase();
+
 ReactDOM.render(
-	<FirebaseContext.Provider value={new Firebase(auth, db, storage)}>
+	<FirebaseContext.Provider value={firebase}>
 		<GlobalApp />
 	</FirebaseContext.Provider>,
 	document.querySelector("#root")
