@@ -60,7 +60,7 @@ class SignInForm extends Component {
 
 	onHandleSubmit(e) {
 		const { email, password, users } = this.state;
-		const { firebase } = this.props;
+		const { firebase, alert } = this.props;
 		firebase
 			.doSignInWithEmailAndPassword(email, password)
 			.then(() => {
@@ -72,25 +72,14 @@ class SignInForm extends Component {
 					location.reload();
 				}
 			})
+			.then(() => {
+				setTimeout(
+					alert.show("Successfully Signed in!"),
+					5000
+				);
+			})
 			.catch((error) => this.setState({ error }));
 		e.preventDefault();
-		//const { email, password } = this.state;
-		//this.props.firebase.auth
-		//	.signInWithEmailAndPassword(email, password)
-		//	.then(() => {
-		//		this.setState({ ...INITIAL_STATE });
-		//		navigate("/dashboard");
-		//	})
-		//	.then(() => {
-		//		// eslint-disable-next-line no-restricted-globals
-		//		location.reload();
-		//	})
-		//	.then(() => {
-		//		this.setState({ ...INITIAL_STATE });
-		//		this.props.alert.show("Successfully Signed In!");
-		//	})
-		//	.catch((error) => this.setState({ error }));
-		//e.preventDefault();
 	}
 
 	render() {

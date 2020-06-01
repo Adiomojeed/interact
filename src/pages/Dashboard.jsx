@@ -21,26 +21,40 @@ const Dashboard = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<div className="col col-xl-9 offset-xl">
+				<div
+					className="col col-lg-3 col-xl-2 vh-100 sidebar-block"
+					id="nav"
+				>
+					<SideBar />
+				</div>
+				<div className="col col-lg-9 col-xl-10 vh-100">
+					<TopNav />
 					<div className="row">
-						<div
-							className="col col-lg-3 vh-100 sidebar-block"
-							id="nav"
-						>
-							<SideBar />
+						<div className="col col-xl-8 overflow">
+							<div className="row px">
+								<div className="col">
+									<Router>
+										<Profile path="/dashboard" />
+										<EditProfile path="/dashboard/edit" />
+										<CreatePost path="/dashboard/create" />
+										<Search path="/dashboard/search" />
+										<Followers path="/dashboard/followers" />
+										<Following path="/dashboard/following" />
+										<Settings path="/dashboard/settings" />
+										<UsersProfiles path="/dashboard/users/:id" />
+									</Router>
+								</div>
+							</div>
 						</div>
-						<div className="col col-lg-9 vh-100 px-lg">
-							<TopNav />
-							<Router>
-								<Profile path="/dashboard" />
-								<EditProfile path="/dashboard/edit" />
-								<CreatePost path="/dashboard/create" />
-								<Search path="/dashboard/search" />
-								<Followers path="/dashboard/followers" />
-								<Following path="/dashboard/following" />
-								<Settings path="/dashboard/settings" />
-								<UsersProfiles path="/dashboard/users/:id" />
-							</Router>
+						<div className="col-lg-4 d-none overflow">
+							<div className="row pr">
+								<div className="col">
+									<h6 className="suggest">
+										Suggested to follow
+									</h6>
+									<Search />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

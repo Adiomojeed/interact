@@ -24,12 +24,9 @@ class EditProfile extends Component {
 		this.onHandleUpload = this.onHandleUpload.bind(this);
 		this.onHandleImageSelect = this.onHandleImageSelect.bind(this);
 	}
-
-	componentWillMount() {
-		document.title = "Intteract - Edit Profile";
-	}
-
+	
 	componentDidMount() {
+		document.title = "Intteract - Edit Profile";
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
@@ -111,8 +108,8 @@ class EditProfile extends Component {
 	render() {
 		const { FullName, UserName, status, avatar } = this.state;
 		return (
-			<div className="row">
-				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
+			<>
+				<div className="px-2 px-lg-5">
 					<form onSubmit={this.onHandleSubmit}>
 						<div className="form-group">
 							<h4>EDIT PROFILE</h4>
@@ -128,7 +125,7 @@ class EditProfile extends Component {
 							<div className="upload--block">
 								<div className="upload">
 									<label htmlFor="avatar">
-										<p>+</p>
+										<span>+</span>
 										<img
 											src={avatar}
 											onError={this.onHandleError}
@@ -185,7 +182,7 @@ class EditProfile extends Component {
 						</div>
 					</form>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

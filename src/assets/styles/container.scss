@@ -55,8 +55,24 @@
 	display: flex;
 }
 
+.d-none {
+	display: none;
+}
+
+.d-none-rev {
+	display: block;
+}
+
+.px-0 {
+	padding: 0 .3em;
+}
+
 .px {
 	padding: 0 1rem;
+}
+
+.pr {
+	padding-right: 1rem;
 }
 
 .px-2 {
@@ -76,6 +92,9 @@
 .py {
 	padding-top: 30px;
 	padding-bottom: 50px;
+}
+.mt {
+	margin-top: 60px;
 }
 
 .justify-content-between {
@@ -119,6 +138,9 @@
 		max-width: 100%;
 		flex: 0 0 75%;
 		width: 100%;
+	}
+	.offset-md-2 {
+		margin-left: 16.667%;
 	}
 	.px-md {
 		padding: 0 1rem;
@@ -212,12 +234,19 @@
 	.pr-lg-5 {
 		padding-right: 50px;
 	}
+
 }
 
 @media screen and (min-width: 1025px) {
 	.col-xl {
 		max-width: 100%;
 		flex: 0 0 100%;
+		width: 100%;
+	}
+
+	.col-xl-2 {
+		max-width: 100%;
+		flex: 0 0 16.667%;
 		width: 100%;
 	}
 
@@ -248,13 +277,29 @@
 		flex: 0 0 75%;
 		width: 100%;
 	}
+	.col-xl-10 {
+		max-width: 100%;
+		flex: 0 0 83.333%;
+		width: 100%;
+	}
 	.offset-xl {
 		margin-left: 8.333%;
+	}
+	.offset-xl-4 {
+		margin-left: 33.333%;
+	}
+	.px-xl-0 {
+		padding: 0;
 	}
 	.px-xl {
 		padding: 0 1rem;
 	}
-
+	.d-none {
+		display: block;
+	}
+	.d-none-rev {
+		display: none;
+	}
 	.px-xl-2 {
 		padding: 0 2rem;
 	}

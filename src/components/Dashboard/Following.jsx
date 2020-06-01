@@ -3,6 +3,7 @@
 import React from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
+import MoonLoader from "react-spinners/MoonLoader";
 
 class Following extends React.Component {
 	constructor(props) {
@@ -14,13 +15,11 @@ class Following extends React.Component {
 		};
 
 		this.onHandleError = this.onHandleError.bind(this);
-	}
-
-	componentWillMount() {
-		document.title = "Intteract - Following";
+		this.onHandleUnFollow = this.onHandleUnFollow.bind(this);
 	}
 
 	componentDidMount() {
+		document.title = "Intteract - Following";
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
@@ -28,7 +27,8 @@ class Following extends React.Component {
 				.ref(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					const arr = Object.keys(userObject);
+					const arr =
+						userObject === null ? [] : Object.keys(userObject);
 					this.setState({ usersID: arr });
 					let folArr = [];
 					firebase.db.ref("users").on("value", (snapshot) => {
@@ -57,61 +57,81 @@ class Following extends React.Component {
 		e.target.src = Avatar;
 	}
 
+	onHandleUnFollow(e) {
+		const { firebase } = this.props;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			firebase.db.ref(`following/${authUser.uid}/${e}`).remove();
+			firebase.db.ref(`followers/${e}/${authUser.uid}`).remove();
+			//window.location.reload();
+		});
+	}
+
 	render() {
 		const { users, usersImages, usersID } = this.state;
 
 		if (users.length === 0) {
-			return <h5>You are following no one</h5>;
+			return (
+				<div>
+					<MoonLoader
+						css="margin: 0 auto; margin-top: 20px"
+						size={50}
+						color={"#123abc"}
+						loading={this.state.loading}
+					/>
+					<h6>You are following no one</h6>
+				</div>
+			);
 		}
 		return (
-			<div className="row">
-				<div className="col">
-					<div className="px px-lg-4">
-						<h4 className="follow-head">
-							People you are following
-						</h4>
-					</div>
-					<div className="users-block px px-lg-4">
+			<>
+				<div>
+					<h4 className="follow-head">People you are following</h4>
+				</div>
+				<div className="users-block">
+					<div className="row">
 						{users.map((user, idx) => (
-							<div className="post--card" key={user.email}>
-								<div className="post--card__header">
-									<img
-										src={
-											usersImages[usersID[idx]]
-												? usersImages[usersID[idx]]
-												: Avatar
-										}
-										className="post--avatar"
-										onError={this.onHandleError}
-										alt=""
-									/>
-									<div>
-										<a
-											href={`/dashboard/users/${usersID[idx]}`}
-											id="1"
+							<div className="col-6 col-md-4" key={user.email}>
+								<div className="px-0">
+									<div className="follow--card">
+										<img
+											src={
+												usersImages[usersID[idx]]
+													? usersImages[usersID[idx]]
+													: Avatar
+											}
+											className="follow--avatar"
+											onError={this.onHandleError}
+										/>
+										<div>
+											<a
+												href={`/dashboard/users/${usersID[idx]}`}
+												id="1"
+											>
+												<h6 className="profile--hero">
+													{user.FullName}
+												</h6>
+												<p className="profile--hero__desc">
+													@{user.UserName}
+												</p>
+											</a>
+										</div>
+										<button
+											className="btn btn-primary"
+											onClick={() => {
+												this.onHandleUnFollow(
+													usersID[idx]
+												);
+											}}
 										>
-											<h6 className="profile--hero">
-												{user.FullName}
-											</h6>
-											<p className="profile--hero__desc">
-												@{user.UserName}
-											</p>
-										</a>
+											UNFOLLOW
+										</button>
 									</div>
-									<button className="btn btn-sm btn-primary">
-										<a
-											href={`/dashboard/users/${usersID[idx]}`}
-											className="white"
-										>
-											PROFILE
-										</a>
-									</button>
 								</div>
 							</div>
 						))}
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

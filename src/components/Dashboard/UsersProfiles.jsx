@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
+import MoonLoader from "react-spinners/MoonLoader";
 
 class UsersProfiles extends Component {
 	constructor(props) {
@@ -21,14 +22,11 @@ class UsersProfiles extends Component {
 
 		this.onHandleClick = this.onHandleClick.bind(this);
 		this.onHandleFollow = this.onHandleFollow.bind(this);
-		this.onHandleError = this.onHandleError.bind(this)
-	}
-
-	componentWillMount() {
-		document.title = "Intteract - Profile";
+		this.onHandleError = this.onHandleError.bind(this);
 	}
 
 	componentDidMount() {
+		document.title = "Intteract - Profile";
 		const { id, firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// correct
@@ -40,7 +38,9 @@ class UsersProfiles extends Component {
 			firebase.db.ref(`followers/${id}`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
 				let arr = [];
-				Object.keys(userObject).map((a) => arr.push(a));
+				userObject === null
+					? (arr = [])
+					: Object.keys(userObject).map((a) => arr.push(a));
 				this.setState({ followers: arr });
 				if (arr.includes(authUser.uid)) {
 					this.setState({ followed: true });
@@ -56,10 +56,13 @@ class UsersProfiles extends Component {
 			// correct
 			firebase.db.ref(`posts/${id}`).on("value", (snapshot) => {
 				const postObject = snapshot.val();
-				let test = Object.keys(postObject).map((a) => ({
-					...postObject[a],
-					postID: a,
-				}));
+				let test =
+					postObject === null
+						? []
+						: Object.keys(postObject).map((a) => ({
+								...postObject[a],
+								postID: a,
+						  }));
 
 				let newTest = Object.keys(test).map((i) => test[i].likes);
 
@@ -145,105 +148,118 @@ class UsersProfiles extends Component {
 			posts,
 			followed,
 		} = this.state;
+		if (userDetails.length === 0) {
+			return (
+				<div>
+					<MoonLoader
+						css="margin: 0 auto; margin-top: 20px"
+						size={40}
+						color={"#123abc"}
+						loading={this.state.loading}
+					/>
+				</div>
+			);
+		}
 		return (
-			<div className="row">
-				<div className="col px">
-					<div className="card"></div>
-					<div className="profile--card">
-						<a href={avatar}>
-							<img
-								src={avatar}
-								className="profile--avatar"
-								alt=""
-								onError={this.onHandleError}
-							/>
-						</a>
-						<div className="profile--header">
-							<div>
-								<h5 className="profile--hero">
-									{userDetails.FullName}
-								</h5>
-								<p className="profile--hero__desc">
-									@{userDetails.UserName}
-								</p>
-							</div>
-							<button
-								className="btn-edit"
-								onClick={this.onHandleFollow}
-							>
-								{followed ? "FOLLOWING" : "FOLLOW"}
-							</button>
+			<>
+				<div className="card"></div>
+				<div className="profile--card">
+					<a href={avatar}>
+						<img
+							src={avatar}
+							className="profile--avatar"
+							alt=""
+							onError={this.onHandleError}
+						/>
+					</a>
+					<div className="profile--header">
+						<div>
+							<h5 className="profile--hero">
+								{userDetails.FullName}
+							</h5>
+							<p className="profile--hero__desc">
+								@{userDetails.UserName}
+							</p>
 						</div>
-						<h6 className="status">{userDetails.status}</h6>
-						<p className="followers">
-							<span>{followers.length} Followers</span>
-							<span>{following.length} Following</span>
-						</p>
-						<div className="profile--header">
-							<div>
-								<h5 className="profile--hero">POSTS</h5>
-							</div>
+						<button
+							className="btn-edit"
+							onClick={this.onHandleFollow}
+						>
+							{followed ? "FOLLOWING" : "FOLLOW"}
+						</button>
+					</div>
+					<h6 className="status">{userDetails.status}</h6>
+					<p className="followers">
+						<span>{followers.length} Followers</span>
+						<span>{following.length} Following</span>
+					</p>
+					<div className="profile--header">
+						<div>
+							<h5 className="profile--hero">POSTS</h5>
 						</div>
 					</div>
-					<div className="card-block">
-						{!posts ? (
-							<h1>No Post Found</h1>
-						) : (
-							posts.map((post) => (
-								<div className="post--card" key={post.postID}>
-									<div className="post--card__header">
-										<img
-											src={avatar}
-											className="post--avatar"
-											onError={this.onHandleError}
-											alt=""
-										/>
-										<div>
-											<h6 className="profile--hero">
-												{userDetails.FullName}
-											</h6>
-											<p className="profile--hero__desc">
-												@{userDetails.UserName}
-											</p>
-										</div>
-									</div>
-									<div className="post--card__body">
-										<p>{post.post}</p>
-										<p className="details">
-											<span>{post.time}</span>
-											<span>{post.date}</span>
-										</p>
-										<p className="requests">
-											<span>
-												<i className="fas fa-comments"></i>
-											</span>
-											<span
-												onClick={() => {
-													this.onHandleClick(post);
-												}}
-											>
-												{post.likes ? (
-													<i className="fas fa-heart error">
-														{post.likes
-															? post.likes.length
-															: 0}
-													</i>
-												) : (
-													<i className="fas fa-heart successful">
-														{post.likes
-															? post.likes.length
-															: 0}
-													</i>
-												)}
-											</span>
+				</div>
+				<div className="card-block">
+					{!posts ? (
+						<h1>No Post Found</h1>
+					) : (
+						posts.map((post) => (
+							<div
+								className="post--card box-shadow"
+								key={post.postID}
+							>
+								<div className="post--card__header">
+									<img
+										src={avatar}
+										className="post--avatar"
+										onError={this.onHandleError}
+										alt=""
+									/>
+									<div>
+										<h6 className="profile--hero">
+											{userDetails.FullName}
+										</h6>
+										<p className="profile--hero__desc">
+											@{userDetails.UserName}
 										</p>
 									</div>
 								</div>
-							))
-						)}
-					</div>
+								<div className="post--card__body">
+									<p>{post.post}</p>
+									<p className="details">
+										<span>{post.time}</span>
+										<span>{post.date}</span>
+									</p>
+									<p className="requests">
+										<span>
+											<i className="fas fa-comments"></i>
+										</span>
+										<span
+											onClick={() => {
+												this.onHandleClick(post);
+											}}
+										>
+											{post.likes ? (
+												<i className="fas fa-heart error">
+													{post.likes
+														? post.likes.length
+														: 0}
+												</i>
+											) : (
+												<i className="fas fa-heart successful">
+													{post.likes
+														? post.likes.length
+														: 0}
+												</i>
+											)}
+										</span>
+									</p>
+								</div>
+							</div>
+						))
+					)}
 				</div>
-			</div>
+			</>
 		);
 	}
 }

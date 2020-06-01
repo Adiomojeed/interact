@@ -18,7 +18,7 @@ class Setting extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		document.title = "Intteract - Settings";
 	}
 
@@ -46,8 +46,8 @@ class Setting extends Component {
 		const { Password, confirmPassword, error } = this.state;
 		const isInvalid = Password === 0 || Password != confirmPassword;
 		return (
-			<div className="row">
-				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
+			<>
+				<div className="px-2 px-lg-5">
 					<form onSubmit={this.onHandleSubmit}>
 						<div className="form-group">
 							<h5>CHANGE PASSWORD</h5>
@@ -86,7 +86,7 @@ class Setting extends Component {
 						</div>
 					</form>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

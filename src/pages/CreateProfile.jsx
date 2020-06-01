@@ -83,12 +83,15 @@ class HomeBaseForm extends Component {
 	}
 
 	render() {
-		const { FullName, UserName, error, avatar } = this.state;
+		const { FullName, UserName, error, avatar, image } = this.state;
+		const isInvalid =
+			FullName === "" || UserName === "" || image.length === 0;
 		return (
 			<Container>
 				<form onSubmit={this.onHandleSubmit}>
 					<div className="form-group">
 						<h5>You are one step away, create your profile</h5>
+						<small className='text-red'>* Make sure you select all fields</small>
 					</div>
 					<div className="form-group">
 						<input
@@ -128,8 +131,12 @@ class HomeBaseForm extends Component {
 					<div className="form-group">
 						{error && <p>{error.message}</p>}
 					</div>
-					<div className="form-group">
-						<button className="btn btn-primary" type="submit">
+					<div className="form-group mt">
+						<button
+							className="btn btn-primary"
+							type="submit"
+							disabled={isInvalid}
+						>
 							PROCEED TO APP
 						</button>
 					</div>

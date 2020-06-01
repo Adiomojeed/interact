@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import Container from "../components/Container";
 import Avatar from "../assets/images/male.png";
-import { navigate } from "@reach/router";
+import { withRouter } from "react-router-dom";
 import { withFirebase } from "../components/Firebase/index";
 import { withAlert } from "react-alert";
 import imageCompression from "browser-image-compression";
@@ -33,7 +33,6 @@ class SignUpForm extends Component {
 			type: "image/png",
 		});
 		this.setState({ image: file });
-		console.log(file);
 	}
 
 	onHandleChange(e) {
@@ -52,41 +51,17 @@ class SignUpForm extends Component {
 
 	onHandleSubmit(e) {
 		const { email, password } = this.state;
-		const { firebase } = this.props;
+		const { firebase, history } = this.props;
 		firebase
 			.doCreateUserWithEmailAndPassword(email, password)
 			.then(() => {
 				firebase.auth.currentUser
 					.sendEmailVerification()
-					.catch((error) => console.error(error));
+					.catch((error) => {});
 			})
-			.then(() => navigate("/create"))
+			.then(() => history.push("/create"))
 			.catch((error) => this.setState({ error }));
 		e.preventDefault();
-		//firebase.auth
-		//	.createUserWithEmailAndPassword(email, password)
-		//	.then((authUser) => {
-		//		firebase.db
-		//			.ref(`users/${authUser.user.uid}`)
-		//			.set({ FullName, UserName, email, status });
-		//	})
-		//	.then(() => {
-		//		firebase.auth.onAuthStateChanged((authUser) => {
-		//			firebase.storage.ref(`images/${authUser.uid}`).put(image);
-		//		});
-		//	})
-		//	.then(() => {
-		//		firebase.auth.currentUser
-		//			.sendEmailVerification()
-		//			.catch((error) => console.error(error));
-		//	})
-		//	.then(() => {
-		//		this.setState({ ...INITIAL_STATE });
-		//		navigate("/dashboard");
-		//	})
-		//	.catch((error) => this.setState({ error }));
-//
-		//e.preventDefault();
 	}
 
 	render() {
@@ -145,6 +120,6 @@ class SignUpForm extends Component {
 	}
 }
 
-const SignUp = withFirebase(withAlert()(SignUpForm));
+const SignUp = withRouter(withFirebase(withAlert()(SignUpForm)));
 
 export default SignUp;

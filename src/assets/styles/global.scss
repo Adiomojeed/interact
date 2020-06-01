@@ -6,6 +6,7 @@ body {
 	padding: 0;
 	font-size: 16px;
 	font-family: "Lato", sans-serif;
+	box-sizing: border-box;
 	//font-family: 'Lobster', cursive;
 	//font-family: 'Lobster Two', cursive;
 }
@@ -58,6 +59,10 @@ body {
 	text-align: center;
 }
 
+.text-red {
+	color: $text-red;
+}
+
 .hero {
 	color: $text-primary;
 	font-family: "Lobster Two", cursive;
@@ -76,7 +81,7 @@ body {
 }
 
 .follow-head {
-	margin-top: 5px;
+	margin-top: 15px;
 	margin-bottom: 0;
 }
 
@@ -94,6 +99,7 @@ body {
 	font-size: 0.8em;
 	display: flex;
 	align-items: center;
+	background-color: $bg-primary;
 }
 
 .fa-check-circle {
