@@ -43,6 +43,9 @@
 		border: 0;
 		font-weight: bold;
 		font-size: 0.8em;
+		background-color: $bg-primary;
+		color: $text-white;
+		outline: none;
 	}
 	.negate {
 		cursor: pointer;

@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import ForgetPassword from "./ForgetPassword";
@@ -12,12 +12,12 @@ import CreateProfile from "./CreateProfile";
 class App extends Component {
 	render() {
 		return (
-			<Router>
-				<SignIn path='/' />
-				<SignUp path='/register' />
-				<ForgetPassword path='/forget-pw' />
-				<Dashboard path='/dashboard' />
-				<CreateProfile path='/create' />
+			<Router forceRefresh={true}>
+				<Route exact path="/" component={SignIn} />
+				<Route path="/register" component={SignUp} />
+				<Route path="/forget-pw" component={ForgetPassword} />
+				<Route path="/dashboard" component={Dashboard} />
+				<Route path="/create" component={CreateProfile} />
 			</Router>
 		);
 	}

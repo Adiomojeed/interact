@@ -1,12 +1,12 @@
 /** @format */
 
 .nav {
+	position: sticky;
 	display: flex;
-	padding: 5px 50px;
+	padding: 3px 50px;
+	background-color: $bg-white;
 	justify-content: space-between;
 	align-items: center;
-	border-bottom: 1px solid;
-	position: sticky;
 	top: 0px;
 	z-index: 1;
 }
@@ -25,6 +25,8 @@
 	margin-top: 20px;
 	height: 80px;
 	border-radius: 15px 15px 0px 0px;
+	background-image: url("../images/background.jpg");
+	background-position: bottom right;
 }
 
 .profile--card {
@@ -32,19 +34,22 @@
 	position: relative;
 	top: -50px;
 	padding: 0 5px 10px 5px;
-	border-bottom: 1px solid;
-	
+	border-bottom: 1px solid $grey;
+
 	img {
+		background-color: $bg-white;
+		border: 1px solid lighten($color: $bg-primary, $amount: 30);
 		padding: 2px;
 		border-radius: 50%;
-		width: 100px;
-		height: 100px;
+		width: 80px;
+		height: 80px;
 		margin-left: 20px;
 	}
 	.profile--header {
 		width: inherit;
 		display: flex;
 		justify-content: space-between;
+		margin-top: -10px;
 	}
 }
 
@@ -55,35 +60,44 @@
 }
 
 .profile--hero__desc {
-	line-height: 0;
-	font-size: 0.8em;
-	font-family: "Lobster Two", cursive;
+	color: $text-dark;
+	font-size: 0.7em;
+	line-height: 0px;
 	font-style: italic;
-	margin: 0;
+	margin-top: -5px;
+	margin-bottom: -10px;
+	font-weight: 600;
 }
 
 .btn-edit {
 	height: 100%;
-	border: 1px solid;
-	border-radius: 10px;
+	border: 2px solid lighten($color: $bg-primary, $amount: 10);
+	border-radius: 5px;
 	padding: 10px 20px;
 	font-size: 0.6em;
 	outline: none;
-	font-weight: bold;
+	font-weight: bolder;
+	background-color: lighten($color: $bg-primary, $amount: 10);
+	color: $text-white;
+	margin-right: 5px;
+	cursor: pointer;
 }
 
 .status {
-	margin-top: 15px;
+	margin-top: 10px;
 	margin-bottom: 0;
 	font-style: italic;
-	font-size: 0.6em;
+	font-size: 0.7em;
+	color: $text-dark;
 }
 
 .followers {
-	line-height: 0;
+	color: $text-dark;
+	font-size: 0.7em;
+	line-height: 0px;
+	font-style: italic;
 	margin-bottom: 15px;
-	font-size: 0.8em;
-	font-family: "Lobster Two", cursive;
+	font-weight: 600;
 	span {
 		margin-right: 20px;
 	}
@@ -98,12 +112,12 @@
 	padding-top: 20px;
 	.post--card {
 		.post--card__header {
-			align-items: center;
+			//align-items: center;
 			div {
 				margin-top: -10px;
 				.profile--hero__follower {
-					line-height: 0;
-					font-size: 0.7em;
+					line-height: 0px;
+					font-size: 0.65em;
 					margin-top: 25px;
 					margin-bottom: -10px;
 					span {
@@ -113,6 +127,8 @@
 			}
 			button {
 				margin-left: auto;
+				margin-top: 0px;
+				font-size: .7em;
 			}
 		}
 	}
@@ -120,23 +136,23 @@
 
 .post--card {
 	width: inherit;
-	border: 1px solid;
+	border: .5px solid $grey;
 	border-radius: 10px;
 	margin-top: 0;
 	margin-bottom: 20px;
 	padding: 10px;
 	.post--card__header {
 		display: flex;
-		align-items: flex-end;
+		align-items: center;
 		.post--avatar {
-			width: 60px;
-			height: 60px;
+			width: 50px;
+			height: 50px;
 			padding: 2px;
 			border-radius: 50%;
 		}
 		div {
 			margin-left: 10px;
-			margin-bottom: 15px;
+			margin-bottom: 20px;
 			h6 {
 				margin-bottom: 20px;
 				font-size: 0.8em;
@@ -145,22 +161,55 @@
 	}
 	.post--card__body {
 		font-size: 0.8em;
+		margin-top: -7px;
 		.details {
 			display: flex;
 			justify-content: space-between;
 			font-family: "Lobster Two", cursive;
 			padding-bottom: 10px;
 			font-size: 0.6rem;
+			margin-top: -7px;
+			border-bottom: 1px solid $grey;
 		}
 		.requests {
 			display: flex;
 			justify-content: center;
 			margin-bottom: 0;
+			margin-top: -5px;
 			span {
 				margin: 0 10px;
 				font-size: 1.2em;
 			}
 		}
+	}
+}
+
+.follow--card {
+	border: 1px solid $grey;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 5px 0;
+	.follow--avatar {
+		width: 70px;
+		height: 70px;
+		border-radius: 50%;
+		display: flex;
+		margin: auto;
+	}
+	div {
+		text-align: center;
+		h6 {
+			font-size: .8em;
+		}
+		p {
+			font-size: .6em;
+		}
+	}
+	button {
+		margin-top: 25px;
+		padding: 10px;
+		width: 100%;
+		font-size: .7em;
 	}
 }
 
@@ -176,12 +225,47 @@
 	transition: 0.5s;
 }
 
+.overflow {
+	overflow: auto;
+	height: 100vh;
+}
+.overflow::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+@media screen and (min-width: 768px) {
+	.profile--hero__desc {
+		margin-top: 0px;
+	}
+	.follow--card {
+		div {
+			h6 {
+				font-size: .8em;
+			}
+			p {
+				font-size: .6em;
+			}
+		}
+		button {
+			font-size: .6em;
+		}
+	}
+}
+
 @media screen and (min-width: 992px) {
 	.nav {
-		padding: 0 20px;
+		padding: 5px 40px;
+	}
+	.logo {
+		font-size: 0.8em;
 	}
 	.fa-stream {
 		display: none;
+	}
+	.suggest {
+		line-height: 0;
+		margin-bottom: 0px;
 	}
 	.card {
 		height: 100px;
@@ -191,9 +275,10 @@
 		position: relative;
 		top: -50px;
 		padding: 0 5px 10px 5px;
-		border-bottom: 1px solid;
 		img {
 			margin-left: 30px;
+			width: 100px;
+			height: 100px;
 		}
 		.profile--header {
 			width: inherit;
@@ -206,11 +291,13 @@
 			.post--card__header {
 				div {
 					.profile--hero__follower {
-						font-size: 0.55em;
+						font-size: 0.45em;
+						margin-top: 30px;
 					}
 				}
 				button {
 					margin-left: auto;
+					font-size: .45em;
 				}
 			}
 		}
@@ -218,23 +305,24 @@
 
 	.profile--hero {
 		margin-bottom: 25px;
-		font-size: 0.8em;
+		font-size: 0.7em;
 	}
 
 	.profile--hero__desc {
-		font-size: 0.6em;
+		font-size: 0.5em;
+		margin-top: -5px;
 	}
 	.status {
-		font-size: 0.55em;
+		font-size: 0.5em;
 	}
 	.followers {
-		font-size: 0.6em;
+		font-size: 0.5em;
 	}
 	.post--card {
 		.post--card__header {
 			.post--avatar {
-				width: 80px;
-				height: 80px;
+				width: 60px;
+				height: 60px;
 			}
 			div {
 				h6 {
@@ -244,7 +332,7 @@
 			}
 		}
 		.post--card__body {
-			font-size: 0.65em;
+			font-size: 0.5em;
 			.details {
 				font-size: 0.8em;
 			}
@@ -261,5 +349,19 @@
 	}
 	.btn-edit {
 		font-size: 0.5em;
+		border-radius: 8px;
+	}
+	.follow--card {
+		div {
+			h6 {
+				font-size: .55em;
+			}
+			p {
+				font-size: .45em;
+			}
+		}
+		button {
+			font-size: .5em;
+		}
 	}
 }

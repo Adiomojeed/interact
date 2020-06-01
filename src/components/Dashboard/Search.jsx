@@ -3,11 +3,13 @@
 import React from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
+import MoonLoader from "react-spinners/MoonLoader";
 
 class Search extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			firstUsers: [],
 			users: [],
 			usersImages: [],
 			followers: [],
@@ -19,35 +21,50 @@ class Search extends React.Component {
 		this.onHandleError = this.onHandleError.bind(this);
 	}
 
-	componentWillMount() {
-		document.title = "Intteract - Search";
-	}
-
 	componentDidMount() {
+		document.title = "Intteract - Search";
 		const { firebase, id } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
-			firebase.db.ref(`users`).on("value", (snapshot) => {
-				const userObject = snapshot.val();
-				const user = Object.keys(userObject)
-					.map((a) => ({
-						...userObject[a],
-						userID: a,
-					}))
-					.filter((a) => a.userID != authUser.uid);
-				this.setState({ users: user });
-				let image = new Object();
-				user.map((x) => {
-					firebase.storage
-						.ref()
-						.child(`images/${x.userID}`)
-						.getDownloadURL()
-						.then((url) => {
-							image[x.userID] = url;
-							this.setState({ usersImages: image });
+			firebase
+				.user(`following/${authUser.uid}`)
+				.on("value", (snapshot) => {
+					const usersObject = snapshot.val();
+					let firstUsers;
+					if (usersObject === null) {
+						firstUsers = [];
+					} else {
+						firstUsers = Object.keys(usersObject);
+					}
+					this.setState({ firstUsers });
+					firebase.db.ref(`users`).on("value", (snapshot) => {
+						const userObject = snapshot.val();
+						const user = Object.keys(userObject)
+							.map((a) => ({
+								...userObject[a],
+								userID: a,
+							}))
+							.filter(
+								(a) =>
+									a.userID != authUser.uid &&
+									this.state.firstUsers.includes(a.userID) ===
+										false
+							);
+						this.setState({ users: user });
+						let image = new Object();
+						user.map((x) => {
+							firebase.storage
+								.ref()
+								.child(`images/${x.userID}`)
+								.getDownloadURL()
+								.then((url) => {
+									image[x.userID] = url;
+									this.setState({ usersImages: image });
+								});
 						});
+					});
 				});
-			});
+
 			// Fixed
 			firebase.db.ref(`followers`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
@@ -68,38 +85,39 @@ class Search extends React.Component {
 	}
 
 	onHandleError(e) {
-		e.target.src = Avatar
+		e.target.src = Avatar;
 	}
 
 	onHandleFollow(e) {
-		const { id, firebase } = this.props;
-		const { followed } = this.state;
+		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
-			if (followed) {
-				firebase.db.ref(`following/${authUser.uid}/${e}`).remove();
-				firebase.db.ref(`followers/${e}/${authUser.uid}`).remove();
-				window.location.reload();
-			} else {
-				firebase.db
-					.ref(`following/${authUser.uid}/${e}`)
-					.set("followed");
-				firebase.db
-					.ref(`followers/${e}/${authUser.uid}`)
-					.set("following");
-			}
+			firebase.db.ref(`following/${authUser.uid}/${e}`).set("followed");
+			firebase.db.ref(`followers/${e}/${authUser.uid}`).set("following");
 		});
-		this.setState({ followed: !this.state.followed });
 	}
 
 	render() {
 		const { users, usersImages, followers, following } = this.state;
 		if (usersImages.length === 0) {
-			return <h4>No Friends to follow</h4>;
+			return (
+				<div>
+					<MoonLoader
+						css="margin: 0 auto; margin-top: 20px"
+						size={50}
+						color={"#123abc"}
+						loading={this.state.loading}
+					/>
+					<h6>No suggested follower</h6>
+				</div>
+			);
 		}
 		return (
-			<div className="row">
-				<div className="col">
-					<div className="users-block px px-lg-4">
+			<>
+				<div className="px px-lg-5 px-xl-0">
+					<h5 className="follow-head d-none-rev">
+						Suggested to follow
+					</h5>
+					<div className="users-block">
 						{users.map((user, idx) => (
 							<div className="post--card" key={user.userID}>
 								<div className="post--card__header">
@@ -153,20 +171,20 @@ class Search extends React.Component {
 										</p>
 									</div>
 
-									<button className="btn btn-sm btn-primary">
-										<a
-											href={`/dashboard/users/${user.userID}`}
-											className="white"
-										>
-											PROFILE
-										</a>
+									<button
+										className="btn btn-sm btn-primary"
+										onClick={() => {
+											this.onHandleFollow(user.userID);
+										}}
+									>
+										FOLLOW
 									</button>
 								</div>
 							</div>
 						))}
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

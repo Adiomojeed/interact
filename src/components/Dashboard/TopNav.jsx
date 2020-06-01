@@ -4,7 +4,7 @@ import React from "react";
 
 const TopNav = () => {
 	return (
-		<nav className="nav">
+		<nav className="nav box-shadow">
 			<a href="/dashboard">
 				<h3 className="logo">Intteract</h3>
 			</a>

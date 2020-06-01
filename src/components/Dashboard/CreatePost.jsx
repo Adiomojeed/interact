@@ -17,7 +17,7 @@ class CreatePost extends Component {
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		document.title = "Intteract - Create post";
 	}
 
@@ -48,8 +48,8 @@ class CreatePost extends Component {
 	render() {
 		const { post } = this.state;
 		return (
-			<div className="row">
-				<div className="col col-lg-10 offset-lg px-2 px-xl-3">
+			<>
+				<div className="px px-lg-5">
 					<form onSubmit={this.onHandleSubmit}>
 						<div className="form-group">
 							<h4>CREATE A POST</h4>
@@ -73,7 +73,7 @@ class CreatePost extends Component {
 						</div>
 					</form>
 				</div>
-			</div>
+			</>
 		);
 	}
 }

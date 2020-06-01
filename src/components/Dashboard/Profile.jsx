@@ -3,6 +3,8 @@
 import React, { Component } from "react";
 import Avatar from "../../assets/images/male.png";
 import { withFirebase } from "../Firebase";
+import { withEmailVerification, withAuthorization } from "../Session";
+import MoonLoader from "react-spinners/MoonLoader";
 
 class Profile extends Component {
 	constructor(props) {
@@ -23,11 +25,8 @@ class Profile extends Component {
 		this.onHandleError = this.onHandleError.bind(this);
 	}
 
-	componentWillMount() {
-		document.title = "Intteract - Profile";
-	}
-
 	componentDidMount() {
+		document.title = "Intteract - Profile";
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
@@ -39,7 +38,9 @@ class Profile extends Component {
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					let arr = [];
-					Object.keys(userObject).map((a) => arr.push(a));
+					userObject === null
+						? (arr = [])
+						: Object.keys(userObject).map((a) => arr.push(a));
 					this.setState({ followers: arr });
 				});
 			firebase.db
@@ -47,15 +48,21 @@ class Profile extends Component {
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					let arr = [];
-					Object.keys(userObject).map((a) => arr.push(a));
+					userObject === null
+						? (arr = [])
+						: Object.keys(userObject).map((a) => arr.push(a));
 					this.setState({ following: arr });
 				});
 			firebase.db.ref(`posts/${authUser.uid}`).on("value", (snapshot) => {
 				const postObject = snapshot.val();
-				let test = Object.keys(postObject).map((a) => ({
-					...postObject[a],
-					postID: a,
-				}));
+				let test;
+				test =
+					postObject === null
+						? []
+						: Object.keys(postObject).map((a) => ({
+								...postObject[a],
+								postID: a,
+						  }));
 
 				let newTest = Object.keys(test).map((i) => test[i].likes);
 
@@ -119,106 +126,114 @@ class Profile extends Component {
 	render() {
 		const { user, followers, following, posts, avatar, liked } = this.state;
 		if (user.length === 0) {
-			return <h1>Loading...</h1>;
+			return (
+				<div>
+					<MoonLoader
+						css="margin: 0 auto; margin-top: 20px"
+						size={50}
+						color={"#123abc"}
+						loading={this.state.loading}
+					/>
+				</div>
+			);
 		}
 		return (
-			<div className="row">
-				<div className="col px">
-					<div className="card"></div>
-					<div className="profile--card">
-						<a href={avatar}>
-							<img
-								src={avatar}
-								className="profile--avatar"
-								alt=""
-								onError={this.onHandleError}
-							/>
+			<>
+				<div className="card"></div>
+				<div className="profile--card">
+					<a href={avatar}>
+						<img
+							src={avatar}
+							className="profile--avatar"
+							alt=""
+							onError={this.onHandleError}
+						/>
+					</a>
+					<div className="profile--header">
+						<div>
+							<h5 className="profile--hero">{user.FullName}</h5>
+							<p className="profile--hero__desc">
+								@{user.UserName}
+							</p>
+						</div>
+						<a href="/dashboard/edit">
+							<button className="btn-edit">EDIT PROFILE</button>
 						</a>
-						<div className="profile--header">
-							<div>
-								<h5 className="profile--hero">
-									{user.FullName}
-								</h5>
-								<p className="profile--hero__desc">
-									@{user.UserName}
-								</p>
-							</div>
-							<a href="/dashboard/edit">
-								<button className="btn-edit">
-									EDIT PROFILE
-								</button>
-							</a>
-						</div>
-						<h6 className="status">{user.status}</h6>
-						<p className="followers">
-							<a href="/dashboard/followers">
-								<span>{followers.length} Followers</span>
-							</a>
-							<a href="/dashboard/following">
-								<span>{following.length} Following</span>
-							</a>
-						</p>
-						<div className="profile--header">
-							<div>
-								<h5 className="profile--hero">POSTS</h5>
-							</div>
-							<a href="/dashboard/create">
-								<button className="btn-edit">
-									CREATE A POST
-								</button>
-							</a>
-						</div>
 					</div>
-					<div className="card-block">
-						{!posts ? (
-							<h1>No Post Found</h1>
-						) : (
-							posts.map((post) => (
-								<div className="post--card" key={post.postID}>
-									<div className="post--card__header">
-										<img
-											src={avatar}
-											className="post--avatar"
-											alt=""
-										/>
-										<div>
-											<h6 className="profile--hero">
-												{user.FullName}
-											</h6>
-											<p className="profile--hero__desc">
-												@{user.UserName}
-											</p>
-										</div>
-									</div>
-									<div className="post--card__body">
-										<p>{post.post}</p>
-										<p className="details">
-											<span>{post.time}</span>
-											<span>{post.date}</span>
-										</p>
-										<p className="requests">
-											<span>
-												<i className="fas fa-comments"></i>
-											</span>
-											<span
-												onClick={() => {
-													this.onHandleClick(post);
-												}}
-											>
-												<i className="fas fa-heart error">
-													{post.likes.length}
-												</i>
-											</span>
+					<h6 className="status">{user.status}</h6>
+					<p className="followers">
+						<a href="/dashboard/followers">
+							<span>{followers.length} Followers</span>
+						</a>
+						<a href="/dashboard/following">
+							<span>{following.length} Following</span>
+						</a>
+					</p>
+					<div className="profile--header">
+						<div>
+							<h5 className="profile--hero">POSTS</h5>
+						</div>
+						<a href="/dashboard/create">
+							<button className="btn-edit">CREATE A POST</button>
+						</a>
+					</div>
+				</div>
+				<div className="card-block">
+					{!posts ? (
+						<h1>No Post Found</h1>
+					) : (
+						posts.map((post) => (
+							<div
+								className="post--card box-shadow"
+								key={post.postID}
+							>
+								<div className="post--card__header">
+									<img
+										src={avatar}
+										className="post--avatar"
+										alt=""
+									/>
+									<div>
+										<h6 className="profile--hero">
+											{user.FullName}
+										</h6>
+										<p className="profile--hero__desc">
+											@{user.UserName}
 										</p>
 									</div>
 								</div>
-							))
-						)}
-					</div>
+								<div className="post--card__body">
+									<p>{post.post}</p>
+									<p className="details">
+										<span>{post.time}</span>
+										<span>{post.date}</span>
+									</p>
+									<p className="requests">
+										<span>
+											<i className="fas fa-comments"></i>
+										</span>
+										<span
+											onClick={() => {
+												this.onHandleClick(post);
+											}}
+										>
+											<i className="fas fa-heart error">
+												{post.likes.length}
+											</i>
+										</span>
+									</p>
+								</div>
+							</div>
+						))
+					)}
 				</div>
-			</div>
+			</>
 		);
 	}
 }
 
-export default withFirebase(Profile);
+const condition = (authUser) => authUser != null;
+
+export default withEmailVerification(
+	withAuthorization(condition)(withFirebase(Profile))
+);

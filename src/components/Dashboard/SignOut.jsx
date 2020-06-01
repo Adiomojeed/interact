@@ -2,6 +2,7 @@
 
 import React from "react";
 import { withFirebase } from "../Firebase";
+import { withEmailVerification, withAuthorization } from "../Session";
 
 const SignOut = ({ firebase }) => {
 	return (
@@ -31,4 +32,6 @@ const SignOut = ({ firebase }) => {
 	);
 };
 
-export default withFirebase(SignOut);
+const condition = (authUser) => authUser != null;
+
+export default withEmailVerification(withAuthorization(condition)(withFirebase(SignOut)));

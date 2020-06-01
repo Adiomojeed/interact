@@ -3,6 +3,7 @@
 import React from "react";
 import { withFirebase } from "../Firebase";
 import AuthUserContext from "./context";
+import Container from "../Container";
 
 const needsEmailVerification = (authUser) =>
 	authUser &&
@@ -34,8 +35,8 @@ const withEmailVerification = (Component) => {
 				<AuthUserContext.Consumer>
 					{(authUser) =>
 						needsEmailVerification(authUser) ? (
-							<div className="row">
-								<div className="col col-lg-6 offset-lg-3 px pt">
+							<Container>
+								<div>
 									{this.state.isSent ? (
 										<h5 className="text-center">
 											Confirmation Mail Resent: Check you
@@ -51,16 +52,20 @@ const withEmailVerification = (Component) => {
 											page after verification
 										</h5>
 									)}
-									<button
-										className="btn btn-primary btn-update"
-										type="button"
-										onClick={this.onSendEmailVerification}
-										disabled={this.state.isSent}
-									>
-										Resend confirmation Mail
-									</button>
+									<div className="form-group">
+										<button
+											className="btn btn-primary"
+											type="button"
+											onClick={
+												this.onSendEmailVerification
+											}
+											disabled={this.state.isSent}
+										>
+											Resend confirmation Mail
+										</button>
+									</div>
 								</div>
-							</div>
+							</Container>
 						) : (
 							<Component {...this.props} />
 						)

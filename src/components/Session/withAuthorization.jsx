@@ -3,6 +3,7 @@
 import React from "react";
 import { withFirebase } from "../Firebase";
 import { navigate } from "@reach/router";
+import { withRouter } from 'react-router-dom'
 
 const withAuthorization = (condition) => (Component) => {
 	class withAuthorization extends React.Component {
@@ -10,7 +11,7 @@ const withAuthorization = (condition) => (Component) => {
 			this.listener = this.props.firebase.auth.onAuthStateChanged(
 				(authUser) => {
 					if (!condition(authUser)) {
-						navigate("/");
+						this.props.history.push("/");
 					}
 				}
 			);
@@ -25,7 +26,7 @@ const withAuthorization = (condition) => (Component) => {
 		}
 	}
 
-	return (withFirebase(withAuthorization));
+	return (withRouter(withFirebase(withAuthorization)));
 };
 
 export default withAuthorization;

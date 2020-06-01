@@ -6,6 +6,7 @@ body {
 	padding: 0;
 	font-size: 16px;
 	font-family: "Lato", sans-serif;
+	box-sizing: border-box;
 	//font-family: 'Lobster', cursive;
 	//font-family: 'Lobster Two', cursive;
 }
@@ -76,7 +77,7 @@ body {
 }
 
 .follow-head {
-	margin-top: 5px;
+	margin-top: 15px;
 	margin-bottom: 0;
 }
 

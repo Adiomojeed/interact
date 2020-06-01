@@ -74,23 +74,6 @@ class SignInForm extends Component {
 			})
 			.catch((error) => this.setState({ error }));
 		e.preventDefault();
-		//const { email, password } = this.state;
-		//this.props.firebase.auth
-		//	.signInWithEmailAndPassword(email, password)
-		//	.then(() => {
-		//		this.setState({ ...INITIAL_STATE });
-		//		navigate("/dashboard");
-		//	})
-		//	.then(() => {
-		//		// eslint-disable-next-line no-restricted-globals
-		//		location.reload();
-		//	})
-		//	.then(() => {
-		//		this.setState({ ...INITIAL_STATE });
-		//		this.props.alert.show("Successfully Signed In!");
-		//	})
-		//	.catch((error) => this.setState({ error }));
-		//e.preventDefault();
 	}
 
 	render() {
