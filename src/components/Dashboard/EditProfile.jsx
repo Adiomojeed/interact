@@ -71,7 +71,6 @@ class EditProfile extends Component {
 
 	onHandleImageSelect(event) {
 		this.setState({ image: event.target.files[0] });
-		console.log(event.target.files[0]);
 	}
 
 	onHandleUpload() {

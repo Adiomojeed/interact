@@ -31,7 +31,8 @@ class UsersProfiles extends Component {
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// correct
 			firebase.db.ref(`users/${id}`).on("value", (snapshot) => {
-				const userObject = snapshot.val();
+				let userObject = snapshot.val();
+				userObject = { ...userObject, uid: id };
 				this.setState({ userDetails: userObject });
 			});
 			// correct
@@ -208,22 +209,26 @@ class UsersProfiles extends Component {
 								className="post--card box-shadow"
 								key={post.postID}
 							>
-								<div className="post--card__header">
-									<img
-										src={avatar}
-										className="post--avatar"
-										onError={this.onHandleError}
-										alt=""
-									/>
-									<div>
-										<h6 className="profile--hero">
-											{userDetails.FullName}
-										</h6>
-										<p className="profile--hero__desc">
-											@{userDetails.UserName}
-										</p>
+								<a
+									href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
+								>
+									<div className="post--card__header">
+										<img
+											src={avatar}
+											className="post--avatar"
+											onError={this.onHandleError}
+											alt=""
+										/>
+										<div>
+											<h6 className="profile--hero">
+												{userDetails.FullName}
+											</h6>
+											<p className="profile--hero__desc">
+												@{userDetails.UserName}
+											</p>
+										</div>
 									</div>
-								</div>
+								</a>
 								<div className="post--card__body">
 									<p>{post.post}</p>
 									<p className="details">
@@ -231,9 +236,15 @@ class UsersProfiles extends Component {
 										<span>{post.date}</span>
 									</p>
 									<p className="requests">
-										<span>
-											<i className="fas fa-comments"></i>
-										</span>
+										<a
+											href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
+										>
+											<span>
+												<i className="fas fa-comments">
+													{post.comments.length}
+												</i>
+											</span>
+										</a>
 										<span
 											onClick={() => {
 												this.onHandleClick(post);

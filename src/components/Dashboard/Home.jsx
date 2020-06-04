@@ -28,27 +28,6 @@ class Home extends Component {
                 const userObject = snapshot.val();
 				this.setState({ user: userObject });
 			});
-			firebase.db.ref(`posts`).on("value", (snapshot) => {
-                const postObject = snapshot.val();
-                
-                let arr = []
-				//let test = Object.keys(postObject).map((a) => ({
-				//	...postObject[a],
-				//	postID: a,
-				//}));
-//
-				//let newTest = Object.keys(test).map((i) => test[i].likes);
-//
-				//let i = 0;
-				//for (i; i < newTest.length; i++) {
-				//	let b = Object.keys(newTest[i]);
-				//	test[i].likes = b;
-				//	if (b.includes(authUser.uid)) {
-				//		this.setState({ liked: true });
-				//	}
-				//}
-				//this.setState({ posts: test });
-			});
 			firebase.storage
 				.ref()
 				.child(`images/${authUser.uid}`)

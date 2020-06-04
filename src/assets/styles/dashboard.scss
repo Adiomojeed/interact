@@ -112,7 +112,6 @@
 	padding-top: 20px;
 	.post--card {
 		.post--card__header {
-			//align-items: center;
 			div {
 				margin-top: -10px;
 				.profile--hero__follower {
@@ -128,7 +127,7 @@
 			button {
 				margin-left: auto;
 				margin-top: 0px;
-				font-size: .7em;
+				font-size: 0.7em;
 			}
 		}
 	}
@@ -136,7 +135,7 @@
 
 .post--card {
 	width: inherit;
-	border: .5px solid $grey;
+	border: 0.5px solid $grey;
 	border-radius: 10px;
 	margin-top: 0;
 	margin-bottom: 20px;
@@ -184,6 +183,49 @@
 	}
 }
 
+.mt-2 {
+	margin-top: 15px;
+}
+
+.message {
+	width: 100%;
+	button {
+		margin-top: -30px;
+		margin-bottom: 50px;
+	}
+}
+
+.comment-block {
+	margin-bottom: 20px;
+}
+
+.comment-card {
+	display: flex;
+	margin-bottom: 10px;
+	img {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+	}
+	.comment-content {
+		width: 100%;
+		margin-left: 10px;
+		padding: 10px;
+		border-radius: 10px;
+		h6 {
+			margin: 0;
+			font-size: 0.7em;
+			small {
+				font-weight: lighter;
+			}
+		}
+		p {
+			font-size: 0.7em;
+			margin-top: 5px;
+		}
+	}
+}
+
 .follow--card {
 	border: 1px solid $grey;
 	padding: 10px;
@@ -199,17 +241,17 @@
 	div {
 		text-align: center;
 		h6 {
-			font-size: .8em;
+			font-size: 0.8em;
 		}
 		p {
-			font-size: .6em;
+			font-size: 0.6em;
 		}
 	}
 	button {
 		margin-top: 25px;
 		padding: 10px;
 		width: 100%;
-		font-size: .7em;
+		font-size: 0.7em;
 	}
 }
 
@@ -230,8 +272,8 @@
 	height: 100vh;
 }
 .overflow::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
+	width: 0px;
+	background: transparent; /* make scrollbar transparent */
 }
 
 @media screen and (min-width: 768px) {
@@ -241,14 +283,27 @@
 	.follow--card {
 		div {
 			h6 {
-				font-size: .8em;
+				font-size: 0.8em;
 			}
 			p {
-				font-size: .6em;
+				font-size: 0.6em;
 			}
 		}
 		button {
-			font-size: .6em;
+			font-size: 0.6em;
+		}
+	}
+	.comment-block {
+		margin-top: -20px;
+	}
+	.comment-card {
+		.comment-content {
+			h6 {
+				font-size: 0.6em;
+			}
+			p {
+				font-size: 0.6em;
+			}
 		}
 	}
 }
@@ -297,7 +352,7 @@
 				}
 				button {
 					margin-left: auto;
-					font-size: .45em;
+					font-size: 0.45em;
 				}
 			}
 		}
@@ -347,6 +402,16 @@
 			}
 		}
 	}
+	.comment-card {
+		.comment-content {
+			h6 {
+				font-size: 0.5em;
+			}
+			p {
+				font-size: 0.5em;
+			}
+		}
+	}
 	.btn-edit {
 		font-size: 0.5em;
 		border-radius: 8px;
@@ -354,14 +419,14 @@
 	.follow--card {
 		div {
 			h6 {
-				font-size: .55em;
+				font-size: 0.55em;
 			}
 			p {
-				font-size: .45em;
+				font-size: 0.45em;
 			}
 		}
 		button {
-			font-size: .5em;
+			font-size: 0.5em;
 		}
 	}
 }

@@ -38,7 +38,7 @@ class CreatePost extends Component {
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
 			this.props.firebase.db
 				.ref(`posts/${authUser.uid}/${postID}`)
-				.set({ post, date, time, likes: 0 });
+				.set({ post, date, time, likes: 0, comments: 0 });
 		});
 		navigate("/dashboard");
 

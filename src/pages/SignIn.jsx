@@ -64,7 +64,7 @@ class SignInForm extends Component {
 		firebase
 			.doSignInWithEmailAndPassword(email, password)
 			.then(() => {
-				if (users.includes(email)) {
+				if (users.includes(email.toLowerCase())) {
 					navigate("/dashboard");
 					location.reload();
 				} else {

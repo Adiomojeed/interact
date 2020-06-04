@@ -49,14 +49,6 @@ window.addEventListener("load", function () {
 		modal.style.display = "flex";
 	});
 
-	//closer.addEventListener("click", function () {
-	//	modal.classList.add("fade-out");
-	//	setTimeout(function () {
-	//		modal.style.display = "none";
-	//		modal.classList.remove("fade-out");
-	//	}, 500);
-	//});
-
 	negate.addEventListener("click", function () {
 		modal.classList.add("fade-out");
 		setTimeout(function () {

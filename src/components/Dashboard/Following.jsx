@@ -62,7 +62,6 @@ class Following extends React.Component {
 		firebase.auth.onAuthStateChanged((authUser) => {
 			firebase.db.ref(`following/${authUser.uid}/${e}`).remove();
 			firebase.db.ref(`followers/${e}/${authUser.uid}`).remove();
-			//window.location.reload();
 		});
 	}
 

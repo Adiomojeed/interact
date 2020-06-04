@@ -30,7 +30,8 @@ class Profile extends Component {
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
-				const userObject = snapshot.val();
+				let userObject = snapshot.val();
+				userObject = { ...userObject, uid: authUser.uid };
 				this.setState({ user: userObject });
 			});
 			firebase.db
@@ -63,7 +64,6 @@ class Profile extends Component {
 								...postObject[a],
 								postID: a,
 						  }));
-
 				let newTest = Object.keys(test).map((i) => test[i].likes);
 
 				let i = 0;
@@ -187,21 +187,25 @@ class Profile extends Component {
 								className="post--card box-shadow"
 								key={post.postID}
 							>
-								<div className="post--card__header">
-									<img
-										src={avatar}
-										className="post--avatar"
-										alt=""
-									/>
-									<div>
-										<h6 className="profile--hero">
-											{user.FullName}
-										</h6>
-										<p className="profile--hero__desc">
-											@{user.UserName}
-										</p>
+								<a
+									href={`/dashboard/posts/${user.uid}/${post.postID}`}
+								>
+									<div className="post--card__header">
+										<img
+											src={avatar}
+											className="post--avatar"
+											alt=""
+										/>
+										<div>
+											<h6 className="profile--hero">
+												{user.FullName}
+											</h6>
+											<p className="profile--hero__desc">
+												@{user.UserName}
+											</p>
+										</div>
 									</div>
-								</div>
+								</a>
 								<div className="post--card__body">
 									<p>{post.post}</p>
 									<p className="details">
@@ -209,9 +213,13 @@ class Profile extends Component {
 										<span>{post.date}</span>
 									</p>
 									<p className="requests">
-										<span>
-											<i className="fas fa-comments"></i>
-										</span>
+										<a
+											href={`/dashboard/posts/${user.uid}/${post.postID}`}
+										>
+											<span>
+												<i className="fas fa-comments"></i>
+											</span>
+										</a>
 										<span
 											onClick={() => {
 												this.onHandleClick(post);

@@ -16,6 +16,7 @@ import EditProfile from "../components/Dashboard/EditProfile";
 import CreatePost from "../components/Dashboard/CreatePost";
 import UsersProfiles from "../components/Dashboard/UsersProfiles";
 import Following from "../components/Dashboard/Following";
+import CommentDetails from "../components/Dashboard/CommentDetails";
 
 const Dashboard = () => {
 	return (
@@ -42,6 +43,7 @@ const Dashboard = () => {
 										<Following path="/dashboard/following" />
 										<Settings path="/dashboard/settings" />
 										<UsersProfiles path="/dashboard/users/:id" />
+										<CommentDetails path="/dashboard/posts/:uid/:pid" />
 									</Router>
 								</div>
 							</div>
