@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import { Entropy } from "entropy-string";
 import MoonLoader from "react-spinners/MoonLoader";
+import PostCard from "./components/PostCard";
+import CommentCard from "./components/CommentCard";
 
 class CommentDetails extends Component {
 	constructor(props) {
@@ -40,7 +42,9 @@ class CommentDetails extends Component {
 				let commentObject =
 					postObject === null ? [] : postObject.comments;
 				const commenterArr =
-					commentObject === null ? [] : Object.keys(commentObject);
+					commentObject === undefined
+						? []
+						: Object.keys(commentObject);
 				this.setState({
 					post: newPostObject,
 					commenterObj: commenterArr,
@@ -52,7 +56,11 @@ class CommentDetails extends Component {
 					firebase.db.ref("users").on("value", (snapshot) => {
 						let usersObject = snapshot.val();
 						usersObject = Object.keys(usersObject)
-							.filter((user) => commenterObj.includes(user))
+							.filter((user) =>
+								commenterObj === undefined
+									? []
+									: commenterObj.includes(user)
+							)
 							.map((user) => usersObject[user]);
 					});
 					for (let j in individualComment) {
@@ -69,7 +77,11 @@ class CommentDetails extends Component {
 					let newUser = new Object();
 					let usersObject = snapshot.val();
 					usersObject = Object.keys(usersObject)
-						.filter((user) => commenterObj.includes(user))
+						.filter((user) =>
+							commenterObj === undefined
+								? []
+								: commenterObj.includes(user)
+						)
 						.map((user) => (newUser[user] = usersObject[user]));
 					this.setState({ commenter: newUser });
 				});
@@ -111,7 +123,6 @@ class CommentDetails extends Component {
 					`posts/${uid}/${pid}/comments/${authUser.uid}/${commentID}`
 				)
 				.set(message);
-			location.reload();
 			this.setState({ message: "" });
 		});
 
@@ -142,58 +153,26 @@ class CommentDetails extends Component {
 		}
 		return (
 			<>
-				<div className="post--card box-shadow mt-2">
-					<div className="post--card__header">
-						<img src={avatar} className="post--avatar" alt="" />
-						<div>
-							<h6 className="profile--hero">{user.FullName}</h6>
-							<p className="profile--hero__desc">
-								@{user.UserName}
-							</p>
-						</div>
-					</div>
-					<div className="post--card__body">
-						<p>{post.post}</p>
-						<p className="details">
-							<span>{post.time}</span>
-							<span>{post.date}</span>
-						</p>
-						<p className="requests">
-							<span>
-								<i className="fas fa-comments">{comments.length}</i>
-							</span>
-							<span
-								onClick={() => {
-									this.onHandleClick(post);
-								}}
-							>
-								<i className="fas fa-heart error">
-									{post.likes ? post.likes.length : 0}
-								</i>
-							</span>
-						</p>
-					</div>
-				</div>
+				<p></p>
+				<PostCard
+					post={post}
+					userDetails={user}
+					avatar={avatar}
+					onHandleError={this.onHandleError}
+					onHandleClick={this.onHandleClick}
+					key={post.postID}
+					comments={comments}
+				/>
 				<h5>COMMENTS</h5>
 				<div className="comment-block">
-					{commenter.length === 0 ? (
-						<h6></h6>
-					) : (
-						comments.map((comment, idx) => (
-							<div className="comment-card" key={idx}>
-								<img src={usersImages[comment.uid]} alt="" />
-								<div className="comment-content box-shadow">
-									<h6>
-										{commenter[comment.uid].FullName}
-										<small>
-											-@{commenter[comment.uid].UserName}
-										</small>
-									</h6>
-									<p>{comment.message}</p>
-								</div>
-							</div>
-						))
-					)}
+					{comments.map((comment, idx) => (
+						<CommentCard
+							usersImages={usersImages}
+							comment={comment}
+							commenter={commenter}
+							key={idx}
+						/>
+					))}
 				</div>
 				<div className="message">
 					<form onSubmit={this.onHandleSubmit}>
@@ -206,7 +185,12 @@ class CommentDetails extends Component {
 								rows="3"
 							></textarea>
 						</div>
-						<button className="btn btn-edit" disabled={message.length === 0}>COMMENT</button>
+						<button
+							className="btn btn-edit"
+							disabled={message.length === 0}
+						>
+							COMMENT
+						</button>
 					</form>
 				</div>
 			</>

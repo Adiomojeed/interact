@@ -39,6 +39,13 @@ form {
 		top: -32px;
 		right: 30px;
 	}
+
+	.message-icon {
+		top: -55px;
+		right: 20px;
+		color: lighten($color: $bg-primary, $amount: 0);
+		cursor: pointer;
+	}
 }
 
 @keyframes show {
@@ -58,7 +65,7 @@ input {
 	font-style: italic;
 	color: $text-dark;
 	outline: none;
-	font-size: .7em;
+	font-size: 0.7em;
 }
 
 input:focus {
@@ -119,6 +126,12 @@ textarea {
 	color: $text-dark;
 }
 
+.reply {
+	font-size: .6em;
+	padding-right: 50px;
+	overflow: hidden;
+}
+
 a {
 	text-decoration: none;
 }
@@ -131,6 +144,12 @@ a {
 		i {
 			top: -40px;
 		}
+		.message-icon {
+			top: -65px;
+		}
+	}
+	.reply {
+		font-size: .5em;
 	}
 }
 

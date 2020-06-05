@@ -4,6 +4,7 @@ import React from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
 import MoonLoader from "react-spinners/MoonLoader";
+import FollowCard, { Button } from "./components/FollowCard";
 
 class Followers extends React.Component {
 	constructor(props) {
@@ -23,9 +24,7 @@ class Followers extends React.Component {
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
-			firebase.db
-				.ref(`followers/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`followers/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					const arr =
 						userObject === null ? [] : Object.keys(userObject);
@@ -47,19 +46,21 @@ class Followers extends React.Component {
 									image[x] = url;
 									this.setState({ usersImages: image });
 								});
-						});
+							});
 					});
 				});
 
-			firebase.db
-				.ref(`following/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					const following =
 						userObject === null ? [] : Object.keys(userObject);
 					this.setState({ following });
 				});
 		});
+	}
+
+	componentWillUnmount() {
+
 	}
 
 	onHandleError(e) {
@@ -90,42 +91,18 @@ class Followers extends React.Component {
 				<div className="users-block">
 					<div className="row">
 						{users.map((user, idx) => (
-							<div className="col-6 col-md-4" key={usersID[idx]}>
-								<div className="px-0">
-									<div
-										className="follow--card"
-										key={user.email}
-									>
-										<img
-											src={
-												usersImages[usersID[idx]]
-													? usersImages[usersID[idx]]
-													: Avatar
-											}
-											className="follow--avatar"
-											onError={this.onHandleError}
-										/>
-										<div>
-											<a
-												href={`/dashboard/users/${usersID[idx]}`}
-												id="1"
-											>
-												<h6 className="profile--hero">
-													{user.FullName}
-												</h6>
-												<p className="profile--hero__desc">
-													@{user.UserName}
-												</p>
-											</a>
-										</div>
-										<button className="btn btn-primary">
-											{following.includes(usersID[idx])
-												? "FOLLOWING"
-												: "FOLLOW"}
-										</button>
-									</div>
-								</div>
-							</div>
+							<FollowCard
+								key={usersID[idx]}
+								idx={idx}
+								user={user}
+								usersID={usersID}
+								usersImages={usersImages}
+								Avatar={Avatar}
+								following={following}
+								onHandleError={this.onHandleError}
+							>
+								<Button following={following} usersID={usersID} idx={idx} />
+							</FollowCard>
 						))}
 					</div>
 				</div>

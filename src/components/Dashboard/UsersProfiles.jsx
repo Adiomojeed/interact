@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
 import MoonLoader from "react-spinners/MoonLoader";
+import PostCard from "./components/PostCard";
 
 class UsersProfiles extends Component {
 	constructor(props) {
@@ -127,7 +128,6 @@ class UsersProfiles extends Component {
 			if (followed) {
 				firebase.db.ref(`following/${authUser.uid}/${id}`).remove();
 				firebase.db.ref(`followers/${id}/${authUser.uid}`).remove();
-				window.location.reload();
 			} else {
 				firebase.db
 					.ref(`following/${authUser.uid}/${id}`)
@@ -182,12 +182,21 @@ class UsersProfiles extends Component {
 								@{userDetails.UserName}
 							</p>
 						</div>
-						<button
-							className="btn-edit"
-							onClick={this.onHandleFollow}
-						>
-							{followed ? "FOLLOWING" : "FOLLOW"}
-						</button>
+						<div className="message-redirect">
+							<a href={`/dashboard/messages/${userDetails.uid}`}>
+								<i
+									className={`fas fa-envelope ${
+										followed ? "d-block" : "d-none"
+									}`}
+								></i>
+							</a>
+							<button
+								className="btn-edit"
+								onClick={this.onHandleFollow}
+							>
+								{followed ? "FOLLOWING" : "FOLLOW"}
+							</button>
+						</div>
 					</div>
 					<h6 className="status">{userDetails.status}</h6>
 					<p className="followers">
@@ -205,68 +214,15 @@ class UsersProfiles extends Component {
 						<h1>No Post Found</h1>
 					) : (
 						posts.map((post) => (
-							<div
-								className="post--card box-shadow"
+							<PostCard
+								post={post}
+								userDetails={userDetails}
+								avatar={avatar}
+								onHandleError={this.onHandleError}
+								onHandleClick={this.onHandleClick}
 								key={post.postID}
-							>
-								<a
-									href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
-								>
-									<div className="post--card__header">
-										<img
-											src={avatar}
-											className="post--avatar"
-											onError={this.onHandleError}
-											alt=""
-										/>
-										<div>
-											<h6 className="profile--hero">
-												{userDetails.FullName}
-											</h6>
-											<p className="profile--hero__desc">
-												@{userDetails.UserName}
-											</p>
-										</div>
-									</div>
-								</a>
-								<div className="post--card__body">
-									<p>{post.post}</p>
-									<p className="details">
-										<span>{post.time}</span>
-										<span>{post.date}</span>
-									</p>
-									<p className="requests">
-										<a
-											href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
-										>
-											<span>
-												<i className="fas fa-comments">
-													{post.comments.length}
-												</i>
-											</span>
-										</a>
-										<span
-											onClick={() => {
-												this.onHandleClick(post);
-											}}
-										>
-											{post.likes ? (
-												<i className="fas fa-heart error">
-													{post.likes
-														? post.likes.length
-														: 0}
-												</i>
-											) : (
-												<i className="fas fa-heart successful">
-													{post.likes
-														? post.likes.length
-														: 0}
-												</i>
-											)}
-										</span>
-									</p>
-								</div>
-							</div>
+								comments=""
+							/>
 						))
 					)}
 				</div>

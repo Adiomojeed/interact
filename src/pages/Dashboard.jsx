@@ -17,6 +17,8 @@ import CreatePost from "../components/Dashboard/CreatePost";
 import UsersProfiles from "../components/Dashboard/UsersProfiles";
 import Following from "../components/Dashboard/Following";
 import CommentDetails from "../components/Dashboard/CommentDetails";
+import MessageList from "../components/Dashboard/MessageList";
+import MessagingPage from "../components/Dashboard/MessagingPage";
 
 const Dashboard = () => {
 	return (
@@ -44,6 +46,8 @@ const Dashboard = () => {
 										<Settings path="/dashboard/settings" />
 										<UsersProfiles path="/dashboard/users/:id" />
 										<CommentDetails path="/dashboard/posts/:uid/:pid" />
+										<MessageList path='/dashboard/messages' />
+										<MessagingPage path='/dashboard/messages/:mid' />
 									</Router>
 								</div>
 							</div>

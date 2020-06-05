@@ -5,6 +5,7 @@ import Avatar from "../../assets/images/male.png";
 import { withFirebase } from "../Firebase";
 import { withEmailVerification, withAuthorization } from "../Session";
 import MoonLoader from "react-spinners/MoonLoader";
+import PostCard from "./components/PostCard";
 
 class Profile extends Component {
 	constructor(props) {
@@ -34,9 +35,7 @@ class Profile extends Component {
 				userObject = { ...userObject, uid: authUser.uid };
 				this.setState({ user: userObject });
 			});
-			firebase.db
-				.ref(`followers/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`followers/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					let arr = [];
 					userObject === null
@@ -44,9 +43,7 @@ class Profile extends Component {
 						: Object.keys(userObject).map((a) => arr.push(a));
 					this.setState({ followers: arr });
 				});
-			firebase.db
-				.ref(`following/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					let arr = [];
 					userObject === null
@@ -86,6 +83,10 @@ class Profile extends Component {
 					this.setState({ avatar: a });
 				});
 		});
+	}
+
+	componentWillUnmount() {
+		
 	}
 
 	onHandleError() {
@@ -183,55 +184,15 @@ class Profile extends Component {
 						<h1>No Post Found</h1>
 					) : (
 						posts.map((post) => (
-							<div
-								className="post--card box-shadow"
+							<PostCard
+								post={post}
+								userDetails={user}
+								avatar={avatar}
+								onHandleError={this.onHandleError}
+								onHandleClick={this.onHandleClick}
 								key={post.postID}
-							>
-								<a
-									href={`/dashboard/posts/${user.uid}/${post.postID}`}
-								>
-									<div className="post--card__header">
-										<img
-											src={avatar}
-											className="post--avatar"
-											alt=""
-										/>
-										<div>
-											<h6 className="profile--hero">
-												{user.FullName}
-											</h6>
-											<p className="profile--hero__desc">
-												@{user.UserName}
-											</p>
-										</div>
-									</div>
-								</a>
-								<div className="post--card__body">
-									<p>{post.post}</p>
-									<p className="details">
-										<span>{post.time}</span>
-										<span>{post.date}</span>
-									</p>
-									<p className="requests">
-										<a
-											href={`/dashboard/posts/${user.uid}/${post.postID}`}
-										>
-											<span>
-												<i className="fas fa-comments"></i>
-											</span>
-										</a>
-										<span
-											onClick={() => {
-												this.onHandleClick(post);
-											}}
-										>
-											<i className="fas fa-heart error">
-												{post.likes.length}
-											</i>
-										</span>
-									</p>
-								</div>
-							</div>
+								comments=''
+							/>
 						))
 					)}
 				</div>

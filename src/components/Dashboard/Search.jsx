@@ -26,9 +26,7 @@ class Search extends React.Component {
 		const { firebase, id } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
-			firebase
-				.user(`following/${authUser.uid}`)
-				.on("value", (snapshot) => {
+				firebase.user(`following/${authUser.uid}`).on("value", (snapshot) => {
 					const usersObject = snapshot.val();
 					let firstUsers;
 					if (usersObject === null) {
@@ -82,6 +80,10 @@ class Search extends React.Component {
 				arr.push(userObject);
 			});
 		});
+	}
+
+	componentWillUnmount() {
+
 	}
 
 	onHandleError(e) {

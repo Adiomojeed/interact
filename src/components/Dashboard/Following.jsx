@@ -4,6 +4,7 @@ import React from "react";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
 import MoonLoader from "react-spinners/MoonLoader";
+import FollowCard, { ButtonTwo } from "./components/FollowCard";
 
 class Following extends React.Component {
 	constructor(props) {
@@ -23,9 +24,7 @@ class Following extends React.Component {
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
-			firebase.db
-				.ref(`following/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					const arr =
 						userObject === null ? [] : Object.keys(userObject);
@@ -51,6 +50,10 @@ class Following extends React.Component {
 					});
 				});
 		});
+	}
+
+	componentWillUnmount() {
+		
 	}
 
 	onHandleError(e) {
@@ -89,44 +92,21 @@ class Following extends React.Component {
 				<div className="users-block">
 					<div className="row">
 						{users.map((user, idx) => (
-							<div className="col-6 col-md-4" key={user.email}>
-								<div className="px-0">
-									<div className="follow--card">
-										<img
-											src={
-												usersImages[usersID[idx]]
-													? usersImages[usersID[idx]]
-													: Avatar
-											}
-											className="follow--avatar"
-											onError={this.onHandleError}
-										/>
-										<div>
-											<a
-												href={`/dashboard/users/${usersID[idx]}`}
-												id="1"
-											>
-												<h6 className="profile--hero">
-													{user.FullName}
-												</h6>
-												<p className="profile--hero__desc">
-													@{user.UserName}
-												</p>
-											</a>
-										</div>
-										<button
-											className="btn btn-primary"
-											onClick={() => {
-												this.onHandleUnFollow(
-													usersID[idx]
-												);
-											}}
-										>
-											UNFOLLOW
-										</button>
-									</div>
-								</div>
-							</div>
+							<FollowCard
+								key={idx}
+								idx={idx}
+								user={user}
+								usersID={usersID}
+								usersImages={usersImages}
+								Avatar={Avatar}
+								onHandleError={this.onHandleError}
+							>
+								<ButtonTwo
+									onHandleUnFollow={this.onHandleUnFollow}
+									usersID={usersID}
+									idx={idx}
+								/>
+							</FollowCard>
 						))}
 					</div>
 				</div>

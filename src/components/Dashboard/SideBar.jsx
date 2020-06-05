@@ -27,16 +27,13 @@ class SideBar extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.firebase.auth.onAuthStateChanged((authUser) => {
-			this.props.firebase.db
-				.ref(`users/${authUser.uid}`)
-				.on("value", (snapshot) => {
+		const { firebase } = this.props
+		firebase.auth.onAuthStateChanged((authUser) => {
+			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					this.setState({ user: userObject });
 				});
-			this.props.firebase.db
-				.ref(`followers/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`followers/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					let arr = [];
 					if (userObject === null) {
@@ -45,9 +42,7 @@ class SideBar extends React.Component {
 					}
 					this.setState({ followers: arr });
 				});
-			this.props.firebase.db
-				.ref(`following/${authUser.uid}`)
-				.on("value", (snapshot) => {
+			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
 					const userObject = snapshot.val();
 					let arr = [];
 					if (userObject === null) {
@@ -56,7 +51,7 @@ class SideBar extends React.Component {
 					}
 					this.setState({ following: arr });
 				});
-			this.props.firebase.storage
+			firebase.storage
 				.ref()
 				.child(`images/${authUser.uid}`)
 				.getDownloadURL()
@@ -65,6 +60,7 @@ class SideBar extends React.Component {
 				});
 		});
 	}
+
 
 	onHandleError() {
 		this.setState({ avatar: Avatar });
@@ -122,6 +118,9 @@ class SideBar extends React.Component {
 					</li>
 					<li>
 						<NavLink to="/dashboard/following">FOLLOWING</NavLink>
+					</li>
+					<li>
+						<NavLink to="/dashboard/messages">MESSAGES</NavLink>
 					</li>
 					<li>
 						<NavLink to="/dashboard/settings">SETTINGS</NavLink>

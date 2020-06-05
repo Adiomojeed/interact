@@ -5,6 +5,7 @@ import Container from "../components/Container";
 import { navigate } from "@reach/router";
 import { withFirebase } from "../components/Firebase/index";
 import { withAlert } from "react-alert";
+import { withRouter } from "react-router-dom";
 
 const INITIAL_STATE = {
 	email: "",
@@ -60,16 +61,14 @@ class SignInForm extends Component {
 
 	onHandleSubmit(e) {
 		const { email, password, users } = this.state;
-		const { firebase, alert } = this.props;
+		const { firebase, alert, history } = this.props;
 		firebase
 			.doSignInWithEmailAndPassword(email, password)
 			.then(() => {
 				if (users.includes(email.toLowerCase())) {
-					navigate("/dashboard");
-					location.reload();
+					history.push("/dashboard");
 				} else {
-					navigate("/create");
-					location.reload();
+					history.push("/create");
 				}
 			})
 			.then(() => {
@@ -139,6 +138,6 @@ class SignInForm extends Component {
 	}
 }
 
-const SignIn = withFirebase(withAlert()(SignInForm));
+const SignIn = withRouter(withFirebase(withAlert()(SignInForm)));
 
 export default SignIn;
