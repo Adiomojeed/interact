@@ -17,9 +17,7 @@ class Profile extends Component {
 			following: "",
 			posts: null,
 			liked: false,
-			presentPost: null,
 			avatar: Avatar,
-			a: "",
 		};
 
 		this.onHandleClick = this.onHandleClick.bind(this);
@@ -35,43 +33,59 @@ class Profile extends Component {
 				userObject = { ...userObject, uid: authUser.uid };
 				this.setState({ user: userObject });
 			});
-			firebase.db.ref(`followers/${authUser.uid}`).on("value", (snapshot) => {
+			firebase.db
+				.ref(`followers/${authUser.uid}`)
+				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					let arr = [];
+					let followArr = [];
 					userObject === null
-						? (arr = [])
-						: Object.keys(userObject).map((a) => arr.push(a));
-					this.setState({ followers: arr });
+						? (followArr = [])
+						: Object.keys(userObject).map((user) =>
+								followArr.push(user)
+						  );
+					this.setState({ followers: followArr });
 				});
-			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
+			firebase.db
+				.ref(`following/${authUser.uid}`)
+				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					let arr = [];
+					let followArr = [];
 					userObject === null
-						? (arr = [])
-						: Object.keys(userObject).map((a) => arr.push(a));
-					this.setState({ following: arr });
+						? (followArr = [])
+						: Object.keys(userObject).map((user) =>
+								followArr.push(user)
+						  );
+					this.setState({ following: followArr });
 				});
 			firebase.db.ref(`posts/${authUser.uid}`).on("value", (snapshot) => {
 				const postObject = snapshot.val();
-				let test;
-				test =
+				let newPostObject =
 					postObject === null
 						? []
-						: Object.keys(postObject).map((a) => ({
-								...postObject[a],
-								postID: a,
+						: Object.keys(postObject).map((postID) => ({
+								...postObject[postID],
+								postID,
 						  }));
-				let newTest = Object.keys(test).map((i) => test[i].likes);
-
-				let i = 0;
-				for (i; i < newTest.length; i++) {
-					let b = Object.keys(newTest[i]);
-					test[i].likes = b;
-					if (b.includes(authUser.uid)) {
-						this.setState({ liked: true });
+				let postComments = Object.keys(newPostObject).map(
+					(postID) => newPostObject[postID].comments
+				);
+				for (let i = 0; i < postComments.length; i++) {
+					let IndividualMessageArr = [];
+					let individualMessageObj = Object.keys(postComments[i]).map(
+						(j) => postComments[i][j]
+					);
+					for (let j = 0; j < individualMessageObj.length; j++) {
+						let messageArr = Object.keys(individualMessageObj[j]);
+						IndividualMessageArr.push(messageArr);
 					}
+					IndividualMessageArr = IndividualMessageArr.reduce(
+						(a, b) => a.concat(b),
+						[]
+					);
+					newPostObject[i].comments = IndividualMessageArr;
 				}
-				this.setState({ posts: test });
+				newPostObject = newPostObject.sort((a, b) => b.ms - a.ms);
+				this.setState({ posts: newPostObject });
 			});
 			firebase.storage
 				.ref()
@@ -79,14 +93,10 @@ class Profile extends Component {
 				.getDownloadURL()
 				.then((url) => {
 					window.localStorage.setItem("image", url);
-					let a = window.localStorage.getItem("image");
-					this.setState({ avatar: a });
+					let image = window.localStorage.getItem("image");
+					this.setState({ avatar: image });
 				});
 		});
-	}
-
-	componentWillUnmount() {
-		
 	}
 
 	onHandleError() {
@@ -94,7 +104,7 @@ class Profile extends Component {
 	}
 
 	onHandleClick(e) {
-		const { firebase, id } = this.props;
+		const { firebase } = this.props;
 		const { liked } = this.state;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			if (liked) {
@@ -106,8 +116,8 @@ class Profile extends Component {
 				firebase.db
 					.ref(`posts/${authUser.uid}/${e.postID}/likes`)
 					.on("value", (snapshot) => {
-						let a = snapshot.val();
-						if (a === null) {
+						let likes = snapshot.val();
+						if (likes === null) {
 							firebase.db
 								.ref(`posts/${authUser.uid}/${e.postID}/likes`)
 								.set("");
@@ -125,7 +135,7 @@ class Profile extends Component {
 	}
 
 	render() {
-		const { user, followers, following, posts, avatar, liked } = this.state;
+		const { user, followers, following, posts, avatar } = this.state;
 		if (user.length === 0) {
 			return (
 				<div>
@@ -191,7 +201,7 @@ class Profile extends Component {
 								onHandleError={this.onHandleError}
 								onHandleClick={this.onHandleClick}
 								key={post.postID}
-								comments=''
+								comments={post.comments.length}
 							/>
 						))
 					)}

@@ -33,12 +33,13 @@ class CreatePost extends Component {
 			hour: "2-digit",
 			minute: "2-digit",
 		});
+		const ms = totalDate.getTime();
 		const entropy = new Entropy();
 		const postID = entropy.string();
 		this.props.firebase.auth.onAuthStateChanged((authUser) => {
 			this.props.firebase.db
 				.ref(`posts/${authUser.uid}/${postID}`)
-				.set({ post, date, time, likes: 0, comments: 0 });
+				.set({ post, date, time, ms, likes: 0, comments: 0 });
 		});
 		navigate("/dashboard");
 

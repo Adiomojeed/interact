@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import Avatar from "../../assets/images/male.png";
+import MoonLoader from "react-spinners/MoonLoader";
 import { withFirebase } from "../Firebase";
 
 class MessageList extends Component {
@@ -23,24 +24,43 @@ class MessageList extends Component {
 				.ref(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					const arr =
+					let messengersID = [];
+					const usersID =
 						userObject === null ? [] : Object.keys(userObject);
-					this.setState({ usersID: arr });
-					let folArr = [];
+					messengersID.push(usersID);
+					let totalUsersObject = [];
+					firebase.db
+						.ref(`followers/${authUser.uid}`)
+						.on("value", (snapshot) => {
+							const userObject = snapshot.val();
+							const usersID =
+								userObject === null
+									? []
+									: Object.keys(userObject);
+							messengersID.push(usersID);
+						});
+					messengersID = messengersID.reduce(
+						(a, b) => a.concat(b),
+						[]
+					);
+					messengersID = messengersID.filter(
+						(a, b) => messengersID.indexOf(a) === b
+					);
+					this.setState({ usersID: messengersID });
 					firebase.db.ref("users").on("value", (snapshot) => {
 						const user = snapshot.val();
-						for (let i in arr) {
-							folArr.push(user[arr[i]]);
+						for (let i in messengersID) {
+							totalUsersObject.push(user[messengersID[i]]);
 						}
-						this.setState({ users: folArr });
+						this.setState({ users: totalUsersObject });
 						let image = new Object();
-						arr.map((x) => {
+						messengersID.map((messengerID) => {
 							firebase.storage
 								.ref()
-								.child(`images/${x}`)
+								.child(`images/${messengerID}`)
 								.getDownloadURL()
 								.then((url) => {
-									image[x] = url;
+									image[messengerID] = url;
 									this.setState({ usersImages: image });
 								});
 						});
@@ -51,6 +71,18 @@ class MessageList extends Component {
 
 	render() {
 		const { users, usersImages, usersID } = this.state;
+		if (users.length === 0) {
+			return (
+				<div>
+					<MoonLoader
+						css="margin: 0 auto; margin-top: 20px"
+						size={50}
+						color={"#123abc"}
+						loading={this.state.loading}
+					/>
+				</div>
+			);
+		}
 		return (
 			<div className="px px-lg-5 messages--block">
 				<h5>MESSAGES</h5>

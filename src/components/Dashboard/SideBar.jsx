@@ -27,29 +27,27 @@ class SideBar extends React.Component {
 	}
 
 	componentDidMount() {
-		const { firebase } = this.props
+		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			firebase.db.ref(`users/${authUser.uid}`).on("value", (snapshot) => {
+				const userObject = snapshot.val();
+				this.setState({ user: userObject });
+			});
+			firebase.db
+				.ref(`followers/${authUser.uid}`)
+				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					this.setState({ user: userObject });
+					let followsID =
+						userObject === null ? [] : Object.keys(userObject);
+					this.setState({ followers: followsID });
 				});
-			firebase.db.ref(`followers/${authUser.uid}`).on("value", (snapshot) => {
+			firebase.db
+				.ref(`following/${authUser.uid}`)
+				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					let arr = [];
-					if (userObject === null) {
-					} else {
-						Object.keys(userObject).map((a) => arr.push(a));
-					}
-					this.setState({ followers: arr });
-				});
-			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
-					const userObject = snapshot.val();
-					let arr = [];
-					if (userObject === null) {
-					} else {
-						Object.keys(userObject).map((a) => arr.push(a));
-					}
-					this.setState({ following: arr });
+					let followsID =
+						userObject === null ? [] : Object.keys(userObject);
+					this.setState({ following: followsID });
 				});
 			firebase.storage
 				.ref()
@@ -60,7 +58,6 @@ class SideBar extends React.Component {
 				});
 		});
 	}
-
 
 	onHandleError() {
 		this.setState({ avatar: Avatar });

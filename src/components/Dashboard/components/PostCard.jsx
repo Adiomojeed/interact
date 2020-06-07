@@ -2,7 +2,14 @@
 
 import React from "react";
 
-const PostCard = ({post, userDetails, avatar, onHandleError, onHandleClick, comments}) => {
+const PostCard = ({
+	post,
+	userDetails,
+	avatar,
+	onHandleError,
+	onHandleClick,
+	comments,
+}) => {
 	return (
 		<>
 			<div className="post--card box-shadow">
@@ -35,21 +42,18 @@ const PostCard = ({post, userDetails, avatar, onHandleError, onHandleClick, comm
 							href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
 						>
 							<span>
-								<i className="fas fa-comments">
-									{comments.length}
-								</i>
+								<i className="fas fa-comments"></i>
+								{comments || 0}
 							</span>
 						</a>
 						<span
 							onClick={() => {
 								onHandleClick(post);
 							}}
+							className='error'
 						>
-							
-								<i className="fas fa-heart error">
-									{post.likes ? post.likes.length : 0}
-								</i>
-							
+							<i className="fas fa-heart error"></i>
+							{post.likes ? Object.keys(post.likes).length : 0}
 						</span>
 					</p>
 				</div>

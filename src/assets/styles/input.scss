@@ -41,9 +41,12 @@ form {
 	}
 
 	.message-icon {
-		top: -55px;
-		right: 20px;
-		color: lighten($color: $bg-primary, $amount: 0);
+		top: -72px;
+		right: 0px;
+		background-color: $bg-primary;
+		padding: 18px;
+		border-radius: 0 10px 10px 0;
+		color: $text-white;
 		cursor: pointer;
 	}
 }
@@ -127,8 +130,8 @@ textarea {
 }
 
 .reply {
-	font-size: .6em;
-	padding-right: 50px;
+	font-size: .65em;
+	padding-right: 60px;
 	overflow: hidden;
 }
 
@@ -145,7 +148,8 @@ a {
 			top: -40px;
 		}
 		.message-icon {
-			top: -65px;
+			top: -80px;
+			padding: 19px;
 		}
 	}
 	.reply {

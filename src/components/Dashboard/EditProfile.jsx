@@ -19,12 +19,12 @@ class EditProfile extends Component {
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
-		this.onHandleError = this.onHandleError.bind(this)
+		this.onHandleError = this.onHandleError.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 		this.onHandleUpload = this.onHandleUpload.bind(this);
 		this.onHandleImageSelect = this.onHandleImageSelect.bind(this);
 	}
-	
+
 	componentDidMount() {
 		document.title = "Intteract - Edit Profile";
 		const { firebase } = this.props;
@@ -43,8 +43,8 @@ class EditProfile extends Component {
 				.getDownloadURL()
 				.then((url) => {
 					window.localStorage.setItem("image", url);
-					let a = window.localStorage.getItem("image");
-					this.setState({ avatar: a });
+					let image = window.localStorage.getItem("image");
+					this.setState({ avatar: image });
 				});
 		});
 	}

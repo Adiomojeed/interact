@@ -9,7 +9,7 @@ class Search extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			firstUsers: [],
+			followedID: [],
 			users: [],
 			usersImages: [],
 			followers: [],
@@ -23,40 +23,39 @@ class Search extends React.Component {
 
 	componentDidMount() {
 		document.title = "Intteract - Search";
-		const { firebase, id } = this.props;
+		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
-				firebase.user(`following/${authUser.uid}`).on("value", (snapshot) => {
+			firebase
+				.user(`following/${authUser.uid}`)
+				.on("value", (snapshot) => {
 					const usersObject = snapshot.val();
-					let firstUsers;
-					if (usersObject === null) {
-						firstUsers = [];
-					} else {
-						firstUsers = Object.keys(usersObject);
-					}
-					this.setState({ firstUsers });
+					let followedID =
+						usersObject === null ? [] : Object.keys(usersObject);
+					this.setState({ followedID });
 					firebase.db.ref(`users`).on("value", (snapshot) => {
-						const userObject = snapshot.val();
-						const user = Object.keys(userObject)
-							.map((a) => ({
-								...userObject[a],
-								userID: a,
+						let usersObject = snapshot.val();
+						usersObject = Object.keys(usersObject)
+							.map((userID) => ({
+								...usersObject[userID],
+								userID,
 							}))
 							.filter(
-								(a) =>
-									a.userID != authUser.uid &&
-									this.state.firstUsers.includes(a.userID) ===
-										false
+								(userObject) =>
+									userObject.userID != authUser.uid &&
+									this.state.followedID.includes(
+										userObject.userID
+									) === false
 							);
-						this.setState({ users: user });
+						this.setState({ users: usersObject });
 						let image = new Object();
-						user.map((x) => {
+						usersObject.map((userObject) => {
 							firebase.storage
 								.ref()
-								.child(`images/${x.userID}`)
+								.child(`images/${userObject.userID}`)
 								.getDownloadURL()
 								.then((url) => {
-									image[x.userID] = url;
+									image[userObject.userID] = url;
 									this.setState({ usersImages: image });
 								});
 						});
@@ -65,25 +64,17 @@ class Search extends React.Component {
 
 			// Fixed
 			firebase.db.ref(`followers`).on("value", (snapshot) => {
-				const userObject = snapshot.val();
-				delete userObject[authUser.uid];
-				this.setState({ followers: userObject });
-				let arr = [];
-				arr.push(userObject);
+				const usersObject = snapshot.val();
+				delete usersObject[authUser.uid];
+				this.setState({ followers: usersObject });
 			});
 			// correct
 			firebase.db.ref(`following`).on("value", (snapshot) => {
-				const userObject = snapshot.val();
-				delete userObject[authUser.uid];
-				this.setState({ following: userObject });
-				let arr = [];
-				arr.push(userObject);
+				const usersObject = snapshot.val();
+				delete usersObject[authUser.uid];
+				this.setState({ following: usersObject });
 			});
 		});
-	}
-
-	componentWillUnmount() {
-
 	}
 
 	onHandleError(e) {

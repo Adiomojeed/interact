@@ -13,6 +13,8 @@ class MessagingPage extends Component {
 			user: [],
 			avatar: "",
 			message: "",
+			messengersObj: [],
+			messagesList: [],
 		};
 
 		this.onHandleChange = this.onHandleChange.bind(this);
@@ -32,31 +34,92 @@ class MessagingPage extends Component {
 			.then((url) => {
 				this.setState({ avatar: url });
 			});
+
+		firebase.auth.onAuthStateChanged((authUser) => {
+			firebase.db
+				.ref(`messages/${authUser.uid}/${mid}`)
+				.on("value", (snapshot) => {
+					const messagesObject =
+						snapshot.val() === null ? [] : snapshot.val();
+					const messengersID = Object.keys(messagesObject);
+					let messagesList = [];
+					for (let i in messengersID) {
+						let messenger = messengersID[i];
+						let individualMessage = messagesObject[messenger];
+						firebase.db.ref("users").on("value", (snapshot) => {
+							let newMessenger = new Object();
+							let usersObject = snapshot.val();
+							usersObject = Object.keys(usersObject)
+								.filter((userID) =>
+									messengersID === undefined
+										? []
+										: messengersID.includes(userID)
+								)
+								.map(
+									(userID) =>
+										(newMessenger[userID] =
+											usersObject[userID])
+								);
+							this.setState({ messengersObj: newMessenger });
+						});
+						for (let j in individualMessage) {
+							let messageContent = individualMessage[j];
+							messagesList.push({
+								message: messageContent.message,
+								time: messageContent.time,
+								date: messageContent.date,
+								ms: messageContent.ms,
+								uid: messenger,
+							});
+						}
+					}
+					messagesList = messagesList.sort((a, b) => a.ms - b.ms);
+					this.setState({ messagesList });
+				});
+		});
 	}
 
 	onHandleChange(e) {
 		this.setState({ message: e.target.value });
 	}
 
-	onHandleSubmit(e) {
+	onHandleSubmit() {
 		const { firebase, mid } = this.props;
 		const { message } = this.state;
+		let totalDate = new Date();
+		let date = totalDate.toLocaleDateString();
+		let time = totalDate.toLocaleTimeString([], {
+			hour: "2-digit",
+			minute: "2-digit",
+		});
+		const ms = totalDate.getTime();
 		const entropy = new Entropy();
 		const messageID = entropy.string();
+
 		firebase.auth.onAuthStateChanged((authUser) => {
 			firebase.db
 				.ref(
 					`messages/${authUser.uid}/${mid}/${authUser.uid}/${messageID}`
 				)
-                .set(message);
-            firebase.db.ref(`messages/${mid}/${authUser.uid}/${authUser.uid}/${messageID}`).set(message)
+				.set({ message, date, time, ms });
+			firebase.db
+				.ref(
+					`messages/${mid}/${authUser.uid}/${authUser.uid}/${messageID}`
+				)
+				.set({ message, date, time, ms });
 			this.setState({ message: "" });
 		});
 		//e.preventDefault();
 	}
 
 	render() {
-		const { user, avatar, message } = this.state;
+		const {
+			user,
+			avatar,
+			message,
+			messengersObj,
+			messagesList,
+		} = this.state;
 		if (user.length === 0) {
 			return (
 				<div>
@@ -79,33 +142,24 @@ class MessagingPage extends Component {
 					</div>
 				</div>
 				<div className="comment-block mt-3">
-					<div className="comment-card">
-						<div className="comment-content box-shadow">
-							<h6>
-								Adio Mojeed
-								<small>-@ codeLeaf</small>
-							</h6>
-							<p>comment 1</p>
+					{messagesList.map((message, idx) => (
+						<div className="comment-card" key={idx}>
+							<div className="comment-content box-shadow">
+								{messengersObj[message.uid] === undefined ? (
+									""
+								) : (
+									<h6>
+										{messengersObj[message.uid].FullName}{" "}
+										<small>
+											{message.date} - {message.time}
+										</small>
+									</h6>
+								)}
+
+								<p>{message.message}</p>
+							</div>
 						</div>
-					</div>
-					<div className="comment-card">
-						<div className="comment-content box-shadow">
-							<h6>
-								Adio Mojeed
-								<small>-@ codeLeaf</small>
-							</h6>
-							<p>comment 1</p>
-						</div>
-					</div>
-					<div className="comment-card">
-						<div className="comment-content box-shadow">
-							<h6>
-								Adio Mojeed
-								<small>-@ codeLeaf</small>
-							</h6>
-							<p>comment 1</p>
-						</div>
-					</div>
+					))}
 				</div>
 				<div className="message">
 					<div>
@@ -115,8 +169,8 @@ class MessagingPage extends Component {
 								placeholder={`message ${user.FullName}`}
 								onChange={this.onHandleChange}
 								value={message}
-                                rows="2"
-                                className='reply'
+								rows="2"
+								className="reply"
 							></textarea>
 							<i
 								className="fas fa-paper-plane message-icon"

@@ -39,44 +39,62 @@ class UsersProfiles extends Component {
 			// correct
 			firebase.db.ref(`followers/${id}`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				let arr = [];
-				userObject === null
-					? (arr = [])
-					: Object.keys(userObject).map((a) => arr.push(a));
-				this.setState({ followers: arr });
-				if (arr.includes(authUser.uid)) {
+				let followID =
+					userObject === null ? [] : Object.keys(userObject);
+				this.setState({ followers: followID });
+				if (followID.includes(authUser.uid)) {
 					this.setState({ followed: true });
 				}
 			});
 			// correct
 			firebase.db.ref(`following/${id}`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				let arr = [];
-				Object.keys(userObject).map((a) => arr.push(a));
-				this.setState({ following: arr });
+				let followID =
+					userObject === null ? [] : Object.keys(userObject);
+				this.setState({ following: followID });
 			});
 			// correct
 			firebase.db.ref(`posts/${id}`).on("value", (snapshot) => {
 				const postObject = snapshot.val();
-				let test =
+				let newPostObject =
 					postObject === null
 						? []
-						: Object.keys(postObject).map((a) => ({
-								...postObject[a],
-								postID: a,
+						: Object.keys(postObject).map((postID) => ({
+								...postObject[postID],
+								postID,
 						  }));
 
-				let newTest = Object.keys(test).map((i) => test[i].likes);
-
+				let postsLikes = Object.keys(newPostObject).map(
+					(postID) => newPostObject[postID].likes
+				);
+				let postsComments = Object.keys(newPostObject).map(
+					(postID) => newPostObject[postID].comments
+				);
+				for (let i = 0; i < postsComments.length; i++) {
+					let IndividualMessageArr = [];
+					let individualMessageObj = Object.keys(
+						postsComments[i]
+					).map((j) => postsComments[i][j]);
+					for (let j = 0; j < individualMessageObj.length; j++) {
+						let messageArr = Object.keys(individualMessageObj[j]);
+						IndividualMessageArr.push(messageArr);
+					}
+					IndividualMessageArr = IndividualMessageArr.reduce(
+						(a, b) => a.concat(b),
+						[]
+					);
+					newPostObject[i].comments = IndividualMessageArr.length;
+				}
 				let i = 0;
-				for (i; i < newTest.length; i++) {
-					let b = Object.keys(newTest[i]);
-					test[i].likes = b;
-					if (b.includes(authUser.uid)) {
+				for (i; i < postsLikes.length; i++) {
+					let postLikes = Object.keys(postsLikes[i]);
+					newPostObject[i].likes = postLikes;
+					if (postLikes.includes(authUser.uid)) {
 						this.setState({ liked: true });
 					}
 				}
-				this.setState({ posts: test });
+				newPostObject = newPostObject.sort((a, b) => b.ms - a.ms);
+				this.setState({ posts: newPostObject });
 			});
 			// correct
 			firebase.storage
@@ -221,7 +239,7 @@ class UsersProfiles extends Component {
 								onHandleError={this.onHandleError}
 								onHandleClick={this.onHandleClick}
 								key={post.postID}
-								comments=""
+								comments={post.comments}
 							/>
 						))
 					)}

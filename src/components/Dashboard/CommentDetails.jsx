@@ -20,8 +20,9 @@ class CommentDetails extends Component {
 			comments: [],
 			commenter: [],
 			usersImages: [],
+			liked: false,
 		};
-
+		this.onHandleClick = this.onHandleClick.bind(this);
 		this.onHandleChange = this.onHandleChange.bind(this);
 		this.onHandleSubmit = this.onHandleSubmit.bind(this);
 	}
@@ -49,6 +50,11 @@ class CommentDetails extends Component {
 					post: newPostObject,
 					commenterObj: commenterArr,
 				});
+				if (
+					Object.keys(newPostObject["likes"]).includes(authUser.uid)
+				) {
+					this.setState({ liked: true });
+				}
 				let commentsArr = [];
 				for (let i in commenterArr) {
 					let commenter = commenterArr[i];
@@ -66,11 +72,15 @@ class CommentDetails extends Component {
 					for (let j in individualComment) {
 						let messageContent = individualComment[j];
 						commentsArr.push({
-							message: messageContent,
+							message: messageContent.message,
+							time: messageContent.time,
+							date: messageContent.date,
+							ms: messageContent.ms,
 							uid: commenter,
 						});
 					}
 				}
+				commentsArr = commentsArr.sort((a, b) => a.ms - b.ms);
 				this.setState({ comments: commentsArr });
 				const { commenterObj } = this.state;
 				firebase.db.ref("users").on("value", (snapshot) => {
@@ -112,9 +122,43 @@ class CommentDetails extends Component {
 		this.setState({ message: e.target.value });
 	}
 
+	onHandleClick(e) {
+		const { firebase, uid, pid } = this.props;
+		const { liked } = this.state;
+		firebase.auth.onAuthStateChanged((authUser) => {
+			if (liked) {
+				firebase.db
+					.ref(`posts/${uid}/${pid}/likes/${authUser.uid}`)
+					.remove();
+				firebase.db
+					.ref(`posts/${uid}/${pid}/likes`)
+					.on("value", (snapshot) => {
+						let a = snapshot.val();
+						if (a === null) {
+							firebase.db
+								.ref(`posts/${uid}/${pid}/likes`)
+								.set("");
+						}
+					});
+			} else {
+				firebase.db
+					.ref(`posts/${uid}/${pid}/likes/${authUser.uid}`)
+					.set("liked");
+			}
+		});
+		this.setState({ liked: !this.state.liked });
+	}
+
 	onHandleSubmit(e) {
 		const { firebase, uid, pid } = this.props;
 		const { message } = this.state;
+		let totalDate = new Date();
+		let date = totalDate.toLocaleDateString();
+		let time = totalDate.toLocaleTimeString([], {
+			hour: "2-digit",
+			minute: "2-digit",
+		});
+		const ms = totalDate.getTime();
 		const entropy = new Entropy();
 		const commentID = entropy.string();
 		firebase.auth.onAuthStateChanged((authUser) => {
@@ -122,7 +166,7 @@ class CommentDetails extends Component {
 				.ref(
 					`posts/${uid}/${pid}/comments/${authUser.uid}/${commentID}`
 				)
-				.set(message);
+				.set({ message, date, time, ms });
 			this.setState({ message: "" });
 		});
 
@@ -161,7 +205,7 @@ class CommentDetails extends Component {
 					onHandleError={this.onHandleError}
 					onHandleClick={this.onHandleClick}
 					key={post.postID}
-					comments={comments}
+					comments={comments.length}
 				/>
 				<h5>COMMENTS</h5>
 				<div className="comment-block">

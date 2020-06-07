@@ -24,36 +24,34 @@ class Following extends React.Component {
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
-			firebase.db.ref(`following/${authUser.uid}`).on("value", (snapshot) => {
+			firebase.db
+				.ref(`following/${authUser.uid}`)
+				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					const arr =
+					const usersID =
 						userObject === null ? [] : Object.keys(userObject);
-					this.setState({ usersID: arr });
-					let folArr = [];
+					this.setState({ usersID: usersID });
+					let followObject = [];
 					firebase.db.ref("users").on("value", (snapshot) => {
 						const user = snapshot.val();
-						for (let i in arr) {
-							folArr.push(user[arr[i]]);
+						for (let i in usersID) {
+							followObject.push(user[usersID[i]]);
 						}
-						this.setState({ users: folArr });
+						this.setState({ users: followObject });
 						let image = new Object();
-						arr.map((x) => {
+						usersID.map((userID) => {
 							firebase.storage
 								.ref()
-								.child(`images/${x}`)
+								.child(`images/${userID}`)
 								.getDownloadURL()
 								.then((url) => {
-									image[x] = url;
+									image[userID] = url;
 									this.setState({ usersImages: image });
 								});
 						});
 					});
 				});
 		});
-	}
-
-	componentWillUnmount() {
-		
 	}
 
 	onHandleError(e) {
