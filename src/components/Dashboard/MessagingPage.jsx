@@ -120,6 +120,7 @@ class MessagingPage extends Component {
 			messengersObj,
 			messagesList,
 		} = this.state;
+		const { mid } = this.props;
 		if (user.length === 0) {
 			return (
 				<div>
@@ -134,13 +135,15 @@ class MessagingPage extends Component {
 		}
 		return (
 			<div className="px-lg-5">
-				<div className="respondent__head">
-					<img src={avatar} alt="" />
-					<div className="respondent__profile">
-						<h5>{user.FullName}</h5>
-						<small>@{user.UserName}</small>
+				<a href={`/dashboard/users/${mid}`} id="1">
+					<div className="respondent__head">
+						<img src={avatar} alt="" />
+						<div className="respondent__profile">
+							<h5>{user.FullName}</h5>
+							<small>@{user.UserName}</small>
+						</div>
 					</div>
-				</div>
+				</a>
 				<div className="comment-block mt-3">
 					{messagesList.map((message, idx) => (
 						<div className="comment-card" key={idx}>

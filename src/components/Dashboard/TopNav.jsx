@@ -1,6 +1,7 @@
 /** @format */
 
 import React from "react";
+import { Link } from "@reach/router";
 
 const TopNav = () => {
 	return (
@@ -8,7 +9,12 @@ const TopNav = () => {
 			<a href="/dashboard">
 				<h3 className="logo">Intteract</h3>
 			</a>
-			<i className="fas fa-stream" id="open"></i>
+			<div>
+				<Link to="/dashboard/settings">
+					<i className="fas fa-cog"></i>
+				</Link>
+				<i className="fas fa-stream" id="open"></i>
+			</div>
 		</nav>
 	);
 };

@@ -19,6 +19,7 @@ import Following from "../components/Dashboard/Following";
 import CommentDetails from "../components/Dashboard/CommentDetails";
 import MessageList from "../components/Dashboard/MessageList";
 import MessagingPage from "../components/Dashboard/MessagingPage";
+import Home from "../components/Dashboard/Home";
 
 const Dashboard = () => {
 	return (
@@ -37,7 +38,8 @@ const Dashboard = () => {
 							<div className="row px">
 								<div className="col">
 									<Router>
-										<Profile path="/dashboard" />
+										<Home path="/dashboard" />
+										<Profile path="/dashboard/profile" />
 										<EditProfile path="/dashboard/edit" />
 										<CreatePost path="/dashboard/create" />
 										<Search path="/dashboard/search" />
@@ -46,8 +48,8 @@ const Dashboard = () => {
 										<Settings path="/dashboard/settings" />
 										<UsersProfiles path="/dashboard/users/:id" />
 										<CommentDetails path="/dashboard/posts/:uid/:pid" />
-										<MessageList path='/dashboard/messages' />
-										<MessagingPage path='/dashboard/messages/:mid' />
+										<MessageList path="/dashboard/messages" />
+										<MessagingPage path="/dashboard/messages/:mid" />
 									</Router>
 								</div>
 							</div>

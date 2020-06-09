@@ -1,21 +1,20 @@
 /** @format */
 
 import React, { Component } from "react";
-import Avatar from "../../assets/images/male.png";
 import { withFirebase } from "../Firebase";
+import MoonLoader from "react-spinners/MoonLoader";
 import { Link } from "react-router-dom";
+import PostCard from "./components/PostCard";
 
 class Home extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			user: [],
+			users: [],
 			posts: null,
 			liked: false,
-			presentPost: null,
-			avatar: Avatar,
-			a: "",
+			usersImages: [],
 		};
 
 		this.onHandleClick = this.onHandleClick.bind(this);
@@ -24,47 +23,119 @@ class Home extends Component {
 	componentDidMount() {
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
-			firebase.db.ref(`users`).on("value", (snapshot) => {
-                const userObject = snapshot.val();
-				this.setState({ user: userObject });
-			});
-			firebase.storage
-				.ref()
-				.child(`images/${authUser.uid}`)
-				.getDownloadURL()
-				.then((url) => {
-					window.localStorage.setItem("image", url);
-					let a = window.localStorage.getItem("image");
-					this.setState({ avatar: a });
+			// correct
+			let usersID;
+			firebase.db.ref('posts').on('value', snapshot => {
+				usersID = snapshot.val() === null ? [] : Object.keys(snapshot.val()) 
+				firebase.db.ref(`users`).on("value", (snapshot) => {
+					let newUsersObject = new Object();
+					let usersObject = snapshot.val();
+					usersObject = usersID.map(
+						(userID) =>
+							(newUsersObject[userID] = {
+								...usersObject[userID],
+								uid: userID,
+							})
+					);
+					this.setState({ users: newUsersObject });
+					let totalPosts = [];
+					for (let id = 0; id < usersID.length; id++) {
+						firebase.db
+							.ref(`posts/${usersID[id]}`)
+							.on("value", (snapshot) => {
+								const postObject = snapshot.val();
+								let newPostObject =
+									postObject === null
+										? []
+										: Object.keys(postObject).map((postID) => ({
+												...postObject[postID],
+												postID,
+												uid: usersID[id],
+										  }));
+								let postsLikes = Object.keys(newPostObject).map(
+									(postID) => newPostObject[postID].likes
+								);
+								
+								let postsComments = Object.keys(newPostObject).map(
+									(postID) => newPostObject[postID].comments
+								);
+								for (let i = 0; i < postsComments.length; i++) {
+									let IndividualMessageArr = [];
+									let individualMessageObj = Object.keys(
+										postsComments[i]
+									).map((j) => postsComments[i][j]);
+									for (
+										let j = 0;
+										j < individualMessageObj.length;
+										j++
+									) {
+										let messageArr = Object.keys(
+											individualMessageObj[j]
+										);
+										IndividualMessageArr.push(messageArr);
+									}
+									IndividualMessageArr = IndividualMessageArr.reduce(
+										(a, b) => a.concat(b),
+										[]
+									);
+									newPostObject[i].comments =
+										IndividualMessageArr.length;
+								}
+								let i = 0;
+								for (i; i < postsLikes.length; i++) {
+									let postLikes = (postsLikes[i]) === undefined ? [] : Object.keys(postsLikes[i]);
+									newPostObject[i].likes = postLikes;
+									if (postLikes.includes(authUser.uid)) {
+										this.setState({ liked: true });
+									}
+								}
+								totalPosts.push(newPostObject);
+								totalPosts = totalPosts.reduce(
+									(a, b) => a.concat(b),
+									[]
+								);
+								totalPosts = totalPosts.sort((a, b) => b.ms - a.ms);
+								this.setState({ posts: totalPosts });
+							});
+					}
+					let image = new Object();
+					usersID.map((uid) => {
+						firebase.storage
+							.ref()
+							.child(`images/${uid}`)
+							.getDownloadURL()
+							.then((url) => {
+								image[uid] = url;
+								this.setState({ usersImages: image });
+							});
+					});
 				});
+			})
+			
 		});
 	}
 
 	onHandleClick(e) {
-		const { firebase, id } = this.props;
+		const { firebase } = this.props;
 		const { liked } = this.state;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			if (liked) {
 				firebase.db
-					.ref(
-						`posts/${authUser.uid}/${e.postID}/likes/${authUser.uid}`
-					)
+					.ref(`posts/${e.uid}/${e.postID}/likes/${authUser.uid}`)
 					.remove();
 				firebase.db
-					.ref(`posts/${authUser.uid}/${e.postID}/likes`)
+					.ref(`posts/${e.uid}/${e.postID}/likes`)
 					.on("value", (snapshot) => {
 						let a = snapshot.val();
 						if (a === null) {
 							firebase.db
-								.ref(`posts/${authUser.uid}/${e.postID}/likes`)
+								.ref(`posts/${e.uid}/${e.postID}/likes`)
 								.set("");
 						}
 					});
 			} else {
 				firebase.db
-					.ref(
-						`posts/${authUser.uid}/${e.postID}/likes/${authUser.uid}`
-					)
+					.ref(`posts/${e.uid}/${e.postID}/likes/${authUser.uid}`)
 					.set("liked");
 			}
 		});
@@ -72,77 +143,36 @@ class Home extends Component {
 	}
 
 	render() {
-		const { user, followers, following, posts, avatar, liked } = this.state;
-		if (user.length === 0) {
-			return <h1>Loading...</h1>;
+		const { users, posts, usersImages } = this.state;
+		if (!posts) {
+			return <div>
+			<MoonLoader
+				css="margin: 0 auto; margin-top: 20px"
+				size={50}
+				color={"#123abc"}
+				loading={this.state.loading}
+			/>
+		</div>
 		}
 		return (
-			<div className="row">
-				<div className="col px">
-					<div className="card-block pt">
-						<div className="post--card">
-							<div className="post--card__header">
-								<img
-									src={avatar}
-									className="post--avatar"
-									alt=""
-								/>
-								<div>
-									<h6 className="profile--hero">Adio</h6>
-									<p className="profile--hero__desc">
-										codeLeaf
-									</p>
-								</div>
-							</div>
-							<div className="post--card__body">
-								<p>gfusdv svhjds jsd vjsd </p>
-								<p className="details">
-									<span>11:12</span>
-									<span>26/2</span>
-								</p>
-								<p className="requests">
-									<span>
-										<i className="fas fa-comments"></i>
-									</span>
-									<span>
-										<i className="fas fa-heart error">1</i>
-									</span>
-								</p>
-							</div>
-						</div>
-                        <div className="post--card">
-							<div className="post--card__header">
-								<img
-									src={avatar}
-									className="post--avatar"
-									alt=""
-								/>
-								<div>
-									<h6 className="profile--hero">Adio</h6>
-									<p className="profile--hero__desc">
-										codeLeaf
-									</p>
-								</div>
-							</div>
-							<div className="post--card__body">
-								<p>gfusdv svhjds jsd vjsd </p>
-								<p className="details">
-									<span>11:12</span>
-									<span>26/2</span>
-								</p>
-								<p className="requests">
-									<span>
-										<i className="fas fa-comments"></i>
-									</span>
-									<span>
-										<i className="fas fa-heart error">1</i>
-									</span>
-								</p>
-							</div>
-						</div>
-					</div>
+			<>
+				<div>
+					<h5 className="follow-head">TIMELINE</h5>
 				</div>
-			</div>
+				<div className="card-block pt">
+					{posts.map((post, idx) => (
+						<PostCard
+							post={post}
+							userDetails={users[post.uid]}
+							avatar={usersImages[post.uid]}
+							onHandleError={this.onHandleError}
+							onHandleClick={this.onHandleClick}
+							key={idx}
+							comments={post.comments}
+						/>
+					))}
+				</div>
+			</>
 		);
 	}
 }
