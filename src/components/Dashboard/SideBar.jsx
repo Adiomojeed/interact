@@ -103,7 +103,10 @@ class SideBar extends React.Component {
 				)}
 				<ul className="nav-list">
 					<li>
-						<NavLink to="/dashboard">PROFILE</NavLink>
+						<NavLink to="/dashboard">TIMELINE</NavLink>
+					</li>
+					<li>
+						<NavLink to="/dashboard/profile">PROFILE</NavLink>
 					</li>
 					<li className="d-none-rev">
 						<NavLink to="/dashboard/search">

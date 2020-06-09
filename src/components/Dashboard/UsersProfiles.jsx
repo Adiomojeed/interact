@@ -53,7 +53,6 @@ class UsersProfiles extends Component {
 					userObject === null ? [] : Object.keys(userObject);
 				this.setState({ following: followID });
 			});
-			// correct
 			firebase.db.ref(`posts/${id}`).on("value", (snapshot) => {
 				const postObject = snapshot.val();
 				let newPostObject =
@@ -63,7 +62,6 @@ class UsersProfiles extends Component {
 								...postObject[postID],
 								postID,
 						  }));
-
 				let postsLikes = Object.keys(newPostObject).map(
 					(postID) => newPostObject[postID].likes
 				);
@@ -137,6 +135,7 @@ class UsersProfiles extends Component {
 		});
 		this.setState({ liked: !this.state.liked });
 	}
+			// correct
 
 	onHandleFollow() {
 		const { id, firebase } = this.props;
