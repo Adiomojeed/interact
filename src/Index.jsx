@@ -3,14 +3,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./assets/styles/app.scss";
-import App from "./pages/App";
-import { Firebase, FirebaseContext } from "./components/Firebase/index";
 import {
 	transitions,
 	positions,
 	Provider as AlertProvider,
 	types,
 } from "react-alert";
+import App from "./pages/App";
+import { Firebase, FirebaseContext } from "./components/Firebase/index";
 
 const AlertTemplate = ({ message }) => {
 	return (

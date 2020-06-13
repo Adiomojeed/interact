@@ -11,6 +11,7 @@
 .siderow {
 	height: 100vh;
 	background-color: $bg-white;
+	width: 60%;
 	.close {
 		position: relative;
 		top: 20px;
@@ -135,23 +136,24 @@ a {
 }
 @keyframes siderow {
 	from {
-		width: 0%;
+		margin-left: -60%;
 	}
 	to {
-		width: 60%;
+		margin-left: 0%;
 	}
 }
 @keyframes siderows {
 	from {
-		width: 60%;
+		margin-left: 0;
 	}
 	to {
-		width: 0%;
+		margin-left: -60%;
 	}
 }
 
 @media screen and (min-width: 768px) {
 	.siderow {
+		width: 40%;
 		.avatar-block {
 			h4 {
 				font-size: .7em;
@@ -164,18 +166,18 @@ a {
 	}
 	@keyframes siderow {
 		from {
-			width: 0%;
+			margin-left: -40%;
 		}
 		to {
-			width: 40%;
+			margin-left: 0%;
 		}
 	}
 	@keyframes siderows {
 		from {
-			width: 40%;
+			margin-left: 0%;
 		}
 		to {
-			width: 0%;
+			margin-left: -40%;
 		}
 	}
 }

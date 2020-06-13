@@ -1,12 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /** @format */
 
 import React, { Component } from "react";
-import Container from "../components/Container";
-import Avatar from "../assets/images/male.png";
 import { withRouter } from "react-router-dom";
-import { withFirebase } from "../components/Firebase/index";
 import { withAlert } from "react-alert";
-import imageCompression from "browser-image-compression";
+import Container from "../components/Container";
+import { withFirebase } from "../components/Firebase/index";
 
 const INITIAL_STATE = {
 	email: "",
@@ -29,7 +29,7 @@ class SignUpForm extends Component {
 
 	componentDidMount() {
 		document.title = "Intteract - Sign Up";
-		var file = new File(["male"], "../assets/images/male.png", {
+		const file = new File(["male"], "../assets/images/male.png", {
 			type: "image/png",
 		});
 		this.setState({ image: file });
@@ -57,7 +57,7 @@ class SignUpForm extends Component {
 			.then(() => {
 				firebase.auth.currentUser
 					.sendEmailVerification()
-					.catch((error) => {});
+					.catch((error) => {error});
 			})
 			.then(() => history.push("/create"))
 			.catch((error) => this.setState({ error }));

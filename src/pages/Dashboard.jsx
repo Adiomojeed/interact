@@ -1,11 +1,11 @@
 /** @format */
 
 import React from "react";
+import { Router } from "@reach/router";
 import Profile from "../components/Dashboard/Profile";
 import Search from "../components/Dashboard/Search";
 import Followers from "../components/Dashboard/Followers";
 import Settings from "../components/Dashboard/Settings";
-import { Router } from "@reach/router";
 import {
 	withAuthorization,
 	withEmailVerification,

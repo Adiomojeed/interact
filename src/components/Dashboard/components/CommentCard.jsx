@@ -11,7 +11,9 @@ const CommentCard = ({ usersImages, comment, commenter, idx }) => {
 					""
 				) : (
 					<h6>
-						{commenter[comment.uid].FullName}{" "}
+						<a href={`/dashboard/users/${comment.uid}`}>
+							{commenter[comment.uid].FullName}{" "}
+						</a>
 						<small>
 							{comment.date} - {comment.time}
 						</small>

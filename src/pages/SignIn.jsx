@@ -1,11 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /** @format */
 
 import React, { Component } from "react";
-import Container from "../components/Container";
-import { navigate } from "@reach/router";
-import { withFirebase } from "../components/Firebase/index";
 import { withAlert } from "react-alert";
 import { withRouter } from "react-router-dom";
+import { withFirebase } from "../components/Firebase/index";
+import Container from "../components/Container";
 
 const INITIAL_STATE = {
 	email: "",

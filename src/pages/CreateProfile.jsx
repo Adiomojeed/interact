@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
+import imageCompression from "browser-image-compression";
 import Avatar from "../assets/images/male.png";
 import {
 	withAuthorization,
@@ -9,7 +10,6 @@ import {
 } from "../components/Session/index";
 import { withFirebase } from "../components/Firebase/index";
 import Container from "../components/Container";
-import imageCompression from "browser-image-compression";
 
 class HomeBaseForm extends Component {
 	constructor(props) {
@@ -44,8 +44,8 @@ class HomeBaseForm extends Component {
 	onHandleSubmit(e) {
 		const { FullName, UserName, image, status } = this.state;
 		const { firebase } = this.props;
-		let imageFile = image;
-		let options = {
+		const imageFile = image;
+		const options = {
 			maxSizeMB: 2,
 			maxWidthOrHeight: 500,
 			useWebWorker: true,
@@ -62,8 +62,8 @@ class HomeBaseForm extends Component {
 								firebase.storage
 									.ref(`images/${authUser.uid}`)
 									.put(compressedFile)
-									.on("state_changed", function (snapshot) {
-										var progress =
+									.on("state_changed", (snapshot) => {
+										const progress =
 											(snapshot.bytesTransferred /
 												snapshot.totalBytes) *
 											100;
@@ -74,7 +74,7 @@ class HomeBaseForm extends Component {
 							});
 						})
 
-						.catch(function (error) {});
+						.catch((error) => {error});
 				})
 				.then(() => navigate("/dashboard"))
 				.catch((error) => this.setState({ error }));
@@ -107,6 +107,7 @@ class HomeBaseForm extends Component {
 								src={avatar}
 								onError={this.onHandleError}
 								className="upload--avatar"
+								alt="avatar"
 							/>
 						</label>
 					</div>

@@ -1,9 +1,19 @@
+/**
+ * @format
+ */
+
+/* eslint-disable array-callback-return */
+/* eslint-disable no-return-assign */
+/* eslint-disable no-new-object */
+/* eslint-disable no-shadow */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
 /** @format */
 
 import React, { Component } from "react";
-import { withFirebase } from "../Firebase";
 import { Entropy } from "entropy-string";
 import MoonLoader from "react-spinners/MoonLoader";
+import { withFirebase } from "../Firebase";
 import PostCard from "./components/PostCard";
 import CommentCard from "./components/CommentCard";
 
@@ -35,30 +45,28 @@ class CommentDetails extends Component {
 			// correct
 			firebase.db.ref(`users/${uid}`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				this.setState({ user: userObject });
+				this.setState({ user: { ...userObject, uid } });
 			});
 			firebase.db.ref(`posts/${uid}/${pid}`).on("value", (snapshot) => {
-				let postObject = snapshot.val();
-				let newPostObject = postObject === null ? [] : postObject;
-				let commentObject =
+				const postObject = snapshot.val();
+				const newPostObject = postObject === null ? [] : postObject;
+				const commentObject =
 					postObject === null ? [] : postObject.comments;
 				const commenterArr =
 					commentObject === undefined
 						? []
 						: Object.keys(commentObject);
 				this.setState({
-					post: newPostObject,
+					post: { ...newPostObject, postID: pid },
 					commenterObj: commenterArr,
 				});
-				if (
-					Object.keys(newPostObject["likes"]).includes(authUser.uid)
-				) {
+				if (Object.keys(newPostObject.likes).includes(authUser.uid)) {
 					this.setState({ liked: true });
 				}
 				let commentsArr = [];
-				for (let i in commenterArr) {
-					let commenter = commenterArr[i];
-					let individualComment = commentObject[commenter];
+				for (const i in commenterArr) {
+					const commenter = commenterArr[i];
+					const individualComment = commentObject[commenter];
 					firebase.db.ref("users").on("value", (snapshot) => {
 						let usersObject = snapshot.val();
 						usersObject = Object.keys(usersObject)
@@ -69,8 +77,8 @@ class CommentDetails extends Component {
 							)
 							.map((user) => usersObject[user]);
 					});
-					for (let j in individualComment) {
-						let messageContent = individualComment[j];
+					for (const j in individualComment) {
+						const messageContent = individualComment[j];
 						commentsArr.push({
 							message: messageContent.message,
 							time: messageContent.time,
@@ -84,7 +92,7 @@ class CommentDetails extends Component {
 				this.setState({ comments: commentsArr });
 				const { commenterObj } = this.state;
 				firebase.db.ref("users").on("value", (snapshot) => {
-					let newUser = new Object();
+					const newUser = new Object();
 					let usersObject = snapshot.val();
 					usersObject = Object.keys(usersObject)
 						.filter((user) =>
@@ -95,7 +103,7 @@ class CommentDetails extends Component {
 						.map((user) => (newUser[user] = usersObject[user]));
 					this.setState({ commenter: newUser });
 				});
-				let image = new Object();
+				const image = new Object();
 				commenterObj.map((x) => {
 					firebase.storage
 						.ref()
@@ -122,7 +130,7 @@ class CommentDetails extends Component {
 		this.setState({ message: e.target.value });
 	}
 
-	onHandleClick(e) {
+	onHandleClick() {
 		const { firebase, uid, pid } = this.props;
 		const { liked } = this.state;
 		firebase.auth.onAuthStateChanged((authUser) => {
@@ -133,7 +141,7 @@ class CommentDetails extends Component {
 				firebase.db
 					.ref(`posts/${uid}/${pid}/likes`)
 					.on("value", (snapshot) => {
-						let a = snapshot.val();
+						const a = snapshot.val();
 						if (a === null) {
 							firebase.db
 								.ref(`posts/${uid}/${pid}/likes`)
@@ -152,9 +160,9 @@ class CommentDetails extends Component {
 	onHandleSubmit(e) {
 		const { firebase, uid, pid } = this.props;
 		const { message } = this.state;
-		let totalDate = new Date();
-		let date = totalDate.toLocaleDateString();
-		let time = totalDate.toLocaleTimeString([], {
+		const totalDate = new Date();
+		const date = totalDate.toLocaleDateString();
+		const time = totalDate.toLocaleTimeString([], {
 			hour: "2-digit",
 			minute: "2-digit",
 		});

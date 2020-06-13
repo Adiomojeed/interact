@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { Component } from "react";
-import Avatar from "../../assets/images/male.png";
 import MoonLoader from "react-spinners/MoonLoader";
 import { withFirebase } from "../Firebase";
 
@@ -28,7 +27,7 @@ class MessageList extends Component {
 					const usersID =
 						userObject === null ? [] : Object.keys(userObject);
 					messengersID.push(usersID);
-					let totalUsersObject = [];
+					const totalUsersObject = [];
 					firebase.db
 						.ref(`followers/${authUser.uid}`)
 						.on("value", (snapshot) => {
@@ -49,11 +48,11 @@ class MessageList extends Component {
 					this.setState({ usersID: messengersID });
 					firebase.db.ref("users").on("value", (snapshot) => {
 						const user = snapshot.val();
-						for (let i in messengersID) {
+						for (let i = 0; i < messengersID.length; i++) {
 							totalUsersObject.push(user[messengersID[i]]);
 						}
 						this.setState({ users: totalUsersObject });
-						let image = new Object();
+						const image = {};
 						messengersID.map((messengerID) => {
 							firebase.storage
 								.ref()

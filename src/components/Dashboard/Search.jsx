@@ -1,9 +1,9 @@
 /** @format */
 
 import React from "react";
+import MoonLoader from "react-spinners/MoonLoader";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
-import MoonLoader from "react-spinners/MoonLoader";
 
 class Search extends React.Component {
 	constructor(props) {
@@ -22,7 +22,7 @@ class Search extends React.Component {
 	}
 
 	componentDidMount() {
-		document.title = "Intteract - Search";
+		document.title = "Intteract";
 		const { firebase } = this.props;
 		firebase.auth.onAuthStateChanged((authUser) => {
 			// Fixed
@@ -30,7 +30,7 @@ class Search extends React.Component {
 				.user(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const usersObject = snapshot.val();
-					let followedID =
+					const followedID =
 						usersObject === null ? [] : Object.keys(usersObject);
 					this.setState({ followedID });
 					firebase.db.ref(`users`).on("value", (snapshot) => {
@@ -48,7 +48,7 @@ class Search extends React.Component {
 									) === false
 							);
 						this.setState({ users: usersObject });
-						let image = new Object();
+						const image = {};
 						usersObject.map((userObject) => {
 							firebase.storage
 								.ref()
@@ -111,7 +111,7 @@ class Search extends React.Component {
 						Suggested to follow
 					</h5>
 					<div className="users-block">
-						{users.map((user, idx) => (
+						{users.map((user) => (
 							<div className="post--card" key={user.userID}>
 								<div className="post--card__header">
 									<img

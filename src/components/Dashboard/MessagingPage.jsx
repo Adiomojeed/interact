@@ -1,3 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /** @format */
 
 import React, { Component } from "react";
@@ -43,11 +47,11 @@ class MessagingPage extends Component {
 						snapshot.val() === null ? [] : snapshot.val();
 					const messengersID = Object.keys(messagesObject);
 					let messagesList = [];
-					for (let i in messengersID) {
-						let messenger = messengersID[i];
-						let individualMessage = messagesObject[messenger];
+					for (const i in messengersID) {
+						const messenger = messengersID[i];
+						const individualMessage = messagesObject[messenger];
 						firebase.db.ref("users").on("value", (snapshot) => {
-							let newMessenger = new Object();
+							const newMessenger ={};
 							let usersObject = snapshot.val();
 							usersObject = Object.keys(usersObject)
 								.filter((userID) =>
@@ -62,8 +66,8 @@ class MessagingPage extends Component {
 								);
 							this.setState({ messengersObj: newMessenger });
 						});
-						for (let j in individualMessage) {
-							let messageContent = individualMessage[j];
+						for (const j in individualMessage) {
+							const messageContent = individualMessage[j];
 							messagesList.push({
 								message: messageContent.message,
 								time: messageContent.time,
@@ -86,9 +90,9 @@ class MessagingPage extends Component {
 	onHandleSubmit() {
 		const { firebase, mid } = this.props;
 		const { message } = this.state;
-		let totalDate = new Date();
-		let date = totalDate.toLocaleDateString();
-		let time = totalDate.toLocaleTimeString([], {
+		const totalDate = new Date();
+		const date = totalDate.toLocaleDateString();
+		const time = totalDate.toLocaleTimeString([], {
 			hour: "2-digit",
 			minute: "2-digit",
 		});
@@ -109,7 +113,7 @@ class MessagingPage extends Component {
 				.set({ message, date, time, ms });
 			this.setState({ message: "" });
 		});
-		//e.preventDefault();
+		// e.preventDefault();
 	}
 
 	render() {

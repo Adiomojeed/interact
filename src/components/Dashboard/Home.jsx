@@ -1,9 +1,10 @@
+/* eslint-disable no-shadow */
+/* eslint-disable no-return-assign */
 /** @format */
 
 import React, { Component } from "react";
-import { withFirebase } from "../Firebase";
 import MoonLoader from "react-spinners/MoonLoader";
-import { Link } from "react-router-dom";
+import { withFirebase } from "../Firebase";
 import PostCard from "./components/PostCard";
 
 class Home extends Component {
@@ -28,7 +29,7 @@ class Home extends Component {
 			firebase.db.ref('posts').on('value', snapshot => {
 				usersID = snapshot.val() === null ? [] : Object.keys(snapshot.val()) 
 				firebase.db.ref(`users`).on("value", (snapshot) => {
-					let newUsersObject = new Object();
+					const newUsersObject = {};
 					let usersObject = snapshot.val();
 					usersObject = usersID.map(
 						(userID) =>
@@ -44,7 +45,7 @@ class Home extends Component {
 							.ref(`posts/${usersID[id]}`)
 							.on("value", (snapshot) => {
 								const postObject = snapshot.val();
-								let newPostObject =
+								const newPostObject =
 									postObject === null
 										? []
 										: Object.keys(postObject).map((postID) => ({
@@ -52,16 +53,16 @@ class Home extends Component {
 												postID,
 												uid: usersID[id],
 										  }));
-								let postsLikes = Object.keys(newPostObject).map(
+								const postsLikes = Object.keys(newPostObject).map(
 									(postID) => newPostObject[postID].likes
 								);
 								
-								let postsComments = Object.keys(newPostObject).map(
+								const postsComments = Object.keys(newPostObject).map(
 									(postID) => newPostObject[postID].comments
 								);
 								for (let i = 0; i < postsComments.length; i++) {
 									let IndividualMessageArr = [];
-									let individualMessageObj = Object.keys(
+									const individualMessageObj = Object.keys(
 										postsComments[i]
 									).map((j) => postsComments[i][j]);
 									for (
@@ -69,7 +70,7 @@ class Home extends Component {
 										j < individualMessageObj.length;
 										j++
 									) {
-										let messageArr = Object.keys(
+										const messageArr = Object.keys(
 											individualMessageObj[j]
 										);
 										IndividualMessageArr.push(messageArr);
@@ -83,7 +84,7 @@ class Home extends Component {
 								}
 								let i = 0;
 								for (i; i < postsLikes.length; i++) {
-									let postLikes = (postsLikes[i]) === undefined ? [] : Object.keys(postsLikes[i]);
+									const postLikes = (postsLikes[i]) === undefined ? [] : Object.keys(postsLikes[i]);
 									newPostObject[i].likes = postLikes;
 									if (postLikes.includes(authUser.uid)) {
 										this.setState({ liked: true });
@@ -98,7 +99,7 @@ class Home extends Component {
 								this.setState({ posts: totalPosts });
 							});
 					}
-					let image = new Object();
+					const image = {};
 					usersID.map((uid) => {
 						firebase.storage
 							.ref()
@@ -126,7 +127,7 @@ class Home extends Component {
 				firebase.db
 					.ref(`posts/${e.uid}/${e.postID}/likes`)
 					.on("value", (snapshot) => {
-						let a = snapshot.val();
+						const a = snapshot.val();
 						if (a === null) {
 							firebase.db
 								.ref(`posts/${e.uid}/${e.postID}/likes`)

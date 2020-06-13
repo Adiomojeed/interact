@@ -5,6 +5,14 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="shortcut icon" href="../src/assets/images/logo.png" />
+		<link rel="manifest" href="./manifest.webmanifest" />
+		<link rel="apple-touch-icon" href="../src/assets/images/logo.png" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-mobile-web-app-title" content="Intteract" />
+		<meta name="theme-color" content="#ffffff" />
+		<meta name="description" content="A social media platform" />
 		<script
 			src="https://kit.fontawesome.com/6f42b1cf6f.js"
 			crossorigin="anonymous"
@@ -20,4 +28,11 @@
 		<script src="../src/Index.jsx"></script>
 	</body>
 	<script type="text/javascript" src="../check.js"></script>
+	<script>
+		if ("serviceWorker" in navigator) {
+			window.addEventListener("load", () => {
+				navigator.serviceWorker.register("./serviceWorker.js");
+			});
+		}
+	</script>
 </html>

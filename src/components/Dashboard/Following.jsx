@@ -1,9 +1,11 @@
+/* eslint-disable no-shadow */
+/* eslint-disable array-callback-return */
 /** @format */
 
 import React from "react";
+import MoonLoader from "react-spinners/MoonLoader";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
-import MoonLoader from "react-spinners/MoonLoader";
 import FollowCard, { ButtonTwo } from "./components/FollowCard";
 
 class Following extends React.Component {
@@ -30,15 +32,15 @@ class Following extends React.Component {
 					const userObject = snapshot.val();
 					const usersID =
 						userObject === null ? [] : Object.keys(userObject);
-					this.setState({ usersID: usersID });
-					let followObject = [];
+					this.setState({ usersID });
+					const followObject = [];
 					firebase.db.ref("users").on("value", (snapshot) => {
 						const user = snapshot.val();
-						for (let i in usersID) {
+						for (let i = 0; i < usersID.length; i++) {
 							followObject.push(user[usersID[i]]);
 						}
 						this.setState({ users: followObject });
-						let image = new Object();
+						const image = {};
 						usersID.map((userID) => {
 							firebase.storage
 								.ref()

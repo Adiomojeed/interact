@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Link } from "@reach/router";
+import MoonLoader from "react-spinners/MoonLoader";
 import { withFirebase } from "../Firebase/index";
 import SignOut from "./SignOut";
 import Avatar from "../../assets/images/male.png";
-import MoonLoader from "react-spinners/MoonLoader";
 
 const isActive = ({ isCurrent }) => {
 	return isCurrent ? { className: "active" } : {};
@@ -37,7 +37,7 @@ class SideBar extends React.Component {
 				.ref(`followers/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					let followsID =
+					const followsID =
 						userObject === null ? [] : Object.keys(userObject);
 					this.setState({ followers: followsID });
 				});
@@ -45,7 +45,7 @@ class SideBar extends React.Component {
 				.ref(`following/${authUser.uid}`)
 				.on("value", (snapshot) => {
 					const userObject = snapshot.val();
-					let followsID =
+					const followsID =
 						userObject === null ? [] : Object.keys(userObject);
 					this.setState({ following: followsID });
 				});

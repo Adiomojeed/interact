@@ -1,10 +1,10 @@
 /** @format */
 
 import React, { Component } from "react";
-import { withFirebase } from "../Firebase";
 import { navigate } from "@reach/router";
-import Avatar from "../../assets/images/male.png";
 import imageCompression from "browser-image-compression";
+import { withFirebase } from "../Firebase";
+import Avatar from "../../assets/images/male.png";
 
 class EditProfile extends Component {
 	constructor(props) {
@@ -43,7 +43,7 @@ class EditProfile extends Component {
 				.getDownloadURL()
 				.then((url) => {
 					window.localStorage.setItem("image", url);
-					let image = window.localStorage.getItem("image");
+					const image = window.localStorage.getItem("image");
 					this.setState({ avatar: image });
 				});
 		});
@@ -76,9 +76,9 @@ class EditProfile extends Component {
 	onHandleUpload() {
 		const { firebase } = this.props;
 		const { image } = this.state;
-		var imageFile = image;
+		const imageFile = image;
 
-		var options = {
+		const options = {
 			maxSizeMB: 2,
 			maxWidthOrHeight: 500,
 			useWebWorker: true,
@@ -89,8 +89,8 @@ class EditProfile extends Component {
 					firebase.storage
 						.ref(`images/${authUser.uid}`)
 						.put(compressedFile)
-						.on("state_changed", function (snapshot) {
-							var progress =
+						.on("state_changed", (snapshot) => {
+							const progress =
 								(snapshot.bytesTransferred /
 									snapshot.totalBytes) *
 								100;
@@ -101,7 +101,7 @@ class EditProfile extends Component {
 				});
 			})
 
-			.catch(function (error) {});
+			.catch((error) => {error});
 	}
 
 	render() {
@@ -129,6 +129,7 @@ class EditProfile extends Component {
 											src={avatar}
 											onError={this.onHandleError}
 											className="upload--avatar"
+											alt="avatar"
 										/>
 									</label>
 								</div>

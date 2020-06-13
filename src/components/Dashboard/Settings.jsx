@@ -1,8 +1,8 @@
 /** @format */
 
 import React, { Component } from "react";
-import { withFirebase } from "../Firebase";
 import { withAlert } from "react-alert";
+import { withFirebase } from "../Firebase";
 
 class Setting extends Component {
 	constructor(props) {

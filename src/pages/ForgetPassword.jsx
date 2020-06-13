@@ -1,9 +1,9 @@
 /** @format */
 
 import React, { Component } from "react";
+import { withAlert } from "react-alert";
 import Container from "../components/Container";
 import { withFirebase } from "../components/Firebase/index";
-import { withAlert } from "react-alert";
 
 const INITIAL_STATE = {
 	email: "",

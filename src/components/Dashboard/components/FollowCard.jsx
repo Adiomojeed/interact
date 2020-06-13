@@ -45,6 +45,7 @@ const FollowCard = ({
 							}
 							className="follow--avatar"
 							onError={onHandleError}
+							alt="avatar"
 						/>
 						<div>
 							<a href={`/dashboard/users/${usersID[idx]}`} id="1">

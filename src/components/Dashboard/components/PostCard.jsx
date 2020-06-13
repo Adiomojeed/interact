@@ -1,4 +1,5 @@
-/** @format */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import React from "react";
 
@@ -13,7 +14,7 @@ const PostCard = ({
 	return (
 		<>
 			<div className="post--card box-shadow">
-				<a href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}>
+				<a href={`/dashboard/users/${userDetails.uid}`}>
 					<div className="post--card__header">
 						<img
 							src={avatar}
@@ -32,11 +33,15 @@ const PostCard = ({
 					</div>
 				</a>
 				<div className="post--card__body">
-					<p>{post.post}</p>
-					<p className="details">
-						<span>{post.time}</span>
-						<span>{post.date}</span>
-					</p>
+					<a
+						href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
+					>
+						<p>{post.post}</p>
+						<p className="details">
+							<span>{post.time}</span>
+							<span>{post.date}</span>
+						</p>
+					</a>
 					<p className="requests">
 						<a
 							href={`/dashboard/posts/${userDetails.uid}/${post.postID}`}
@@ -50,7 +55,7 @@ const PostCard = ({
 							onClick={() => {
 								onHandleClick(post);
 							}}
-							className='error'
+							className="error"
 						>
 							<i className="fas fa-heart error"></i>
 							{post.likes ? Object.keys(post.likes).length : 0}

@@ -1,10 +1,10 @@
 /** @format */
 
 import React, { Component } from "react";
+import MoonLoader from "react-spinners/MoonLoader";
 import Avatar from "../../assets/images/male.png";
 import { withFirebase } from "../Firebase";
 import { withEmailVerification, withAuthorization } from "../Session";
-import MoonLoader from "react-spinners/MoonLoader";
 import PostCard from "./components/PostCard";
 
 class Profile extends Component {
@@ -66,16 +66,16 @@ class Profile extends Component {
 								...postObject[postID],
 								postID,
 						  }));
-				let postComments = Object.keys(newPostObject).map(
+				const postComments = Object.keys(newPostObject).map(
 					(postID) => newPostObject[postID].comments
 				);
 				for (let i = 0; i < postComments.length; i++) {
 					let IndividualMessageArr = [];
-					let individualMessageObj = Object.keys(postComments[i]).map(
+					const individualMessageObj = Object.keys(postComments[i]).map(
 						(j) => postComments[i][j]
 					);
 					for (let j = 0; j < individualMessageObj.length; j++) {
-						let messageArr = Object.keys(individualMessageObj[j]);
+						const messageArr = Object.keys(individualMessageObj[j]);
 						IndividualMessageArr.push(messageArr);
 					}
 					IndividualMessageArr = IndividualMessageArr.reduce(
@@ -93,7 +93,7 @@ class Profile extends Component {
 				.getDownloadURL()
 				.then((url) => {
 					window.localStorage.setItem("image", url);
-					let image = window.localStorage.getItem("image");
+					const image = window.localStorage.getItem("image");
 					this.setState({ avatar: image });
 				});
 		});
@@ -116,7 +116,7 @@ class Profile extends Component {
 				firebase.db
 					.ref(`posts/${authUser.uid}/${e.postID}/likes`)
 					.on("value", (snapshot) => {
-						let likes = snapshot.val();
+						const likes = snapshot.val();
 						if (likes === null) {
 							firebase.db
 								.ref(`posts/${authUser.uid}/${e.postID}/likes`)

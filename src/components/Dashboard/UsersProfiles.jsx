@@ -1,9 +1,9 @@
 /** @format */
 
 import React, { Component } from "react";
+import MoonLoader from "react-spinners/MoonLoader";
 import { withFirebase } from "../Firebase";
 import Avatar from "../../assets/images/male.png";
-import MoonLoader from "react-spinners/MoonLoader";
 import PostCard from "./components/PostCard";
 
 class UsersProfiles extends Component {
@@ -39,7 +39,7 @@ class UsersProfiles extends Component {
 			// correct
 			firebase.db.ref(`followers/${id}`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				let followID =
+				const followID =
 					userObject === null ? [] : Object.keys(userObject);
 				this.setState({ followers: followID });
 				if (followID.includes(authUser.uid)) {
@@ -49,7 +49,7 @@ class UsersProfiles extends Component {
 			// correct
 			firebase.db.ref(`following/${id}`).on("value", (snapshot) => {
 				const userObject = snapshot.val();
-				let followID =
+				const followID =
 					userObject === null ? [] : Object.keys(userObject);
 				this.setState({ following: followID });
 			});
@@ -62,19 +62,19 @@ class UsersProfiles extends Component {
 								...postObject[postID],
 								postID,
 						  }));
-				let postsLikes = Object.keys(newPostObject).map(
+				const postsLikes = Object.keys(newPostObject).map(
 					(postID) => newPostObject[postID].likes
 				);
-				let postsComments = Object.keys(newPostObject).map(
+				const postsComments = Object.keys(newPostObject).map(
 					(postID) => newPostObject[postID].comments
 				);
 				for (let i = 0; i < postsComments.length; i++) {
 					let IndividualMessageArr = [];
-					let individualMessageObj = Object.keys(
+					const individualMessageObj = Object.keys(
 						postsComments[i]
 					).map((j) => postsComments[i][j]);
 					for (let j = 0; j < individualMessageObj.length; j++) {
-						let messageArr = Object.keys(individualMessageObj[j]);
+						const messageArr = Object.keys(individualMessageObj[j]);
 						IndividualMessageArr.push(messageArr);
 					}
 					IndividualMessageArr = IndividualMessageArr.reduce(
@@ -85,7 +85,7 @@ class UsersProfiles extends Component {
 				}
 				let i = 0;
 				for (i; i < postsLikes.length; i++) {
-					let postLikes = Object.keys(postsLikes[i]);
+					const postLikes = Object.keys(postsLikes[i]);
 					newPostObject[i].likes = postLikes;
 					if (postLikes.includes(authUser.uid)) {
 						this.setState({ liked: true });
@@ -120,7 +120,7 @@ class UsersProfiles extends Component {
 				firebase.db
 					.ref(`posts/${id}/${e.postID}/likes`)
 					.on("value", (snapshot) => {
-						let a = snapshot.val();
+						const a = snapshot.val();
 						if (a === null) {
 							firebase.db
 								.ref(`posts/${id}/${e.postID}/likes`)

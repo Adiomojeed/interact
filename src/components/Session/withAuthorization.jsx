@@ -1,9 +1,8 @@
 /** @format */
 
 import React from "react";
-import { withFirebase } from "../Firebase";
-import { navigate } from "@reach/router";
 import { withRouter } from 'react-router-dom'
+import { withFirebase } from "../Firebase";
 
 const withAuthorization = (condition) => (Component) => {
 	class withAuthorization extends React.Component {

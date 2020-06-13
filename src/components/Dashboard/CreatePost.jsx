@@ -2,8 +2,8 @@
 
 import React, { Component } from "react";
 import { Entropy } from "entropy-string";
-import { withFirebase } from "../Firebase";
 import { navigate } from "@reach/router";
+import { withFirebase } from "../Firebase";
 
 class CreatePost extends Component {
 	constructor(props) {
@@ -27,9 +27,9 @@ class CreatePost extends Component {
 
 	onHandleSubmit(e) {
 		const { post } = this.state;
-		let totalDate = new Date();
-		let date = totalDate.toLocaleDateString();
-		let time = totalDate.toLocaleTimeString([], {
+		const totalDate = new Date();
+		const date = totalDate.toLocaleDateString();
+		const time = totalDate.toLocaleTimeString([], {
 			hour: "2-digit",
 			minute: "2-digit",
 		});
